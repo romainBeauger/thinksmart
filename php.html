@@ -47,6 +47,7 @@
       <li><a href="#routing"><span class="icon">🗺️</span>Routes &amp; Contrôleurs</a></li>
       <li><a href="#twig"><span class="icon">🎨</span>Twig — Templates</a></li>
       <li><a href="#doctrine"><span class="icon">🗄️</span>Doctrine — Entités</a></li>
+      <li><a href="#fixtures"><span class="icon">🌱</span>Fixtures &amp; Faker</a></li>
       <li><a href="#repository"><span class="icon">🔍</span>Repository &amp; Requêtes</a></li>
       <li><a href="#forms"><span class="icon">📝</span>Formulaires Symfony</a></li>
       <li><a href="#security"><span class="icon">🔒</span>Sécurité &amp; Auth</a></li>
@@ -922,6 +923,101 @@ php bin/console doctrine:migrations:migrate prev
 php bin/console doctrine:database:drop --force
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FIXTURES -->
+    <section class="section" id="fixtures">
+      <div class="section-title">Fixtures &amp; Faker</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Peupler la BDD avec des données de test</div></div>
+        <div class="card-body">
+          <p style="margin-bottom:12px;">Les <strong>fixtures</strong> permettent de remplir la base de données avec des données fictives pour le développement et les tests. <strong>Faker</strong> génère automatiquement ces données réalistes (noms, textes, dates…).</p>
+
+          <!-- Étape 1 : Installation -->
+          <p style="font-weight:600;margin-bottom:6px;">1. Installer les dépendances</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Installer doctrine/doctrine-fixtures-bundle
+symfony composer req orm-fixtures --dev
+
+# Installer fakerphp/faker
+symfony composer require fakerphp/faker --dev</code></pre>
+          </div>
+
+          <!-- Étape 2 : Fichier WishFixtures -->
+          <p style="font-weight:600;margin:14px 0 6px;">2. Créer le fichier de fixtures</p>
+          <p style="margin-bottom:8px;">Après installation, un répertoire <code>src/DataFixtures/</code> est créé avec un exemple <code>AppFixtures.php</code>.<br>Le renommer en <strong>WishFixtures.php</strong> et le remplacer par :</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+// src/DataFixtures/WishFixtures.php
+
+namespace App\DataFixtures;
+
+use App\Entity\Wish;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+
+class WishFixtures extends Fixture
+{
+    public function load(ObjectManager $manager): void
+    {
+        $faker = \Faker\Factory::create('en_EN');
+
+        for ($i = 1; $i &lt;= 10; $i++) {
+            $wish = new Wish();
+            $wish-&gt;setTitle($faker-&gt;word());
+            $wish-&gt;setAuthor($faker-&gt;name());
+            $wish-&gt;setDescription($faker-&gt;realText);
+
+            $dateCreated = $faker-&gt;dateTimeBetween('-6 months', 'now');
+            $wish-&gt;setDateCreated(\DateTimeImmutable::createFromMutable($dateCreated));
+
+            $dateUpdated = $faker-&gt;dateTimeBetween($wish-&gt;getDateCreated(), 'now');
+            $wish-&gt;setDateUpdated(\DateTimeImmutable::createFromMutable($dateUpdated));
+
+            $wish-&gt;setPublished($faker-&gt;numberBetween(0, 1));
+
+            $manager-&gt;persist($wish);
+        }
+
+        $manager-&gt;flush();
+    }
+}</code></pre>
+          </div>
+
+          <!-- Étape 3 : Exécution -->
+          <p style="font-weight:600;margin:14px 0 6px;">3. Exécuter les fixtures</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Charge les fixtures (vide la BDD et insère les données fictives)
+symfony console doctrine:fixtures:load</code></pre>
+          </div>
+
+          <!-- Méthodes Faker utiles -->
+          <p style="font-weight:600;margin:14px 0 6px;">Méthodes Faker courantes</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">$faker = \Faker\Factory::create('fr_FR'); // locale française
+
+$faker-&gt;word()                        // mot aléatoire
+$faker-&gt;words(3, true)               // 3 mots en chaîne
+$faker-&gt;sentence()                   // phrase aléatoire
+$faker-&gt;paragraph()                  // paragraphe
+$faker-&gt;realText(200)                // texte réaliste (~200 chars)
+
+$faker-&gt;name()                       // "Marie Dupont"
+$faker-&gt;firstName()                  // "Marie"
+$faker-&gt;lastName()                   // "Dupont"
+$faker-&gt;email()                      // "m.dupont@example.com"
+
+$faker-&gt;dateTimeBetween('-1 year', 'now')   // DateTime aléatoire
+$faker-&gt;numberBetween(0, 1)                 // 0 ou 1
+$faker-&gt;boolean()                           // true / false
+$faker-&gt;imageUrl(640, 480)                  // URL d'image</code></pre>
           </div>
         </div>
       </div>
