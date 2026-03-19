@@ -74,18 +74,183 @@ sidebarLinks.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    // Close sidebar on mobile
-    document.querySelector('.sidebar')?.classList.remove('open');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
-/* ===== MOBILE HAMBURGER ===== */
-const hamburger = document.getElementById('hamburger');
-const sidebar = document.querySelector('.sidebar');
-if (hamburger && sidebar) {
-  hamburger.addEventListener('click', () => sidebar.classList.toggle('open'));
+/* ===== SIDEBAR TOGGLE (DESKTOP) ===== */
+const sidebarToggleBtn = document.createElement('button');
+sidebarToggleBtn.className = 'sidebar-toggle-btn';
+sidebarToggleBtn.setAttribute('aria-label', 'Replier/déplier la sidebar');
+sidebarToggleBtn.innerHTML = '◀';
+
+const topNav = document.querySelector('.top-nav');
+if (topNav) {
+  const logo = topNav.querySelector('.logo');
+  topNav.insertBefore(sidebarToggleBtn, logo ? logo.nextSibling : topNav.firstChild);
 }
+
+// Restore saved state
+if (localStorage.getItem('sidebar-collapsed') === '1') {
+  document.body.classList.add('sidebar-collapsed');
+  sidebarToggleBtn.innerHTML = '▶';
+}
+
+sidebarToggleBtn.addEventListener('click', () => {
+  const collapsed = document.body.classList.toggle('sidebar-collapsed');
+  sidebarToggleBtn.innerHTML = collapsed ? '▶' : '◀';
+  localStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0');
+});
+
+/* ===== MOBILE DRAWER ===== */
+const LANGUAGES = [
+  { name: 'HTML',                href: 'html.html',      badge: 'html' },
+  { name: 'CSS',                 href: 'css.html',       badge: 'css' },
+  { name: 'JavaScript',         href: 'js.html',        badge: 'js' },
+  { name: 'Bootstrap',          href: 'bootstrap.html', badge: 'bs' },
+  { name: 'Tailwind',           href: 'tailwind.html',  badge: 'tw' },
+  { name: 'React',              href: 'react.html',     badge: 'react' },
+  { name: 'Angular',            href: 'angular.html',   badge: 'angular' },
+  { name: 'Git',                href: 'git.html',       badge: 'git' },
+  { name: 'SQL',                href: 'sql.html',       badge: 'sql' },
+  { name: 'PHP/Symfony',        href: 'php.html',       badge: 'php' },
+  { name: 'Node/Express/Mongo', href: 'node.html',      badge: 'node' },
+];
+
+const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+const hamburger   = document.getElementById('hamburger');
+
+// Drawer
+const drawer = document.createElement('div');
+drawer.className = 'mobile-drawer';
+drawer.innerHTML = `
+  <div class="mobile-drawer-header">
+    <span>Navigation</span>
+    <button class="drawer-close" aria-label="Fermer">✕</button>
+  </div>
+  <div class="mobile-drawer-body"></div>
+`;
+document.body.appendChild(drawer);
+
+// Overlay
+const mobileOverlay = document.createElement('div');
+mobileOverlay.className = 'mobile-overlay';
+document.body.appendChild(mobileOverlay);
+
+function openDrawer() {
+  drawer.classList.add('open');
+  if (hamburger) hamburger.classList.add('active');
+  mobileOverlay.classList.add('active');
+  document.body.classList.add('drawer-open');
+}
+
+function closeDrawer() {
+  drawer.classList.remove('open');
+  if (hamburger) hamburger.classList.remove('active');
+  mobileOverlay.classList.remove('active');
+  document.body.classList.remove('drawer-open');
+}
+
+// Populate accordion
+const drawerBody = drawer.querySelector('.mobile-drawer-body');
+
+LANGUAGES.forEach(lang => {
+  const isCurrent = currentPage === lang.href;
+  const item = document.createElement('div');
+  item.className = 'drawer-item';
+
+  const header = document.createElement('button');
+  header.className = 'drawer-item-header' + (isCurrent ? ' current open' : '');
+  header.innerHTML = `
+    <span class="lang-badge ${lang.badge}"></span>
+    ${lang.name}
+    <span class="drawer-item-arrow">›</span>
+  `;
+
+  const body = document.createElement('div');
+  body.className = 'drawer-item-body' + (isCurrent ? ' open' : '');
+
+  if (isCurrent) {
+    // Liens de section clonés depuis la sidebar desktop
+    document.querySelectorAll('.sidebar-nav a').forEach(link => {
+      const a = document.createElement('a');
+      a.href = link.getAttribute('href');
+      a.innerHTML = link.innerHTML;
+      if (link.classList.contains('active')) a.classList.add('active');
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        closeDrawer();
+      });
+      body.appendChild(a);
+    });
+
+    // Garder le lien actif en sync avec le scroll
+    window.addEventListener('scroll', () => {
+      const active = document.querySelector('.sidebar-nav a.active');
+      if (!active) return;
+      const href = active.getAttribute('href');
+      body.querySelectorAll('a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === href));
+    }, { passive: true });
+
+  } else {
+    // Chapitres chargés à la demande via fetch
+    body.dataset.loaded = 'false';
+  }
+
+  header.addEventListener('click', () => {
+    const willOpen = !body.classList.contains('open');
+
+    // Fermer tous les autres accordéons
+    drawerBody.querySelectorAll('.drawer-item-body.open').forEach(b => {
+      b.classList.remove('open');
+      b.closest('.drawer-item').querySelector('.drawer-item-header').classList.remove('open');
+    });
+
+    if (willOpen) {
+      header.classList.add('open');
+      body.classList.add('open');
+
+      // Charger les chapitres de la page si pas encore fait
+      if (!isCurrent && body.dataset.loaded === 'false') {
+        body.innerHTML = '<span style="padding:8px 16px;display:block;opacity:.6">Chargement…</span>';
+        fetch(lang.href)
+          .then(r => r.text())
+          .then(html => {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            const links = doc.querySelectorAll('.sidebar-nav a');
+            body.innerHTML = '';
+            links.forEach(link => {
+              const a = document.createElement('a');
+              a.href = lang.href + link.getAttribute('href');
+              a.innerHTML = link.innerHTML;
+              a.addEventListener('click', closeDrawer);
+              body.appendChild(a);
+            });
+            body.dataset.loaded = 'true';
+          })
+          .catch(() => {
+            body.innerHTML = '';
+            const a = document.createElement('a');
+            a.href = lang.href;
+            a.textContent = `Ouvrir ${lang.name}`;
+            body.appendChild(a);
+            body.dataset.loaded = 'true';
+          });
+      }
+    }
+  });
+
+  item.appendChild(header);
+  item.appendChild(body);
+  drawerBody.appendChild(item);
+});
+
+// Controls
+if (hamburger) {
+  hamburger.addEventListener('click', () => drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+}
+mobileOverlay.addEventListener('click', closeDrawer);
+drawer.querySelector('.drawer-close').addEventListener('click', closeDrawer);
 
