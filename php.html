@@ -874,6 +874,39 @@ class Article
           <div class="code-block" style="margin-top:12px;">
             <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
             <pre><code class="language-bash"># Créer la migration après modification d'une entité
+
+#Pour créer une base de donnée de 0 :
+
+    .env.local en fonction du .env
+        exemple : DATABASE_URL="mysql://root:@127.0.0.1:3307/bucketlist?serverVersion=10.4.32-MariaDB&charset=utf8mb4"
+
+    symfony console doctrine:database:create
+
+#On remplit les champs de la table :
+    symfony console make:entity NomDeLaTable
+
+#Ensuite On met les valeurs par défaut dans le fichier de l'entité par exemple et si besoin :
+
+ /**
+     * @param bool|null $isPublished
+     */
+    public function __construct()
+    {
+        $this->isPublished = false;
+    }
+
+ #[ORM\Column(nullable: true, options: ['default' => false])]
+    private ?bool $isPublished = null;
+
+#Ensuite on créé le fichier de migration :
+
+    symfony console make:migration
+
+# Ensuite on execute la migration avec :
+
+    symfony console doctrine:migration:migrate
+
+
 php bin/console make:migration
 
 # Exécuter les migrations

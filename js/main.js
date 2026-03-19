@@ -1,7 +1,11 @@
+/* ===== HIGHLIGHT.JS INIT ===== */
+// Le script est en bas de <body> donc le DOM est déjà prêt
+document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+
 /* ===== COPY BUTTONS ===== */
 document.querySelectorAll('.copy-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    const code = btn.closest('.code-block').querySelector('code').innerText;
+    const code = btn.closest('.code-block').querySelector('code').textContent;
     navigator.clipboard.writeText(code).then(() => {
       btn.classList.add('copied');
       btn.innerHTML = '&#10003; Copié';
@@ -25,7 +29,7 @@ searchInput.addEventListener('input', () => {
   let visibleCount = 0;
 
   cards.forEach(card => {
-    const text = card.innerText.toLowerCase();
+    const text = card.textContent.toLowerCase();
     if (!query || text.includes(query)) {
       card.classList.remove('hidden');
       visibleCount++;
@@ -85,7 +89,3 @@ if (hamburger && sidebar) {
   hamburger.addEventListener('click', () => sidebar.classList.toggle('open'));
 }
 
-/* ===== HIGHLIGHT.JS INIT ===== */
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
-});
