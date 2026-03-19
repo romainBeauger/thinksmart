@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — Git</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li class="active"><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+
+<!-- ===== SEARCH BAR ===== -->
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une commande, option, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Git</div>
+    <ul class="sidebar-nav">
+      <li><a href="#config"><span class="icon">⚙️</span>Configuration</a></li>
+      <li><a href="#init"><span class="icon">🏁</span>Initialisation</a></li>
+      <li><a href="#status"><span class="icon">📋</span>Status &amp; Log</a></li>
+      <li><a href="#commit"><span class="icon">➕</span>Staging &amp; Commit</a></li>
+      <li><a href="#branches"><span class="icon">🌿</span>Branches</a></li>
+      <li><a href="#merge"><span class="icon">🔀</span>Merge &amp; Rebase</a></li>
+      <li><a href="#remote"><span class="icon">🌍</span>Remote</a></li>
+      <li><a href="#clone"><span class="icon">📥</span>Clone &amp; Pull</a></li>
+      <li><a href="#stash"><span class="icon">🗄️</span>Stash</a></li>
+      <li><a href="#reset"><span class="icon">↩️</span>Annuler &amp; Reset</a></li>
+      <li><a href="#tags"><span class="icon">🏷️</span>Tags</a></li>
+      <li><a href="#gitignore"><span class="icon">🚫</span>.gitignore</a></li>
+      <li><a href="#workflow"><span class="icon">🔄</span>Workflow GitHub Flow</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <div class="page-header">
+      <h1>Git <span class="badge" style="background:rgba(240,80,50,0.15);color:#f05032;">Contrôle de version</span></h1>
+      <p>Toutes les commandes Git essentielles pour gérer vos dépôts, branches et collaborer efficacement.</p>
+    </div>
+
+    <!-- ==================== CONFIGURATION ==================== -->
+    <section class="section" id="config">
+      <div class="section-title">Configuration</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Configuration globale <code>git config</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Configure l'identité et les préférences globales de Git. Ces paramètres sont stockés dans <code>~/.gitconfig</code> et s'appliquent à tous vos dépôts.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git config --global user.name "Votre Nom"
+git config --global user.email "vous@exemple.fr"
+git config --global core.editor "code --wait"
+git config --global init.defaultBranch main
+git config --list
+git config --global alias.st status
+git config --global alias.lg "log --oneline --graph --decorate --all"</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Niveaux de configuration</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Niveau</th><th>Fichier</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>--system</code></td><td>/etc/gitconfig</td><td class="desc">Pour tous les utilisateurs du système</td></tr>
+              <tr><td><code>--global</code></td><td>~/.gitconfig</td><td class="desc">Pour l'utilisateur courant (le plus courant)</td></tr>
+              <tr><td><code>--local</code></td><td>.git/config</td><td class="desc">Pour le dépôt courant uniquement (prioritaire)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== INITIALISATION ==================== -->
+    <section class="section" id="init">
+      <div class="section-title">Initialisation</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer un dépôt <code>git init</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Démarrage</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Initialise un nouveau dépôt Git. Crée un dossier <code>.git</code> caché contenant toute l'histoire du projet.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git init                          # Initialise un dépôt dans le dossier courant
+git init mon-projet               # Crée un dossier et initialise
+git init --bare projet.git        # Dépôt nu (serveur)</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== STATUS & LOG ==================== -->
+    <section class="section" id="status">
+      <div class="section-title">Status &amp; Log</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">État du dépôt <code>git status</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Lecture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Affiche l'état du répertoire de travail et de la zone de staging. Indique les fichiers modifiés, ajoutés ou non suivis.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git status                        # État du répertoire de travail
+git status -s                     # Format court</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Historique des commits <code>git log</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Lecture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Consulte l'historique des commits avec de nombreuses options de filtrage et d'affichage.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git log                           # Historique complet
+git log --oneline                 # Une ligne par commit
+git log --oneline --graph --all   # Arbre des branches
+git log -n 5                      # 5 derniers commits
+git log --author="Alice"          # Commits d'un auteur
+git log --since="2024-01-01"      # Depuis une date
+git log -- fichier.js             # Commits touchant un fichier
+git show abc1234                  # Détails d'un commit</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Comparer les changements <code>git diff</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Lecture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Affiche les différences entre l'espace de travail, la zone de staging et les commits.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git diff                          # Changements non stagés
+git diff --staged                 # Changements stagés
+git diff main..feature            # Diff entre branches
+git blame fichier.js              # Qui a modifié chaque ligne</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== STAGING & COMMIT ==================== -->
+    <section class="section" id="commit">
+      <div class="section-title">Staging &amp; Commit</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Stager des fichiers <code>git add</code></div>
+          <div class="card-tags"><span class="tag tag-green">Écriture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Ajoute des modifications à la zone de staging (index) en préparation du prochain commit.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git add fichier.js                # Stager un fichier
+git add .                         # Stager tous les changements
+git add -p                        # Stager interactivement (par morceaux)
+git add *.html                    # Pattern glob
+git restore --staged fichier.js   # Unstager (annuler git add)
+git restore fichier.js            # Annuler modifications (dangereux)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer un commit <code>git commit</code></div>
+          <div class="card-tags"><span class="tag tag-green">Écriture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Enregistre les changements stagés dans l'historique du dépôt avec un message descriptif.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git commit -m "feat: ajouter authentification"
+git commit -am "fix: corriger bug login"  # add + commit en une fois
+git commit --amend -m "nouveau message"  # modifier le dernier commit
+git commit --amend --no-edit             # ajouter à dernier commit sans changer message</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Convention Conventional Commits</div>
+          <div class="card-tags"><span class="tag tag-purple">Bonnes pratiques</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Standard pour des messages de commit lisibles et utiles pour générer des changelogs automatiques.</p>
+          <table class="attr-table">
+            <thead><tr><th>Préfixe</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>feat:</code></td><td class="desc">Nouvelle fonctionnalité</td></tr>
+              <tr><td><code>fix:</code></td><td class="desc">Correction de bug</td></tr>
+              <tr><td><code>docs:</code></td><td class="desc">Documentation uniquement</td></tr>
+              <tr><td><code>style:</code></td><td class="desc">Formatage (pas de changement logique)</td></tr>
+              <tr><td><code>refactor:</code></td><td class="desc">Refactorisation du code</td></tr>
+              <tr><td><code>test:</code></td><td class="desc">Ajout ou modification de tests</td></tr>
+              <tr><td><code>chore:</code></td><td class="desc">Tâches de maintenance (deps, build…)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== BRANCHES ==================== -->
+    <section class="section" id="branches">
+      <div class="section-title">Branches</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Gérer les branches <code>git branch</code></div>
+          <div class="card-tags"><span class="tag tag-green">Écriture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les branches permettent de travailler sur des fonctionnalités en isolation sans affecter le code principal.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git branch                        # Lister les branches locales
+git branch -a                     # Toutes les branches (locales + distantes)
+git branch ma-feature             # Créer une branche
+git checkout ma-feature           # Basculer sur une branche
+git checkout -b ma-feature        # Créer ET basculer
+git switch ma-feature             # Basculer (commande moderne)
+git switch -c ma-feature          # Créer et basculer (moderne)
+git branch -d ma-feature          # Supprimer (si fusionnée)
+git branch -D ma-feature          # Supprimer de force
+git branch -m ancien nouveau      # Renommer
+git branch -m main                # Renommer la branche courante en main</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== MERGE & REBASE ==================== -->
+    <section class="section" id="merge">
+      <div class="section-title">Merge &amp; Rebase</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fusionner des branches <code>git merge</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Fusion</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Intègre les changements d'une branche dans une autre en créant un commit de fusion (merge commit).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Merge : crée un commit de fusion
+git checkout main
+git merge ma-feature              # Fusion avec commit de merge
+git merge --no-ff ma-feature      # Forcer un commit de merge
+git merge --squash ma-feature     # Squash tous les commits en un seul</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Rejouer des commits <code>git rebase</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Fusion</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Déplace ou rejoue des commits sur une nouvelle base, produisant un historique linéaire plus propre.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Rebase : rejoue les commits sur une autre base
+git checkout ma-feature
+git rebase main                   # Rejoue ma-feature sur main
+git rebase -i HEAD~3              # Rebase interactif (3 derniers commits)
+# Dans le rebase interactif : pick, squash(s), fixup(f), reword(r), drop(d)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Résoudre les conflits</div>
+          <div class="card-tags"><span class="tag tag-red">Conflits</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Lorsque deux branches modifient les mêmes lignes, Git crée un conflit à résoudre manuellement.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git status                        # Voir les fichiers en conflit
+# Éditer les fichiers conflictuels, puis :
+git add fichier-resolu.js
+git merge --continue
+# OU
+git merge --abort                 # Annuler la fusion
+git rebase --abort</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== REMOTE ==================== -->
+    <section class="section" id="remote">
+      <div class="section-title">Remote</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Gérer les remotes <code>git remote</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Collaboration</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les remotes sont des références vers des dépôts hébergés (GitHub, GitLab…). <code>origin</code> est le nom conventionnel du remote principal.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git remote -v                     # Lister les remotes
+git remote add origin https://github.com/user/repo.git
+git remote remove origin
+git remote rename origin upstream
+git remote set-url origin https://nouveau-url.git</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Pousser vers le remote <code>git push</code></div>
+          <div class="card-tags"><span class="tag tag-green">Écriture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Envoie les commits locaux vers le dépôt distant. L'option <code>-u</code> définit la branche de suivi amont.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git push origin main              # Pousser vers remote
+git push -u origin ma-feature     # Pousser et définir upstream
+git push --all                    # Pousser toutes les branches
+git push origin :ma-feature       # Supprimer branche distante
+git push origin --delete ma-feature
+git push --tags                   # Pousser les tags
+git push --force-with-lease       # Push force sécurisé (préférer à --force)</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== CLONE & PULL ==================== -->
+    <section class="section" id="clone">
+      <div class="section-title">Clone &amp; Pull</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Cloner un dépôt <code>git clone</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Collaboration</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Copie un dépôt distant en local avec tout son historique et configure automatiquement le remote <code>origin</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git clone https://github.com/user/repo.git
+git clone https://github.com/user/repo.git mon-dossier
+git clone --depth=1 url           # Clone superficiel (sans historique complet)
+git clone --branch develop url    # Cloner une branche spécifique</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Récupérer les changements <code>git fetch</code> / <code>git pull</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Collaboration</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>git fetch</code> récupère sans fusionner (sûr). <code>git pull</code> combine fetch et merge en une seule commande.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git fetch origin                  # Récupère sans fusionner
+git fetch --all                   # Récupère toutes les branches
+git pull origin main              # fetch + merge
+git pull --rebase origin main     # fetch + rebase (historique plus propre)</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== STASH ==================== -->
+    <section class="section" id="stash">
+      <div class="section-title">Stash</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Mise de côté temporaire <code>git stash</code></div>
+          <div class="card-tags"><span class="tag tag-purple">Utilitaire</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Sauvegarde temporairement les modifications en cours sans créer de commit, pour pouvoir changer de branche proprement.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git stash                         # Mise de côté des modifications
+git stash push -m "message"       # Avec message descriptif
+git stash list                    # Lister les stashs
+git stash pop                     # Appliquer le dernier stash et le supprimer
+git stash apply stash@{2}         # Appliquer un stash spécifique
+git stash drop stash@{0}          # Supprimer un stash
+git stash clear                   # Supprimer tous les stashs
+git stash branch ma-branche       # Créer une branche depuis un stash</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== ANNULER & RESET ==================== -->
+    <section class="section" id="reset">
+      <div class="section-title">Annuler &amp; Reset</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Annuler des commits <code>git reset</code></div>
+          <div class="card-tags"><span class="tag tag-red">Danger</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Réécrit l'historique en déplaçant le pointeur HEAD. <code>--hard</code> est destructif et supprime définitivement les modifications.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Annuler des commits (garder les modifications)
+git reset HEAD~1                  # Annuler 1 commit, garder les modifs stagées
+git reset --soft HEAD~1           # Garder les modifs stagées
+git reset --mixed HEAD~1          # Garder les modifs non stagées (défaut)
+git reset --hard HEAD~1           # TOUT supprimer (dangereux, perte de données)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Annuler en sécurité <code>git revert</code></div>
+          <div class="card-tags"><span class="tag tag-green">Sûr</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>git revert</code> crée un nouveau commit qui annule les changements, sans réécrire l'historique. Sûr pour les branches partagées.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Revert : crée un commit inverse (sûr pour l'historique partagé)
+git revert abc1234                # Annule un commit en créant un nouveau
+git revert HEAD                   # Annule le dernier commit</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Appliquer un commit précis <code>git cherry-pick</code></div>
+          <div class="card-tags"><span class="tag tag-purple">Utilitaire</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Applique les changements d'un ou plusieurs commits spécifiques sur la branche courante, sans fusionner toute la branche.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Cherry-pick : appliquer un commit spécifique
+git cherry-pick abc1234           # Applique ce commit sur la branche courante
+git cherry-pick abc1234..def5678  # Plage de commits</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAGS ==================== -->
+    <section class="section" id="tags">
+      <div class="section-title">Tags</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Gestion des tags <code>git tag</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Versioning</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les tags marquent des points importants dans l'historique (ex. releases). Les tags annotés sont recommandés car ils contiennent des métadonnées.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git tag                           # Lister les tags
+git tag v1.0.0                    # Tag léger
+git tag -a v1.0.0 -m "Version 1.0.0"  # Tag annoté (recommandé)
+git tag -a v1.0.0 abc1234 -m "..."    # Tag sur un commit spécifique
+git show v1.0.0                   # Afficher les infos du tag
+git push origin v1.0.0            # Pousser un tag
+git push origin --tags            # Pousser tous les tags
+git tag -d v1.0.0                 # Supprimer localement
+git push origin --delete v1.0.0  # Supprimer sur le remote
+git checkout v1.0.0               # Se placer sur un tag (detached HEAD)</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== .GITIGNORE ==================== -->
+    <section class="section" id="gitignore">
+      <div class="section-title">.gitignore</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fichier <code>.gitignore</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Liste les fichiers et dossiers que Git doit ignorer. Placé à la racine du projet. Les patterns sont évalués depuis la racine du dépôt.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">GITIGNORE</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Dépendances
+node_modules/
+vendor/
+
+# Build
+dist/
+build/
+.next/
+
+# Environnement
+.env
+.env.local
+.env.*.local
+
+# Éditeur
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.cache/
+.parcel-cache/</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Retirer un fichier déjà suivi</div>
+          <div class="card-tags"><span class="tag tag-purple">Utilitaire</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Si un fichier est déjà suivi par Git et que vous voulez l'ignorer, il faut d'abord le retirer du cache sans le supprimer du disque.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">git rm --cached fichier.js        # Retirer un fichier déjà suivi
+git rm --cached -r node_modules/  # Retirer un dossier entier
+# Ensuite ajouter le fichier/dossier dans .gitignore et commiter</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== WORKFLOW GITHUB FLOW ==================== -->
+    <section class="section" id="workflow">
+      <div class="section-title">Workflow GitHub Flow</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">GitHub Flow — Workflow complet</div>
+          <div class="card-tags"><span class="tag tag-blue">Collaboration</span><span class="tag tag-purple">Bonnes pratiques</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">GitHub Flow est un workflow simple et efficace basé sur des branches de fonctionnalités courtes et des déploiements fréquents.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># === ÉTAPE 1 : Se placer sur main et être à jour ===
+git checkout main
+git pull origin main
+
+# === ÉTAPE 2 : Créer une branche pour la fonctionnalité ===
+git switch -c feature/ajout-authentification
+
+# === ÉTAPE 3 : Travailler et commiter régulièrement ===
+git add .
+git commit -m "feat: ajouter formulaire de connexion"
+
+git add src/auth/
+git commit -m "feat: implémenter vérification JWT"
+
+git add tests/
+git commit -m "test: ajouter tests d'authentification"
+
+# === ÉTAPE 4 : Pousser la branche vers le remote ===
+git push -u origin feature/ajout-authentification
+
+# === ÉTAPE 5 : Ouvrir une Pull Request sur GitHub ===
+# → Aller sur GitHub et créer la PR depuis l'interface
+# → Assigner des reviewers, lier des issues
+
+# === ÉTAPE 6 : Intégrer les retours de la review ===
+git add src/auth/middleware.js
+git commit -m "fix: corriger validation token expiré"
+git push
+
+# === ÉTAPE 7 : Mise à jour depuis main (si nécessaire) ===
+git fetch origin
+git rebase origin/main           # Historique propre et linéaire
+git push --force-with-lease      # Push forcé sécurisé après rebase
+
+# === ÉTAPE 8 : Merge après approbation (sur GitHub ou en CLI) ===
+git checkout main
+git merge --no-ff feature/ajout-authentification
+git push origin main
+
+# === ÉTAPE 9 : Nettoyer la branche ===
+git branch -d feature/ajout-authentification
+git push origin --delete feature/ajout-authentification</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Résumé des bonnes pratiques</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Pratique</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>main</code> toujours stable</td><td class="desc">Ne jamais pousser directement sur main sans review</td></tr>
+              <tr><td>Branches courtes</td><td class="desc">Fusionner souvent pour éviter les conflits importants</td></tr>
+              <tr><td>Commits atomiques</td><td class="desc">Un commit = une seule modification logique</td></tr>
+              <tr><td>Messages clairs</td><td class="desc">Utiliser Conventional Commits pour l'automatisation</td></tr>
+              <tr><td>Pull Requests</td><td class="desc">Toujours faire relire le code avant de fusionner</td></tr>
+              <tr><td><code>--force-with-lease</code></td><td class="desc">Préférer à <code>--force</code> pour éviter d'écraser le travail des autres</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

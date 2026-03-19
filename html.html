@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — HTML</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li class="active"><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+
+<!-- ===== SEARCH BAR ===== -->
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une balise, attribut, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">HTML</div>
+    <ul class="sidebar-nav">
+      <li><a href="#structure"><span class="icon">📄</span>Structure de base</a></li>
+      <li><a href="#titres"><span class="icon">🔤</span>Titres &amp; Paragraphes</a></li>
+      <li><a href="#texte"><span class="icon">✏️</span>Mise en forme du texte</a></li>
+      <li><a href="#liens"><span class="icon">🔗</span>Liens</a></li>
+      <li><a href="#images"><span class="icon">🖼️</span>Images &amp; Médias</a></li>
+      <li><a href="#listes"><span class="icon">📋</span>Listes</a></li>
+      <li><a href="#tableaux"><span class="icon">📊</span>Tableaux</a></li>
+      <li><a href="#formulaires"><span class="icon">📝</span>Formulaires</a></li>
+      <li><a href="#inputs"><span class="icon">🔘</span>Types d'inputs</a></li>
+      <li><a href="#select"><span class="icon">▼</span>Select &amp; Datalist</a></li>
+      <li><a href="#semantique"><span class="icon">🏗️</span>Balises sémantiques</a></li>
+      <li><a href="#video"><span class="icon">▶️</span>Vidéo &amp; Audio</a></li>
+      <li><a href="#iframe"><span class="icon">🪟</span>Iframe &amp; Embed</a></li>
+      <li><a href="#head"><span class="icon">⚙️</span>Head &amp; Meta</a></li>
+      <li><a href="#attributs"><span class="icon">🏷️</span>Attributs globaux</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <div class="page-header">
+      <h1>HTML <span class="badge">HyperText Markup Language</span></h1>
+      <p>Toutes les balises, attributs et exemples essentiels pour structurer vos pages web.</p>
+    </div>
+
+    <!-- ==================== STRUCTURE DE BASE ==================== -->
+    <section class="section" id="structure">
+      <div class="section-title">Structure de base</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Squelette HTML5</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Structure minimale requise pour toute page HTML5. Le <code>&lt;!DOCTYPE html&gt;</code> indique au navigateur d'utiliser le mode standard HTML5.</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;title&gt;Titre de la page&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css" /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Bonjour monde !&lt;/h1&gt;
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Commentaires HTML</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les commentaires ne sont pas affichés dans le navigateur. Utiles pour documenter ou désactiver temporairement du code.</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- Ceci est un commentaire sur une ligne --&gt;
+
+&lt;!--
+  Ceci est un commentaire
+  sur plusieurs lignes
+--&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TITRES & PARAGRAPHES ==================== -->
+    <section class="section" id="titres">
+      <div class="section-title">Titres &amp; Paragraphes</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Titres <code>&lt;h1&gt;</code> à <code>&lt;h6&gt;</code></div>
+          <div class="card-tags"><span class="tag tag-blue">SEO</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">6 niveaux de titres. Un seul <code>&lt;h1&gt;</code> par page (important pour le SEO). Les titres définissent la hiérarchie du contenu.</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;h1&gt;Titre principal (unique sur la page)&lt;/h1&gt;
+&lt;h2&gt;Titre de section&lt;/h2&gt;
+&lt;h3&gt;Sous-section&lt;/h3&gt;
+&lt;h4&gt;Sous-sous-section&lt;/h4&gt;
+&lt;h5&gt;Titre de niveau 5&lt;/h5&gt;
+&lt;h6&gt;Titre de niveau 6&lt;/h6&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Paragraphe <code>&lt;p&gt;</code>, saut de ligne <code>&lt;br&gt;</code>, séparateur <code>&lt;hr&gt;</code></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>&lt;p&gt;</code> est un bloc de texte. <code>&lt;br /&gt;</code> force un retour à la ligne dans un même bloc. <code>&lt;hr /&gt;</code> trace une ligne de séparation horizontale.</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;p&gt;Ceci est un paragraphe de texte.&lt;/p&gt;
+
+&lt;p&gt;Première ligne.&lt;br /&gt;Deuxième ligne dans le même paragraphe.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Texte après la ligne de séparation.&lt;/p&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== MISE EN FORME DU TEXTE ==================== -->
+    <section class="section" id="texte">
+      <div class="section-title">Mise en forme du texte</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Balises sémantiques de texte</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead>
+              <tr><th>Balise</th><th>Rendu</th><th>Signification</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>&lt;strong&gt;</code></td><td><strong>texte</strong></td><td class="desc">Important — gras sémantique</td></tr>
+              <tr><td><code>&lt;em&gt;</code></td><td><em>texte</em></td><td class="desc">Emphase — italique sémantique</td></tr>
+              <tr><td><code>&lt;u&gt;</code></td><td><u>texte</u></td><td class="desc">Souligné (non-sémantique, préférer CSS)</td></tr>
+              <tr><td><code>&lt;s&gt;</code></td><td><s>texte</s></td><td class="desc">Barré — texte non pertinent</td></tr>
+              <tr><td><code>&lt;mark&gt;</code></td><td><mark>texte</mark></td><td class="desc">Texte surligné (mise en valeur)</td></tr>
+              <tr><td><code>&lt;small&gt;</code></td><td><small>texte</small></td><td class="desc">Texte plus petit (mentions légales)</td></tr>
+              <tr><td><code>&lt;sub&gt;</code></td><td>H<sub>2</sub>O</td><td class="desc">Indice (exposant bas)</td></tr>
+              <tr><td><code>&lt;sup&gt;</code></td><td>x<sup>2</sup></td><td class="desc">Exposant (exposant haut)</td></tr>
+              <tr><td><code>&lt;abbr&gt;</code></td><td><abbr title="HyperText Markup Language">HTML</abbr></td><td class="desc">Abréviation avec infobulle au survol</td></tr>
+              <tr><td><code>&lt;cite&gt;</code></td><td><cite>titre œuvre</cite></td><td class="desc">Titre d'une œuvre citée</td></tr>
+              <tr><td><code>&lt;q&gt;</code></td><td><q>citation courte</q></td><td class="desc">Citation courte inline avec guillemets auto</td></tr>
+              <tr><td><code>&lt;blockquote&gt;</code></td><td>—</td><td class="desc">Citation longue en bloc</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;p&gt;Ce mot est &lt;strong&gt;important&lt;/strong&gt; et celui-ci est &lt;em&gt;en italique&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Le prix &lt;s&gt;50€&lt;/s&gt; est maintenant &lt;mark&gt;30€&lt;/mark&gt;.&lt;/p&gt;
+&lt;p&gt;Formule : H&lt;sub&gt;2&lt;/sub&gt;O, exposant : x&lt;sup&gt;2&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;&lt;abbr title="Cascading Style Sheets"&gt;CSS&lt;/abbr&gt; gère le style.&lt;/p&gt;
+
+&lt;blockquote cite="https://example.com"&gt;
+  Ceci est une longue citation provenant d'une source externe.
+&lt;/blockquote&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Code &amp; préformaté — <code>&lt;code&gt;</code> <code>&lt;pre&gt;</code> <code>&lt;kbd&gt;</code></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>&lt;code&gt;</code> pour afficher du code inline. <code>&lt;pre&gt;</code> préserve les espaces et sauts de ligne. <code>&lt;kbd&gt;</code> représente une touche clavier.</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;p&gt;Utilisez &lt;code&gt;console.log()&lt;/code&gt; pour déboguer.&lt;/p&gt;
+
+&lt;pre&gt;
+  function hello() {
+    return "monde";
+  }
+&lt;/pre&gt;
+
+&lt;p&gt;Appuyez sur &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt; pour copier.&lt;/p&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== LIENS ==================== -->
+    <section class="section" id="liens">
+      <div class="section-title">Liens</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Balise <code>&lt;a&gt;</code> — tous les usages</div>
+          <div class="card-tags"><span class="tag tag-blue">Navigation</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead>
+              <tr><th>Attribut</th><th>Valeur</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>href</code></td><td>URL / #id / chemin</td><td class="desc">Destination du lien</td></tr>
+              <tr><td><code>target</code></td><td><code>_blank</code> / <code>_self</code></td><td class="desc">Où ouvrir le lien (nouvel onglet / même onglet)</td></tr>
+              <tr><td><code>rel</code></td><td><code>noopener noreferrer</code></td><td class="desc">Sécurité avec target="_blank"</td></tr>
+              <tr><td><code>download</code></td><td>nom-fichier</td><td class="desc">Force le téléchargement au lieu d'ouvrir</td></tr>
+              <tr><td><code>title</code></td><td>texte</td><td class="desc">Infobulle au survol</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- Lien externe (sécurisé) --&gt;
+&lt;a href="https://google.com" target="_blank" rel="noopener noreferrer"&gt;Google&lt;/a&gt;
+
+&lt;!-- Lien interne --&gt;
+&lt;a href="about.html"&gt;À propos&lt;/a&gt;
+
+&lt;!-- Ancre (scroll vers un id) --&gt;
+&lt;a href="#contact"&gt;Aller au contact&lt;/a&gt;
+
+&lt;!-- Email --&gt;
+&lt;a href="mailto:hello@exemple.fr"&gt;Envoyer un email&lt;/a&gt;
+
+&lt;!-- Téléphone --&gt;
+&lt;a href="tel:+33612345678"&gt;06 12 34 56 78&lt;/a&gt;
+
+&lt;!-- Téléchargement --&gt;
+&lt;a href="fichier.pdf" download="mon-fichier.pdf"&gt;Télécharger le PDF&lt;/a&gt;
+
+&lt;!-- Cible de l'ancre --&gt;
+&lt;section id="contact"&gt;...&lt;/section&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== IMAGES & MÉDIAS ==================== -->
+    <section class="section" id="images">
+      <div class="section-title">Images &amp; Médias</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Balise <code>&lt;img&gt;</code></div>
+          <div class="card-tags"><span class="tag tag-green">Accessibilité</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">L'attribut <code>alt</code> est <strong>obligatoire</strong> pour l'accessibilité et le SEO. Laisser vide (<code>alt=""</code>) pour les images décoratives.</p>
+          <table class="attr-table">
+            <thead>
+              <tr><th>Attribut</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>src</code></td><td class="desc">Chemin ou URL de l'image</td></tr>
+              <tr><td><code>alt</code></td><td class="desc">Texte alternatif (obligatoire)</td></tr>
+              <tr><td><code>width</code> / <code>height</code></td><td class="desc">Dimensions en px (évite le layout shift)</td></tr>
+              <tr><td><code>loading="lazy"</code></td><td class="desc">Chargement différé (performance)</td></tr>
+              <tr><td><code>srcset</code></td><td class="desc">Images responsives (plusieurs tailles)</td></tr>
+              <tr><td><code>sizes</code></td><td class="desc">Taille d'affichage selon le viewport</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- Image simple --&gt;
+&lt;img src="photo.jpg" alt="Description de l'image" width="800" height="600" /&gt;
+
+&lt;!-- Image responsive avec srcset --&gt;
+&lt;img
+  src="photo-800.jpg"
+  srcset="photo-400.jpg 400w, photo-800.jpg 800w, photo-1200.jpg 1200w"
+  sizes="(max-width: 600px) 400px, (max-width: 1000px) 800px, 1200px"
+  alt="Photo responsive"
+  loading="lazy"
+/&gt;
+
+&lt;!-- Image avec légende --&gt;
+&lt;figure&gt;
+  &lt;img src="graphique.png" alt="Graphique des ventes 2024" /&gt;
+  &lt;figcaption&gt;Évolution des ventes sur l'année 2024&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- Image décoractive (pas d'alt textuel) --&gt;
+&lt;img src="decoration.svg" alt="" /&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Balise <code>&lt;picture&gt;</code> — images adaptatives avancées</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Permet de servir différents formats (WebP, AVIF) ou différentes images selon les breakpoints. Le navigateur choisit la première source compatible.</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;picture&gt;
+  &lt;!-- Format moderne (si supporté) --&gt;
+  &lt;source srcset="image.avif" type="image/avif" /&gt;
+  &lt;source srcset="image.webp" type="image/webp" /&gt;
+
+  &lt;!-- Image mobile --&gt;
+  &lt;source srcset="image-mobile.jpg" media="(max-width: 600px)" /&gt;
+
+  &lt;!-- Fallback obligatoire --&gt;
+  &lt;img src="image.jpg" alt="Description" /&gt;
+&lt;/picture&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== LISTES ==================== -->
+    <section class="section" id="listes">
+      <div class="section-title">Listes</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Listes non ordonnée <code>&lt;ul&gt;</code>, ordonnée <code>&lt;ol&gt;</code> et de définitions <code>&lt;dl&gt;</code></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- Liste non ordonnée (puces) --&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTML&lt;/li&gt;
+  &lt;li&gt;CSS&lt;/li&gt;
+  &lt;li&gt;JavaScript&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Liste ordonnée (numérotée) --&gt;
+&lt;ol&gt;
+  &lt;li&gt;Ouvrir le terminal&lt;/li&gt;
+  &lt;li&gt;Taper npm install&lt;/li&gt;
+  &lt;li&gt;Lancer npm start&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- Attributs de &lt;ol&gt; --&gt;
+&lt;ol start="5" reversed type="A"&gt;
+  &lt;li&gt;Item E (part de 5 en descendant, lettres)&lt;/li&gt;
+  &lt;li&gt;Item D&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- Liste de définitions --&gt;
+&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;HyperText Markup Language — structure des pages web&lt;/dd&gt;
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Cascading Style Sheets — mise en forme&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;!-- Liste imbriquée --&gt;
+&lt;ul&gt;
+  &lt;li&gt;Frontend
+    &lt;ul&gt;
+      &lt;li&gt;HTML&lt;/li&gt;
+      &lt;li&gt;CSS&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Backend&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TABLEAUX ==================== -->
+    <section class="section" id="tableaux">
+      <div class="section-title">Tableaux</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Structure complète d'un tableau</div>
+          <div class="card-tags"><span class="tag tag-green">Accessibilité</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead>
+              <tr><th>Balise</th><th>Rôle</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>&lt;table&gt;</code></td><td class="desc">Conteneur du tableau</td></tr>
+              <tr><td><code>&lt;caption&gt;</code></td><td class="desc">Titre du tableau (accessibilité)</td></tr>
+              <tr><td><code>&lt;thead&gt;</code></td><td class="desc">En-tête du tableau</td></tr>
+              <tr><td><code>&lt;tbody&gt;</code></td><td class="desc">Corps principal</td></tr>
+              <tr><td><code>&lt;tfoot&gt;</code></td><td class="desc">Pied de tableau</td></tr>
+              <tr><td><code>&lt;tr&gt;</code></td><td class="desc">Ligne (table row)</td></tr>
+              <tr><td><code>&lt;th&gt;</code></td><td class="desc">Cellule d'en-tête (gras, centré)</td></tr>
+              <tr><td><code>&lt;td&gt;</code></td><td class="desc">Cellule de données</td></tr>
+              <tr><td><code>colspan="n"</code></td><td class="desc">Fusionner n colonnes</td></tr>
+              <tr><td><code>rowspan="n"</code></td><td class="desc">Fusionner n lignes</td></tr>
+              <tr><td><code>scope="col/row"</code></td><td class="desc">Portée de l'en-tête (accessibilité)</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;table&gt;
+  &lt;caption&gt;Résultats des élèves&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Nom&lt;/th&gt;
+      &lt;th scope="col"&gt;Note&lt;/th&gt;
+      &lt;th scope="col"&gt;Mention&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Alice&lt;/td&gt;
+      &lt;td&gt;18/20&lt;/td&gt;
+      &lt;td&gt;Très bien&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Bob&lt;/td&gt;
+      &lt;td colspan="2"&gt;Absent&lt;/td&gt;  &lt;!-- Fusionne 2 colonnes --&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Moyenne&lt;/td&gt;
+      &lt;td&gt;15/20&lt;/td&gt;
+      &lt;td&gt;—&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== FORMULAIRES ==================== -->
+    <section class="section" id="formulaires">
+      <div class="section-title">Formulaires</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Balise <code>&lt;form&gt;</code> — attributs essentiels</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead>
+              <tr><th>Attribut</th><th>Valeurs</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>action</code></td><td>URL</td><td class="desc">URL de destination des données</td></tr>
+              <tr><td><code>method</code></td><td><code>GET</code> / <code>POST</code></td><td class="desc">Méthode HTTP d'envoi</td></tr>
+              <tr><td><code>enctype</code></td><td><code>multipart/form-data</code></td><td class="desc">Obligatoire pour l'upload de fichiers</td></tr>
+              <tr><td><code>novalidate</code></td><td>—</td><td class="desc">Désactive la validation HTML native</td></tr>
+              <tr><td><code>autocomplete</code></td><td><code>on</code> / <code>off</code></td><td class="desc">Active/désactive l'autocomplétion</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;form action="/submit" method="POST" autocomplete="on"&gt;
+
+  &lt;!-- Label lié à l'input via for/id --&gt;
+  &lt;label for="prenom"&gt;Prénom&lt;/label&gt;
+  &lt;input type="text" id="prenom" name="prenom" required placeholder="Votre prénom" /&gt;
+
+  &lt;label for="email"&gt;Email&lt;/label&gt;
+  &lt;input type="email" id="email" name="email" required /&gt;
+
+  &lt;label for="message"&gt;Message&lt;/label&gt;
+  &lt;textarea id="message" name="message" rows="5" cols="40"&gt;&lt;/textarea&gt;
+
+  &lt;!-- Regroupement de champs --&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;Genre&lt;/legend&gt;
+    &lt;label&gt;&lt;input type="radio" name="genre" value="h" /&gt; Homme&lt;/label&gt;
+    &lt;label&gt;&lt;input type="radio" name="genre" value="f" /&gt; Femme&lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+  &lt;button type="reset"&gt;Réinitialiser&lt;/button&gt;
+
+&lt;/form&gt;
+
+&lt;!-- Formulaire avec upload de fichier --&gt;
+&lt;form action="/upload" method="POST" enctype="multipart/form-data"&gt;
+  &lt;input type="file" name="avatar" accept="image/*" /&gt;
+  &lt;button type="submit"&gt;Uploader&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Attributs de validation natifs</div>
+          <div class="card-tags"><span class="tag tag-yellow">Validation</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead>
+              <tr><th>Attribut</th><th>Exemple</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>required</code></td><td>—</td><td class="desc">Champ obligatoire</td></tr>
+              <tr><td><code>minlength</code></td><td><code>minlength="3"</code></td><td class="desc">Longueur minimale (texte)</td></tr>
+              <tr><td><code>maxlength</code></td><td><code>maxlength="100"</code></td><td class="desc">Longueur maximale (texte)</td></tr>
+              <tr><td><code>min</code></td><td><code>min="0"</code></td><td class="desc">Valeur minimale (nombre/date)</td></tr>
+              <tr><td><code>max</code></td><td><code>max="100"</code></td><td class="desc">Valeur maximale</td></tr>
+              <tr><td><code>pattern</code></td><td><code>pattern="[0-9]{5}"</code></td><td class="desc">Regex de validation</td></tr>
+              <tr><td><code>disabled</code></td><td>—</td><td class="desc">Désactive le champ (non envoyé)</td></tr>
+              <tr><td><code>readonly</code></td><td>—</td><td class="desc">Lecture seule (envoyé quand même)</td></tr>
+              <tr><td><code>autofocus</code></td><td>—</td><td class="desc">Focus automatique au chargement</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;input type="text" required minlength="2" maxlength="50" autofocus /&gt;
+&lt;input type="number" min="18" max="99" /&gt;
+&lt;input type="text" pattern="[A-Z]{3}[0-9]{2}" title="3 lettres + 2 chiffres" /&gt;
+&lt;input type="text" value="Non modifiable" readonly /&gt;
+&lt;input type="text" value="Désactivé" disabled /&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TYPES D'INPUTS ==================== -->
+    <section class="section" id="inputs">
+      <div class="section-title">Types d'inputs</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Tous les types <code>&lt;input type="…"&gt;</code></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead>
+              <tr><th>Type</th><th>Description</th><th>Exemple de valeur</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>text</code></td><td class="desc">Texte libre</td><td><code>"John"</code></td></tr>
+              <tr><td><code>password</code></td><td class="desc">Texte masqué</td><td><code>"••••••"</code></td></tr>
+              <tr><td><code>email</code></td><td class="desc">Adresse email (validé)</td><td><code>"a@b.com"</code></td></tr>
+              <tr><td><code>number</code></td><td class="desc">Nombre (avec flèches)</td><td><code>42</code></td></tr>
+              <tr><td><code>tel</code></td><td class="desc">Numéro de téléphone</td><td><code>"0612345678"</code></td></tr>
+              <tr><td><code>url</code></td><td class="desc">URL (validée)</td><td><code>"https://…"</code></td></tr>
+              <tr><td><code>search</code></td><td class="desc">Champ de recherche (croix)</td><td><code>"CSS flexbox"</code></td></tr>
+              <tr><td><code>date</code></td><td class="desc">Sélecteur de date</td><td><code>"2024-01-15"</code></td></tr>
+              <tr><td><code>time</code></td><td class="desc">Sélecteur d'heure</td><td><code>"14:30"</code></td></tr>
+              <tr><td><code>datetime-local</code></td><td class="desc">Date + heure</td><td><code>"2024-01-15T14:30"</code></td></tr>
+              <tr><td><code>month</code></td><td class="desc">Mois et année</td><td><code>"2024-01"</code></td></tr>
+              <tr><td><code>week</code></td><td class="desc">Semaine</td><td><code>"2024-W03"</code></td></tr>
+              <tr><td><code>range</code></td><td class="desc">Curseur (slider)</td><td><code>0–100</code></td></tr>
+              <tr><td><code>color</code></td><td class="desc">Sélecteur de couleur</td><td><code>"#ff0000"</code></td></tr>
+              <tr><td><code>checkbox</code></td><td class="desc">Case à cocher</td><td><code>true/false</code></td></tr>
+              <tr><td><code>radio</code></td><td class="desc">Bouton radio (choix unique)</td><td><code>"option1"</code></td></tr>
+              <tr><td><code>file</code></td><td class="desc">Upload de fichier</td><td>—</td></tr>
+              <tr><td><code>hidden</code></td><td class="desc">Valeur cachée envoyée au serveur</td><td><code>"csrf-token"</code></td></tr>
+              <tr><td><code>submit</code></td><td class="desc">Bouton de soumission</td><td>—</td></tr>
+              <tr><td><code>reset</code></td><td class="desc">Réinitialise le formulaire</td><td>—</td></tr>
+              <tr><td><code>button</code></td><td class="desc">Bouton générique (JS)</td><td>—</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;input type="text"     name="nom"      placeholder="Votre nom" /&gt;
+&lt;input type="email"    name="email"    placeholder="email@exemple.fr" /&gt;
+&lt;input type="password" name="mdp"      minlength="8" /&gt;
+&lt;input type="number"   name="age"      min="0" max="120" step="1" /&gt;
+&lt;input type="tel"      name="tel"      pattern="[0-9]{10}" /&gt;
+&lt;input type="url"      name="site"     placeholder="https://" /&gt;
+&lt;input type="date"     name="naissance" /&gt;
+&lt;input type="time"     name="heure"    min="09:00" max="18:00" /&gt;
+&lt;input type="range"    name="volume"   min="0" max="100" value="50" /&gt;
+&lt;input type="color"    name="couleur"  value="#58a6ff" /&gt;
+&lt;input type="file"     name="avatar"   accept="image/png, image/jpeg" multiple /&gt;
+
+&lt;!-- Checkbox --&gt;
+&lt;label&gt;
+  &lt;input type="checkbox" name="cgu" value="accepte" required /&gt;
+  J'accepte les CGU
+&lt;/label&gt;
+
+&lt;!-- Radio --&gt;
+&lt;label&gt;&lt;input type="radio" name="plan" value="gratuit" checked /&gt; Gratuit&lt;/label&gt;
+&lt;label&gt;&lt;input type="radio" name="plan" value="premium" /&gt; Premium&lt;/label&gt;
+
+&lt;!-- Caché --&gt;
+&lt;input type="hidden" name="csrf_token" value="abc123xyz" /&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Boutons <code>&lt;button&gt;</code></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Préférer <code>&lt;button&gt;</code> à <code>&lt;input type="submit"&gt;</code> car il accepte du HTML à l'intérieur. Le type par défaut est <code>submit</code> si dans un formulaire.</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- Dans un formulaire --&gt;
+&lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;button type="reset"&gt;Réinitialiser&lt;/button&gt;
+&lt;button type="button" onclick="maFonction()"&gt;Cliquez ici&lt;/button&gt;
+
+&lt;!-- Avec icône --&gt;
+&lt;button type="button"&gt;
+  &#128269; Rechercher
+&lt;/button&gt;
+
+&lt;!-- Désactivé --&gt;
+&lt;button type="submit" disabled&gt;Indisponible&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SELECT & DATALIST ==================== -->
+    <section class="section" id="select">
+      <div class="section-title">Select &amp; Datalist</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Liste déroulante <code>&lt;select&gt;</code></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- Select simple --&gt;
+&lt;label for="pays"&gt;Pays&lt;/label&gt;
+&lt;select id="pays" name="pays" required&gt;
+  &lt;option value=""&gt;-- Choisir un pays --&lt;/option&gt;
+  &lt;option value="fr" selected&gt;France&lt;/option&gt;
+  &lt;option value="be"&gt;Belgique&lt;/option&gt;
+  &lt;option value="ch"&gt;Suisse&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- Avec groupes --&gt;
+&lt;select name="langage"&gt;
+  &lt;optgroup label="Frontend"&gt;
+    &lt;option value="html"&gt;HTML&lt;/option&gt;
+    &lt;option value="css"&gt;CSS&lt;/option&gt;
+    &lt;option value="js"&gt;JavaScript&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Backend"&gt;
+    &lt;option value="php"&gt;PHP&lt;/option&gt;
+    &lt;option value="node"&gt;Node.js&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;
+
+&lt;!-- Sélection multiple --&gt;
+&lt;select name="competences" multiple size="4"&gt;
+  &lt;option value="html"&gt;HTML&lt;/option&gt;
+  &lt;option value="css"&gt;CSS&lt;/option&gt;
+  &lt;option value="js"&gt;JavaScript&lt;/option&gt;
+  &lt;option value="react"&gt;React&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Autocomplétion <code>&lt;datalist&gt;</code></div>
+          <div class="card-tags"><span class="tag tag-purple">UX</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Différent de <code>&lt;select&gt;</code> : l'utilisateur peut saisir librement ET bénéficier de suggestions. Lier via <code>list</code> sur l'input et <code>id</code> sur le datalist.</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;label for="ville"&gt;Ville&lt;/label&gt;
+&lt;input type="text" id="ville" name="ville" list="villes" placeholder="Tapez votre ville..." /&gt;
+
+&lt;datalist id="villes"&gt;
+  &lt;option value="Paris"&gt;
+  &lt;option value="Lyon"&gt;
+  &lt;option value="Marseille"&gt;
+  &lt;option value="Bordeaux"&gt;
+  &lt;option value="Nantes"&gt;
+&lt;/datalist&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Zone de texte <code>&lt;textarea&gt;</code></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;label for="bio"&gt;Biographie&lt;/label&gt;
+&lt;textarea
+  id="bio"
+  name="bio"
+  rows="6"
+  cols="50"
+  minlength="10"
+  maxlength="500"
+  placeholder="Parlez-nous de vous..."
+  required
+&gt;&lt;/textarea&gt;
+
+&lt;!-- Resize contrôlé via CSS --&gt;
+&lt;style&gt;
+  textarea { resize: vertical; } /* none | both | horizontal | vertical */
+&lt;/style&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SÉMANTIQUE ==================== -->
+    <section class="section" id="semantique">
+      <div class="section-title">Balises sémantiques HTML5</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Structure sémantique de page</div>
+          <div class="card-tags"><span class="tag tag-blue">SEO</span><span class="tag tag-green">Accessibilité</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les balises sémantiques donnent du sens à la structure pour les moteurs de recherche et les lecteurs d'écran. Éviter d'utiliser des <code>&lt;div&gt;</code> partout.</p>
+          <table class="attr-table">
+            <thead>
+              <tr><th>Balise</th><th>Rôle</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>&lt;header&gt;</code></td><td class="desc">En-tête de page ou de section (logo, nav)</td></tr>
+              <tr><td><code>&lt;nav&gt;</code></td><td class="desc">Navigation principale</td></tr>
+              <tr><td><code>&lt;main&gt;</code></td><td class="desc">Contenu principal (unique par page)</td></tr>
+              <tr><td><code>&lt;section&gt;</code></td><td class="desc">Section thématique avec un titre</td></tr>
+              <tr><td><code>&lt;article&gt;</code></td><td class="desc">Contenu autonome (post, carte produit)</td></tr>
+              <tr><td><code>&lt;aside&gt;</code></td><td class="desc">Contenu annexe (sidebar, publicité)</td></tr>
+              <tr><td><code>&lt;footer&gt;</code></td><td class="desc">Pied de page ou de section</td></tr>
+              <tr><td><code>&lt;time&gt;</code></td><td class="desc">Date/heure machine-lisible</td></tr>
+              <tr><td><code>&lt;address&gt;</code></td><td class="desc">Coordonnées de contact</td></tr>
+              <tr><td><code>&lt;figure&gt;</code></td><td class="desc">Contenu illustratif (image, diagramme)</td></tr>
+              <tr><td><code>&lt;figcaption&gt;</code></td><td class="desc">Légende du &lt;figure&gt;</td></tr>
+              <tr><td><code>&lt;details&gt;</code></td><td class="desc">Contenu repliable (accordéon natif)</td></tr>
+              <tr><td><code>&lt;summary&gt;</code></td><td class="desc">Titre visible du &lt;details&gt;</td></tr>
+              <tr><td><code>&lt;dialog&gt;</code></td><td class="desc">Boîte de dialogue / modale native</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- Schéma d'une page typique --&gt;
+&lt;header&gt;
+  &lt;nav&gt;
+    &lt;a href="/"&gt;Accueil&lt;/a&gt;
+    &lt;a href="/blog"&gt;Blog&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;section&gt;
+    &lt;h2&gt;Nos articles&lt;/h2&gt;
+    &lt;article&gt;
+      &lt;h3&gt;Titre de l'article&lt;/h3&gt;
+      &lt;time datetime="2024-03-15"&gt;15 mars 2024&lt;/time&gt;
+      &lt;p&gt;Contenu...&lt;/p&gt;
+    &lt;/article&gt;
+  &lt;/section&gt;
+
+  &lt;aside&gt;
+    &lt;h2&gt;Articles récents&lt;/h2&gt;
+    &lt;!-- Liens vers d'autres articles --&gt;
+  &lt;/aside&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;
+  &lt;address&gt;
+    Contact : &lt;a href="mailto:contact@site.fr"&gt;contact@site.fr&lt;/a&gt;
+  &lt;/address&gt;
+&lt;/footer&gt;
+
+&lt;!-- Accordéon natif --&gt;
+&lt;details&gt;
+  &lt;summary&gt;Cliquez pour voir plus&lt;/summary&gt;
+  &lt;p&gt;Contenu caché qui se révèle au clic.&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;!-- Modale native --&gt;
+&lt;dialog id="maModale"&gt;
+  &lt;p&gt;Contenu de la modale&lt;/p&gt;
+  &lt;button onclick="document.getElementById('maModale').close()"&gt;Fermer&lt;/button&gt;
+&lt;/dialog&gt;
+&lt;button onclick="document.getElementById('maModale').showModal()"&gt;Ouvrir la modale&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== VIDÉO & AUDIO ==================== -->
+    <section class="section" id="video">
+      <div class="section-title">Vidéo &amp; Audio</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Balise <code>&lt;video&gt;</code></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead>
+              <tr><th>Attribut</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>src</code></td><td class="desc">Source directe (ou utiliser &lt;source&gt;)</td></tr>
+              <tr><td><code>controls</code></td><td class="desc">Affiche les contrôles natifs du navigateur</td></tr>
+              <tr><td><code>autoplay</code></td><td class="desc">Lecture automatique (nécessite muted)</td></tr>
+              <tr><td><code>muted</code></td><td class="desc">Coupe le son (requis pour autoplay)</td></tr>
+              <tr><td><code>loop</code></td><td class="desc">Lecture en boucle</td></tr>
+              <tr><td><code>poster</code></td><td class="desc">Image affichée avant la lecture</td></tr>
+              <tr><td><code>preload</code></td><td class="desc"><code>auto</code> / <code>metadata</code> / <code>none</code></td></tr>
+              <tr><td><code>width</code> / <code>height</code></td><td class="desc">Dimensions</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- Vidéo simple --&gt;
+&lt;video src="film.mp4" controls width="800" poster="thumbnail.jpg"&gt;
+  Votre navigateur ne supporte pas la vidéo HTML5.
+&lt;/video&gt;
+
+&lt;!-- Vidéo avec plusieurs formats --&gt;
+&lt;video controls width="800" poster="thumbnail.jpg" preload="metadata"&gt;
+  &lt;source src="film.webm" type="video/webm" /&gt;
+  &lt;source src="film.mp4"  type="video/mp4" /&gt;
+  &lt;track src="sous-titres.vtt" kind="subtitles" srclang="fr" label="Français" /&gt;
+  Votre navigateur ne supporte pas la vidéo HTML5.
+&lt;/video&gt;
+
+&lt;!-- Vidéo en fond (autoplay) --&gt;
+&lt;video autoplay muted loop playsinline&gt;
+  &lt;source src="background.mp4" type="video/mp4" /&gt;
+&lt;/video&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Balise <code>&lt;audio&gt;</code></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;audio controls&gt;
+  &lt;source src="musique.ogg" type="audio/ogg" /&gt;
+  &lt;source src="musique.mp3" type="audio/mpeg" /&gt;
+  Votre navigateur ne supporte pas l'audio HTML5.
+&lt;/audio&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== IFRAME & EMBED ==================== -->
+    <section class="section" id="iframe">
+      <div class="section-title">Iframe &amp; Embed</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Balise <code>&lt;iframe&gt;</code></div>
+          <div class="card-tags"><span class="tag tag-red">Sécurité</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Intègre une autre page ou ressource externe. L'attribut <code>sandbox</code> limite les capacités de l'iframe pour la sécurité.</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- Carte Google Maps --&gt;
+&lt;iframe
+  src="https://maps.google.com/maps?q=Paris&output=embed"
+  width="600"
+  height="450"
+  loading="lazy"
+  allowfullscreen
+  referrerpolicy="no-referrer-when-downgrade"
+&gt;&lt;/iframe&gt;
+
+&lt;!-- Vidéo YouTube --&gt;
+&lt;iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/ID_VIDEO"
+  title="Titre de la vidéo"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+  allowfullscreen
+&gt;&lt;/iframe&gt;
+
+&lt;!-- Sandbox sécurisé (restreint) --&gt;
+&lt;iframe
+  src="page-externe.html"
+  sandbox="allow-scripts allow-same-origin"
+&gt;&lt;/iframe&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== HEAD & META ==================== -->
+    <section class="section" id="head">
+      <div class="section-title">Head &amp; Meta</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Balises <code>&lt;head&gt;</code> essentielles</div>
+          <div class="card-tags"><span class="tag tag-blue">SEO</span><span class="tag tag-purple">Réseaux sociaux</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;head&gt;
+  &lt;!-- Encodage (obligatoire, en premier) --&gt;
+  &lt;meta charset="UTF-8" /&gt;
+
+  &lt;!-- Responsive (obligatoire) --&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+
+  &lt;!-- Compatibilité IE (legacy) --&gt;
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge" /&gt;
+
+  &lt;!-- SEO --&gt;
+  &lt;title&gt;Titre de page — Max 60 caractères&lt;/title&gt;
+  &lt;meta name="description" content="Description courte de la page, max 160 caractères pour le SEO." /&gt;
+  &lt;meta name="keywords" content="html, css, développement web" /&gt;
+  &lt;meta name="author" content="Votre Nom" /&gt;
+  &lt;meta name="robots" content="index, follow" /&gt;
+
+  &lt;!-- Open Graph (partage Facebook, LinkedIn) --&gt;
+  &lt;meta property="og:title" content="Titre pour les réseaux sociaux" /&gt;
+  &lt;meta property="og:description" content="Description pour les réseaux sociaux." /&gt;
+  &lt;meta property="og:image" content="https://exemple.fr/image.jpg" /&gt;
+  &lt;meta property="og:url" content="https://exemple.fr/page" /&gt;
+  &lt;meta property="og:type" content="website" /&gt;
+
+  &lt;!-- Twitter Cards --&gt;
+  &lt;meta name="twitter:card" content="summary_large_image" /&gt;
+  &lt;meta name="twitter:title" content="Titre Twitter" /&gt;
+  &lt;meta name="twitter:description" content="Description Twitter." /&gt;
+  &lt;meta name="twitter:image" content="https://exemple.fr/image.jpg" /&gt;
+
+  &lt;!-- Favicon --&gt;
+  &lt;link rel="icon" type="image/png" href="/favicon.png" /&gt;
+  &lt;link rel="apple-touch-icon" href="/apple-touch-icon.png" /&gt;
+
+  &lt;!-- Feuille de style CSS --&gt;
+  &lt;link rel="stylesheet" href="style.css" /&gt;
+
+  &lt;!-- Police Google Fonts --&gt;
+  &lt;link rel="preconnect" href="https://fonts.googleapis.com" /&gt;
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" /&gt;
+
+  &lt;!-- Script en head (defer = attend le DOM) --&gt;
+  &lt;script src="script.js" defer&gt;&lt;/script&gt;
+  &lt;!-- async = chargement parallèle, exécution dès prêt --&gt;
+  &lt;script src="analytics.js" async&gt;&lt;/script&gt;
+
+  &lt;!-- Redirection automatique --&gt;
+  &lt;meta http-equiv="refresh" content="5; url=https://exemple.fr" /&gt;
+
+  &lt;!-- Couleur de la barre mobile --&gt;
+  &lt;meta name="theme-color" content="#58a6ff" /&gt;
+&lt;/head&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== ATTRIBUTS GLOBAUX ==================== -->
+    <section class="section" id="attributs">
+      <div class="section-title">Attributs globaux</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Attributs utilisables sur toutes les balises</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead>
+              <tr><th>Attribut</th><th>Exemple</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>id</code></td><td><code>id="mon-id"</code></td><td class="desc">Identifiant unique sur la page</td></tr>
+              <tr><td><code>class</code></td><td><code>class="btn btn-primary"</code></td><td class="desc">Classes CSS (plusieurs séparées par espaces)</td></tr>
+              <tr><td><code>style</code></td><td><code>style="color: red;"</code></td><td class="desc">Style inline (déconseillé, préférer CSS)</td></tr>
+              <tr><td><code>title</code></td><td><code>title="Infobulle"</code></td><td class="desc">Infobulle au survol</td></tr>
+              <tr><td><code>lang</code></td><td><code>lang="fr"</code></td><td class="desc">Langue du contenu</td></tr>
+              <tr><td><code>dir</code></td><td><code>dir="rtl"</code></td><td class="desc">Direction du texte (ltr/rtl)</td></tr>
+              <tr><td><code>hidden</code></td><td><code>hidden</code></td><td class="desc">Cache l'élément (display:none)</td></tr>
+              <tr><td><code>tabindex</code></td><td><code>tabindex="0"</code></td><td class="desc">Ordre de tabulation (0=naturel, -1=exclu)</td></tr>
+              <tr><td><code>data-*</code></td><td><code>data-id="42"</code></td><td class="desc">Données personnalisées accessibles via JS</td></tr>
+              <tr><td><code>contenteditable</code></td><td><code>contenteditable="true"</code></td><td class="desc">Rend l'élément éditable dans le navigateur</td></tr>
+              <tr><td><code>draggable</code></td><td><code>draggable="true"</code></td><td class="desc">Rend l'élément glissable (drag &amp; drop)</td></tr>
+              <tr><td><code>spellcheck</code></td><td><code>spellcheck="false"</code></td><td class="desc">Active/désactive la vérification orthographique</td></tr>
+              <tr><td><code>aria-label</code></td><td><code>aria-label="Fermer"</code></td><td class="desc">Label pour les lecteurs d'écran</td></tr>
+              <tr><td><code>aria-hidden</code></td><td><code>aria-hidden="true"</code></td><td class="desc">Cache aux lecteurs d'écran</td></tr>
+              <tr><td><code>role</code></td><td><code>role="button"</code></td><td class="desc">Rôle ARIA pour l'accessibilité</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="lang-label">HTML</span>
+              <button class="copy-btn">&#128203; Copier</button>
+            </div>
+            <pre><code class="language-html">&lt;!-- data-* : accès via JavaScript --&gt;
+&lt;div id="produit" data-id="42" data-category="chaussures" data-price="89.99"&gt;
+  Baskets Air Max
+&lt;/div&gt;
+
+&lt;script&gt;
+  const el = document.getElementById('produit');
+  console.log(el.dataset.id);       // "42"
+  console.log(el.dataset.category); // "chaussures"
+  console.log(el.dataset.price);    // "89.99"
+&lt;/script&gt;
+
+&lt;!-- Accessibilité ARIA --&gt;
+&lt;button
+  type="button"
+  aria-label="Fermer la fenêtre"
+  aria-expanded="false"
+  onclick="toggleMenu(this)"
+&gt;
+  ✕
+&lt;/button&gt;
+
+&lt;!-- Élément éditable --&gt;
+&lt;div contenteditable="true" spellcheck="true"&gt;
+  Cliquez pour modifier ce texte directement.
+&lt;/div&gt;
+
+&lt;!-- Caché mais gardé dans le DOM --&gt;
+&lt;div hidden&gt;Ce contenu est invisible mais existe dans le DOM.&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <div id="noResults" class="no-results">
+      <p>Aucun résultat pour votre recherche.</p>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

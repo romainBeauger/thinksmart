@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — SQL</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li class="active"><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+
+<!-- ===== SEARCH BAR ===== -->
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une commande, clause, fonction…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">SQL</div>
+    <ul class="sidebar-nav">
+      <li><a href="#select"><span class="icon">📊</span>SELECT de base</a></li>
+      <li><a href="#where"><span class="icon">🔍</span>WHERE &amp; Filtres</a></li>
+      <li><a href="#agregation"><span class="icon">📋</span>Fonctions d'agrégation</a></li>
+      <li><a href="#groupby"><span class="icon">🔀</span>GROUP BY &amp; HAVING</a></li>
+      <li><a href="#joins"><span class="icon">🔗</span>JOINs</a></li>
+      <li><a href="#insert"><span class="icon">➕</span>INSERT</a></li>
+      <li><a href="#update"><span class="icon">✏️</span>UPDATE</a></li>
+      <li><a href="#delete"><span class="icon">🗑️</span>DELETE</a></li>
+      <li><a href="#create"><span class="icon">🏗️</span>CREATE TABLE</a></li>
+      <li><a href="#alter"><span class="icon">🔧</span>ALTER TABLE</a></li>
+      <li><a href="#index"><span class="icon">📑</span>INDEX &amp; Contraintes</a></li>
+      <li><a href="#subqueries"><span class="icon">🔄</span>Sous-requêtes</a></li>
+      <li><a href="#transactions"><span class="icon">💼</span>Transactions</a></li>
+      <li><a href="#fonctions"><span class="icon">🔧</span>Fonctions SQL</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <div class="page-header">
+      <h1>SQL <span class="badge" style="background:rgba(51,103,145,0.2);color:#5b9fd4;">Structured Query Language</span></h1>
+      <p>Toutes les commandes SQL essentielles : SELECT, INSERT, UPDATE, DELETE, JOINs et bien plus.</p>
+    </div>
+
+    <!-- ==================== SELECT DE BASE ==================== -->
+    <section class="section" id="select">
+      <div class="section-title">SELECT de base</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Sélectionner des données <code>SELECT</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Lecture</span><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">La commande <code>SELECT</code> est la base de toute requête SQL. Elle permet de récupérer des données depuis une ou plusieurs tables.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Sélection de base
+SELECT * FROM utilisateurs;
+SELECT nom, email, age FROM utilisateurs;
+SELECT DISTINCT ville FROM utilisateurs;  -- valeurs uniques
+
+-- Alias
+SELECT nom AS nom_complet, email AS adresse_email FROM utilisateurs;
+SELECT u.nom, u.email FROM utilisateurs u;  -- alias de table
+
+-- Tri
+SELECT * FROM produits ORDER BY prix ASC;
+SELECT * FROM produits ORDER BY prix DESC, nom ASC;
+
+-- Limitation
+SELECT * FROM produits LIMIT 10;
+SELECT * FROM produits LIMIT 10 OFFSET 20;  -- page 3 (0-indexé)
+
+-- Concaténation
+SELECT CONCAT(prenom, ' ', nom) AS nom_complet FROM utilisateurs;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== WHERE & FILTRES ==================== -->
+    <section class="section" id="where">
+      <div class="section-title">WHERE &amp; Filtres</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Filtrer les résultats <code>WHERE</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Filtrage</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">La clause <code>WHERE</code> filtre les lignes retournées. Elle supporte de nombreux opérateurs de comparaison et de logique.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Comparaison
+SELECT * FROM produits WHERE prix > 50;
+SELECT * FROM produits WHERE stock = 0;
+SELECT * FROM produits WHERE nom != 'Test';
+
+-- Logique
+SELECT * FROM produits WHERE prix > 20 AND stock > 0;
+SELECT * FROM produits WHERE categorie = 'A' OR categorie = 'B';
+SELECT * FROM produits WHERE NOT (prix > 100);
+
+-- IN / NOT IN
+SELECT * FROM produits WHERE categorie IN ('Chaussures', 'Vêtements');
+SELECT * FROM produits WHERE id NOT IN (1, 5, 10);
+
+-- BETWEEN
+SELECT * FROM produits WHERE prix BETWEEN 10 AND 50;
+SELECT * FROM commandes WHERE date_commande BETWEEN '2024-01-01' AND '2024-12-31';
+
+-- LIKE (recherche de motif)
+SELECT * FROM utilisateurs WHERE nom LIKE 'Dupont%';   -- commence par
+SELECT * FROM utilisateurs WHERE email LIKE '%@gmail.com'; -- finit par
+SELECT * FROM utilisateurs WHERE nom LIKE '%ali%';    -- contient
+SELECT * FROM utilisateurs WHERE code LIKE '_A_';     -- _ = 1 caractère
+
+-- NULL
+SELECT * FROM utilisateurs WHERE telephone IS NULL;
+SELECT * FROM utilisateurs WHERE telephone IS NOT NULL;
+
+-- Combinaison complexe
+SELECT * FROM produits
+WHERE (prix BETWEEN 20 AND 100)
+  AND categorie IN ('A', 'B')
+  AND stock > 0
+  AND nom LIKE '%Pro%';</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Opérateurs de comparaison</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Opérateur</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>=</code></td><td class="desc">Égal à</td></tr>
+              <tr><td><code>!= </code> ou <code>&lt;&gt;</code></td><td class="desc">Différent de</td></tr>
+              <tr><td><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td><td class="desc">Supérieur / Inférieur (ou égal)</td></tr>
+              <tr><td><code>BETWEEN a AND b</code></td><td class="desc">Compris entre a et b (inclus)</td></tr>
+              <tr><td><code>IN (liste)</code></td><td class="desc">Dans une liste de valeurs</td></tr>
+              <tr><td><code>LIKE 'pattern'</code></td><td class="desc">Correspond au motif (% = plusieurs chars, _ = 1 char)</td></tr>
+              <tr><td><code>IS NULL</code></td><td class="desc">Est NULL (ne pas utiliser = NULL)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== FONCTIONS D'AGRÉGATION ==================== -->
+    <section class="section" id="agregation">
+      <div class="section-title">Fonctions d'agrégation</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Agréger des données <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>…</div>
+          <div class="card-tags"><span class="tag tag-blue">Agrégation</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les fonctions d'agrégation opèrent sur un ensemble de lignes et retournent une valeur unique. Elles s'utilisent souvent avec <code>GROUP BY</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Fonctions d'agrégation
+SELECT COUNT(*) AS total FROM utilisateurs;
+SELECT COUNT(DISTINCT ville) AS nb_villes FROM utilisateurs;
+SELECT SUM(montant) AS total_ventes FROM commandes;
+SELECT AVG(prix) AS prix_moyen FROM produits;
+SELECT MIN(prix) AS prix_min, MAX(prix) AS prix_max FROM produits;
+
+-- Combinaison
+SELECT
+  COUNT(*) AS total_commandes,
+  SUM(montant) AS chiffre_affaires,
+  AVG(montant) AS panier_moyen,
+  MIN(montant) AS min_commande,
+  MAX(montant) AS max_commande
+FROM commandes;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Référence des fonctions d'agrégation</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Fonction</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>COUNT(*)</code></td><td class="desc">Nombre total de lignes</td></tr>
+              <tr><td><code>COUNT(col)</code></td><td class="desc">Nombre de valeurs non-NULL dans la colonne</td></tr>
+              <tr><td><code>COUNT(DISTINCT col)</code></td><td class="desc">Nombre de valeurs uniques non-NULL</td></tr>
+              <tr><td><code>SUM(col)</code></td><td class="desc">Somme des valeurs</td></tr>
+              <tr><td><code>AVG(col)</code></td><td class="desc">Moyenne des valeurs</td></tr>
+              <tr><td><code>MIN(col)</code></td><td class="desc">Valeur minimale</td></tr>
+              <tr><td><code>MAX(col)</code></td><td class="desc">Valeur maximale</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== GROUP BY & HAVING ==================== -->
+    <section class="section" id="groupby">
+      <div class="section-title">GROUP BY &amp; HAVING</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Regrouper les données <code>GROUP BY</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Agrégation</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>GROUP BY</code> regroupe les lignes ayant les mêmes valeurs dans les colonnes spécifiées. S'utilise toujours avec des fonctions d'agrégation.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- GROUP BY
+SELECT categorie, COUNT(*) AS nb_produits
+FROM produits
+GROUP BY categorie;
+
+SELECT ville, COUNT(*) AS nb_clients, AVG(age) AS age_moyen
+FROM utilisateurs
+GROUP BY ville
+ORDER BY nb_clients DESC;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Filtrer les groupes <code>HAVING</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Filtrage</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>HAVING</code> filtre les groupes après l'agrégation (contrairement à <code>WHERE</code> qui filtre avant). Permet d'utiliser les fonctions d'agrégation comme condition.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- HAVING (filtre sur le groupe — WHERE s'applique avant GROUP BY)
+SELECT categorie, COUNT(*) AS nb
+FROM produits
+GROUP BY categorie
+HAVING COUNT(*) > 5;
+
+SELECT client_id, SUM(montant) AS total
+FROM commandes
+GROUP BY client_id
+HAVING SUM(montant) > 1000
+ORDER BY total DESC;
+
+-- ROLLUP (sous-totaux)
+SELECT categorie, sous_categorie, SUM(ventes)
+FROM ventes
+GROUP BY ROLLUP(categorie, sous_categorie);</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== JOINS ==================== -->
+    <section class="section" id="joins">
+      <div class="section-title">JOINs</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Types de jointures — vue d'ensemble</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>INNER JOIN</code></td><td class="desc">Lignes qui ont une correspondance dans les deux tables</td></tr>
+              <tr><td><code>LEFT JOIN</code></td><td class="desc">Toutes les lignes de gauche + correspondances droite (NULL si absent)</td></tr>
+              <tr><td><code>RIGHT JOIN</code></td><td class="desc">Toutes les lignes de droite + correspondances gauche (NULL si absent)</td></tr>
+              <tr><td><code>FULL OUTER JOIN</code></td><td class="desc">Toutes les lignes des deux tables (NULL quand pas de correspondance)</td></tr>
+              <tr><td><code>SELF JOIN</code></td><td class="desc">Une table jointe à elle-même (hiérarchies, relations réflexives)</td></tr>
+              <tr><td><code>CROSS JOIN</code></td><td class="desc">Produit cartésien : chaque ligne de gauche × chaque ligne de droite</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Exemples de JOINs</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Données exemples : <code>utilisateurs(id, nom)</code> et <code>commandes(id, user_id, montant)</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- INNER JOIN — uniquement les lignes qui ont une correspondance
+SELECT u.nom, c.montant
+FROM utilisateurs u
+INNER JOIN commandes c ON u.id = c.user_id;
+
+-- LEFT JOIN — toutes les lignes de gauche, NULL si pas de correspondance
+SELECT u.nom, c.montant
+FROM utilisateurs u
+LEFT JOIN commandes c ON u.id = c.user_id;
+-- Clients sans commandes : montant sera NULL
+
+-- RIGHT JOIN — toutes les lignes de droite
+SELECT u.nom, c.montant
+FROM utilisateurs u
+RIGHT JOIN commandes c ON u.id = c.user_id;
+
+-- FULL OUTER JOIN — toutes les lignes des deux côtés
+SELECT u.nom, c.montant
+FROM utilisateurs u
+FULL OUTER JOIN commandes c ON u.id = c.user_id;
+
+-- SELF JOIN — une table jointe à elle-même
+SELECT e.nom AS employe, m.nom AS manager
+FROM employes e
+LEFT JOIN employes m ON e.manager_id = m.id;
+
+-- JOIN multiple
+SELECT u.nom, c.montant, p.nom AS produit
+FROM utilisateurs u
+JOIN commandes c ON u.id = c.user_id
+JOIN produits p ON c.produit_id = p.id
+WHERE c.montant > 100
+ORDER BY c.montant DESC;
+
+-- Clients n'ayant jamais commandé (anti-join)
+SELECT u.nom
+FROM utilisateurs u
+LEFT JOIN commandes c ON u.id = c.user_id
+WHERE c.id IS NULL;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== INSERT ==================== -->
+    <section class="section" id="insert">
+      <div class="section-title">INSERT</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Insérer des données <code>INSERT INTO</code></div>
+          <div class="card-tags"><span class="tag tag-green">Écriture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Ajoute de nouvelles lignes dans une table. Toujours préciser les colonnes cibles pour se protéger contre les changements de structure.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Insérer une ligne
+INSERT INTO utilisateurs (nom, email, age)
+VALUES ('Alice', 'alice@exemple.fr', 30);
+
+-- Insérer plusieurs lignes
+INSERT INTO produits (nom, prix, stock) VALUES
+  ('T-shirt', 29.99, 100),
+  ('Pantalon', 59.99, 50),
+  ('Veste', 89.99, 25);
+
+-- Insérer depuis une sélection
+INSERT INTO archives_commandes (user_id, montant, date)
+SELECT user_id, montant, date_commande
+FROM commandes
+WHERE date_commande < '2023-01-01';
+
+-- INSERT OR UPDATE (MySQL: ON DUPLICATE KEY UPDATE)
+INSERT INTO produits (id, nom, stock)
+VALUES (1, 'T-shirt', 150)
+ON DUPLICATE KEY UPDATE stock = 150;
+
+-- UPSERT (PostgreSQL)
+INSERT INTO produits (id, nom, stock)
+VALUES (1, 'T-shirt', 150)
+ON CONFLICT (id) DO UPDATE SET stock = EXCLUDED.stock;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== UPDATE ==================== -->
+    <section class="section" id="update">
+      <div class="section-title">UPDATE</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Mettre à jour des données <code>UPDATE</code></div>
+          <div class="card-tags"><span class="tag tag-green">Écriture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Modifie les valeurs de colonnes existantes. Toujours utiliser <code>WHERE</code> pour cibler des lignes précises, sinon toutes les lignes sont modifiées.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Mise à jour simple
+UPDATE utilisateurs SET age = 31 WHERE id = 1;
+
+-- Plusieurs colonnes
+UPDATE produits
+SET prix = 39.99, stock = 200
+WHERE id = 5;
+
+-- Avec calcul
+UPDATE produits SET prix = prix * 1.10 WHERE categorie = 'Premium';
+
+-- UPDATE avec JOIN (MySQL)
+UPDATE produits p
+JOIN categories c ON p.categorie_id = c.id
+SET p.prix = p.prix * 1.05
+WHERE c.nom = 'Luxe';
+
+-- UPDATE avec sous-requête
+UPDATE utilisateurs
+SET premium = true
+WHERE id IN (
+  SELECT user_id FROM commandes
+  GROUP BY user_id
+  HAVING SUM(montant) > 5000
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== DELETE ==================== -->
+    <section class="section" id="delete">
+      <div class="section-title">DELETE</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Supprimer des données <code>DELETE</code></div>
+          <div class="card-tags"><span class="tag tag-red">Danger</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Supprime des lignes d'une table. Toujours utiliser <code>WHERE</code>. En production, préférer le "soft delete" pour conserver l'historique.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Supprimer des lignes
+DELETE FROM sessions WHERE expire_at < NOW();
+
+-- Supprimer avec condition
+DELETE FROM produits WHERE stock = 0 AND date_ajout < '2022-01-01';
+
+-- DELETE avec JOIN (MySQL)
+DELETE c FROM commandes c
+JOIN utilisateurs u ON c.user_id = u.id
+WHERE u.statut = 'banni';
+
+-- Vider une table (plus rapide que DELETE)
+TRUNCATE TABLE sessions;        -- réinitialise aussi l'auto-increment
+DELETE FROM sessions;           -- peut être annulé en transaction
+
+-- Soft delete (recommandé en production)
+UPDATE utilisateurs SET deleted_at = NOW() WHERE id = 42;
+SELECT * FROM utilisateurs WHERE deleted_at IS NULL; -- ignorer les supprimés</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== CREATE TABLE ==================== -->
+    <section class="section" id="create">
+      <div class="section-title">CREATE TABLE</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer une table <code>CREATE TABLE</code></div>
+          <div class="card-tags"><span class="tag tag-purple">Structure</span><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Définit la structure d'une nouvelle table avec ses colonnes, types de données et contraintes.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Créer une table
+CREATE TABLE utilisateurs (
+  id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  prenom     VARCHAR(50)  NOT NULL,
+  nom        VARCHAR(50)  NOT NULL,
+  email      VARCHAR(150) NOT NULL UNIQUE,
+  age        TINYINT UNSIGNED,
+  role       ENUM('admin', 'moderateur', 'user') DEFAULT 'user',
+  actif      BOOLEAN DEFAULT true,
+  bio        TEXT,
+  avatar     VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Clé étrangère
+CREATE TABLE commandes (
+  id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id    INT UNSIGNED NOT NULL,
+  montant    DECIMAL(10,2) NOT NULL,
+  statut     ENUM('en_attente', 'validee', 'livree', 'annulee') DEFAULT 'en_attente',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Types de données courants</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>INT</code>, <code>BIGINT</code>, <code>TINYINT</code></td><td class="desc">Entiers (taille variable)</td></tr>
+              <tr><td><code>DECIMAL(10,2)</code></td><td class="desc">Nombre décimal précis (ex. prix)</td></tr>
+              <tr><td><code>FLOAT</code>, <code>DOUBLE</code></td><td class="desc">Virgule flottante (moins précis)</td></tr>
+              <tr><td><code>VARCHAR(n)</code></td><td class="desc">Chaîne variable jusqu'à n caractères</td></tr>
+              <tr><td><code>TEXT</code>, <code>MEDIUMTEXT</code>, <code>LONGTEXT</code></td><td class="desc">Texte long (sans limite fixe)</td></tr>
+              <tr><td><code>BOOLEAN</code></td><td class="desc">Vrai/Faux (alias TINYINT(1))</td></tr>
+              <tr><td><code>DATE</code>, <code>TIME</code>, <code>DATETIME</code>, <code>TIMESTAMP</code></td><td class="desc">Types temporels</td></tr>
+              <tr><td><code>ENUM('val1','val2')</code></td><td class="desc">Liste de valeurs autorisées</td></tr>
+              <tr><td><code>JSON</code></td><td class="desc">Document JSON (MySQL 5.7+)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== ALTER TABLE ==================== -->
+    <section class="section" id="alter">
+      <div class="section-title">ALTER TABLE</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Modifier une table <code>ALTER TABLE</code></div>
+          <div class="card-tags"><span class="tag tag-purple">Structure</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Modifie la structure d'une table existante : ajouter/supprimer des colonnes, changer des types, renommer.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Ajouter une colonne
+ALTER TABLE utilisateurs ADD COLUMN telephone VARCHAR(20) AFTER email;
+
+-- Modifier une colonne
+ALTER TABLE utilisateurs MODIFY COLUMN age SMALLINT UNSIGNED;
+ALTER TABLE utilisateurs CHANGE COLUMN age annees SMALLINT UNSIGNED;
+
+-- Supprimer une colonne
+ALTER TABLE utilisateurs DROP COLUMN bio;
+
+-- Renommer la table
+ALTER TABLE utilisateurs RENAME TO users;
+RENAME TABLE utilisateurs TO users;
+
+-- Ajouter une contrainte
+ALTER TABLE utilisateurs ADD UNIQUE (email);
+ALTER TABLE commandes ADD FOREIGN KEY (user_id) REFERENCES utilisateurs(id);
+ALTER TABLE utilisateurs ADD INDEX idx_email (email);
+
+-- Supprimer une contrainte
+ALTER TABLE utilisateurs DROP INDEX idx_email;
+ALTER TABLE commandes DROP FOREIGN KEY fk_user_id;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== INDEX & CONTRAINTES ==================== -->
+    <section class="section" id="index">
+      <div class="section-title">INDEX &amp; Contraintes</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer et gérer des index <code>CREATE INDEX</code></div>
+          <div class="card-tags"><span class="tag tag-blue">Performance</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les index accélèrent les requêtes <code>WHERE</code>, <code>JOIN</code> et <code>ORDER BY</code> au prix d'un espace disque supplémentaire et d'écritures légèrement plus lentes.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Créer un index
+CREATE INDEX idx_email ON utilisateurs(email);
+CREATE UNIQUE INDEX idx_email_unique ON utilisateurs(email);
+CREATE INDEX idx_composite ON commandes(user_id, created_at);
+
+-- Voir les index
+SHOW INDEX FROM utilisateurs;
+
+-- Supprimer un index
+DROP INDEX idx_email ON utilisateurs;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Contraintes et actions référentielles</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Contrainte / Action</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>PRIMARY KEY</code></td><td class="desc">Identifiant unique, non null, souvent auto-increment</td></tr>
+              <tr><td><code>UNIQUE</code></td><td class="desc">Valeur unique dans la colonne (peut être NULL)</td></tr>
+              <tr><td><code>NOT NULL</code></td><td class="desc">La colonne ne peut pas être NULL</td></tr>
+              <tr><td><code>DEFAULT val</code></td><td class="desc">Valeur par défaut si non précisée</td></tr>
+              <tr><td><code>CHECK (age &gt;= 18)</code></td><td class="desc">Validation de valeur (MySQL 8+)</td></tr>
+              <tr><td><code>FOREIGN KEY</code></td><td class="desc">Référence vers une autre table</td></tr>
+              <tr><td><code>CASCADE</code></td><td class="desc">Propage la suppression/mise à jour aux lignes référencées</td></tr>
+              <tr><td><code>SET NULL</code></td><td class="desc">Met la FK à NULL lors de la suppression parent</td></tr>
+              <tr><td><code>RESTRICT</code></td><td class="desc">Interdit l'action si des lignes référencées existent</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SOUS-REQUÊTES ==================== -->
+    <section class="section" id="subqueries">
+      <div class="section-title">Sous-requêtes</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Requêtes imbriquées et CTE</div>
+          <div class="card-tags"><span class="tag tag-purple">Avancé</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Une sous-requête est une requête SELECT intégrée dans une autre requête. Les CTE (<code>WITH</code>) améliorent la lisibilité pour les requêtes complexes.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Sous-requête dans WHERE
+SELECT nom FROM produits
+WHERE prix > (SELECT AVG(prix) FROM produits);
+
+-- Sous-requête avec IN
+SELECT nom FROM utilisateurs
+WHERE id IN (SELECT DISTINCT user_id FROM commandes WHERE montant > 500);
+
+-- Sous-requête corrélée
+SELECT nom, prix,
+  (SELECT AVG(prix) FROM produits p2 WHERE p2.categorie_id = p.categorie_id) AS prix_moy_cat
+FROM produits p;
+
+-- EXISTS
+SELECT nom FROM clients c
+WHERE EXISTS (
+  SELECT 1 FROM commandes co WHERE co.client_id = c.id AND co.statut = 'livree'
+);
+
+-- CTE (Common Table Expression) — WITH
+WITH clients_premium AS (
+  SELECT user_id, SUM(montant) AS total
+  FROM commandes
+  GROUP BY user_id
+  HAVING total > 2000
+)
+SELECT u.nom, cp.total
+FROM utilisateurs u
+JOIN clients_premium cp ON u.id = cp.user_id
+ORDER BY cp.total DESC;</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TRANSACTIONS ==================== -->
+    <section class="section" id="transactions">
+      <div class="section-title">Transactions</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Transactions ACID <code>START TRANSACTION</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Intégrité</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Une transaction regroupe plusieurs opérations SQL en une unité atomique. Si une opération échoue, toutes sont annulées (<code>ROLLBACK</code>).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Transaction classique
+START TRANSACTION;
+
+  UPDATE comptes SET solde = solde - 500 WHERE id = 1;
+  UPDATE comptes SET solde = solde + 500 WHERE id = 2;
+
+  -- Si tout est bon
+  COMMIT;
+
+  -- En cas d'erreur
+  ROLLBACK;
+
+-- Avec vérification
+START TRANSACTION;
+
+  UPDATE stock SET quantite = quantite - 1 WHERE produit_id = 5;
+
+  -- Vérifier le stock
+  SET @stock = (SELECT quantite FROM stock WHERE produit_id = 5);
+
+  IF @stock >= 0 THEN
+    COMMIT;
+  ELSE
+    ROLLBACK;
+  END IF;
+
+-- SAVEPOINT (points de sauvegarde intermédiaires)
+START TRANSACTION;
+  INSERT INTO ...;
+  SAVEPOINT sp1;
+  UPDATE ...;
+  ROLLBACK TO sp1;  -- annule jusqu'au savepoint
+  COMMIT;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Propriétés ACID</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Propriété</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>Atomicité</code></td><td class="desc">Tout ou rien — toutes les opérations réussissent ou aucune n'est appliquée</td></tr>
+              <tr><td><code>Cohérence</code></td><td class="desc">La base reste dans un état valide après la transaction</td></tr>
+              <tr><td><code>Isolation</code></td><td class="desc">Les transactions concurrentes ne se perturbent pas</td></tr>
+              <tr><td><code>Durabilité</code></td><td class="desc">Les données validées (COMMIT) sont persistantes même en cas de crash</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== FONCTIONS SQL ==================== -->
+    <section class="section" id="fonctions">
+      <div class="section-title">Fonctions SQL</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fonctions de chaînes de caractères</div>
+          <div class="card-tags"><span class="tag tag-blue">Chaînes</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Fonctions pour manipuler et transformer les chaînes de caractères.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">SELECT CONCAT('Hello', ' ', 'World');        -- 'Hello World'
+SELECT CONCAT_WS(', ', nom, prenom);         -- joint avec séparateur
+SELECT LENGTH('Bonjour');                    -- 7 (octets)
+SELECT CHAR_LENGTH('Bonjour');               -- 7 (caractères)
+SELECT UPPER('hello');                       -- 'HELLO'
+SELECT LOWER('HELLO');                       -- 'hello'
+SELECT TRIM('  espaces  ');                  -- 'espaces'
+SELECT LTRIM('  gauche');
+SELECT RTRIM('droite  ');
+SELECT SUBSTRING('Bonjour', 2, 4);           -- 'onjo' (pos, longueur)
+SELECT LEFT('Bonjour', 3);                   -- 'Bon'
+SELECT RIGHT('Bonjour', 4);                  -- 'jour'
+SELECT REPLACE('foo bar', 'bar', 'baz');     -- 'foo baz'
+SELECT INSTR('Bonjour', 'jour');             -- 4 (position)
+SELECT LPAD('5', 3, '0');                    -- '005'
+SELECT RPAD('5', 3, '0');                    -- '500'
+SELECT REPEAT('ab', 3);                      -- 'ababab'
+SELECT REVERSE('abc');                       -- 'cba'</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fonctions numériques</div>
+          <div class="card-tags"><span class="tag tag-green">Nombres</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Fonctions mathématiques pour les calculs et arrondis sur les valeurs numériques.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">SELECT ROUND(3.14159, 2);                    -- 3.14
+SELECT CEIL(4.2);                            -- 5
+SELECT FLOOR(4.8);                           -- 4
+SELECT ABS(-42);                             -- 42
+SELECT MOD(10, 3);                           -- 1
+SELECT POWER(2, 10);                         -- 1024
+SELECT SQRT(144);                            -- 12
+SELECT RAND();                               -- nombre aléatoire 0-1
+SELECT TRUNCATE(3.14159, 2);                 -- 3.14 (pas d'arrondi)
+SELECT FORMAT(1234567.89, 2);               -- '1,234,567.89'</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fonctions de dates</div>
+          <div class="card-tags"><span class="tag tag-purple">Dates</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Fonctions pour extraire, formater et calculer des intervalles de dates et d'heures.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">SELECT NOW();                                -- '2024-03-15 14:30:00'
+SELECT CURDATE();                            -- '2024-03-15'
+SELECT CURTIME();                            -- '14:30:00'
+SELECT YEAR(NOW());                          -- 2024
+SELECT MONTH(NOW());                         -- 3
+SELECT DAY(NOW());                           -- 15
+SELECT DAYNAME(NOW());                       -- 'Friday'
+SELECT DATE_FORMAT(NOW(), '%d/%m/%Y %H:%i'); -- '15/03/2024 14:30'
+SELECT DATE_ADD(NOW(), INTERVAL 30 DAY);     -- dans 30 jours
+SELECT DATE_SUB(NOW(), INTERVAL 1 MONTH);    -- il y a 1 mois
+SELECT DATEDIFF('2024-12-31', '2024-01-01'); -- 365
+SELECT TIMESTAMPDIFF(YEAR, date_naissance, CURDATE()) AS age FROM utilisateurs;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fonctions conditionnelles</div>
+          <div class="card-tags"><span class="tag tag-orange">Logique</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Fonctions pour appliquer de la logique conditionnelle directement dans les requêtes SQL.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">SELECT nom,
+  IF(stock > 0, 'En stock', 'Rupture') AS disponibilite,
+  IFNULL(telephone, 'Non renseigné') AS tel,
+  NULLIF(age, 0) AS age_reel,
+  CASE
+    WHEN age < 18 THEN 'Mineur'
+    WHEN age < 65 THEN 'Adulte'
+    ELSE 'Senior'
+  END AS categorie_age
+FROM utilisateurs;
+
+-- COALESCE : retourne la première valeur non-NULL
+SELECT COALESCE(telephone, mobile, email, 'Aucun contact') AS contact
+FROM utilisateurs;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Référence rapide des fonctions conditionnelles</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Fonction</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>IF(cond, vrai, faux)</code></td><td class="desc">Condition binaire simple</td></tr>
+              <tr><td><code>IFNULL(val, defaut)</code></td><td class="desc">Retourne defaut si val est NULL</td></tr>
+              <tr><td><code>NULLIF(a, b)</code></td><td class="desc">Retourne NULL si a = b, sinon retourne a</td></tr>
+              <tr><td><code>COALESCE(a, b, c…)</code></td><td class="desc">Retourne la première valeur non-NULL</td></tr>
+              <tr><td><code>CASE WHEN … THEN … END</code></td><td class="desc">Conditions multiples (équivalent switch)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

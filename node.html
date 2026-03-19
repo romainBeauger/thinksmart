@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — Node.js / Express / MongoDB</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li class="active"><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une commande, méthode, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Node / Express / MongoDB</div>
+    <ul class="sidebar-nav">
+      <li><a href="#nodejs"><span class="icon">🟢</span>Node.js — Bases</a></li>
+      <li><a href="#npm"><span class="icon">📦</span>npm &amp; package.json</a></li>
+      <li><a href="#modules"><span class="icon">🔗</span>Modules CommonJS / ESM</a></li>
+      <li><a href="#fs"><span class="icon">📁</span>Fichiers &amp; Chemins</a></li>
+      <li><a href="#express-setup"><span class="icon">🚀</span>Express — Setup</a></li>
+      <li><a href="#routes"><span class="icon">🗺️</span>Routes &amp; Paramètres</a></li>
+      <li><a href="#middleware"><span class="icon">🔧</span>Middleware</a></li>
+      <li><a href="#request-response"><span class="icon">↔️</span>Request &amp; Response</a></li>
+      <li><a href="#mongodb"><span class="icon">🍃</span>MongoDB — Bases</a></li>
+      <li><a href="#mongoose"><span class="icon">🦦</span>Mongoose — Schémas</a></li>
+      <li><a href="#mongoose-crud"><span class="icon">✏️</span>Mongoose — CRUD</a></li>
+      <li><a href="#api-crud"><span class="icon">🌐</span>API CRUD complète</a></li>
+      <li><a href="#auth-jwt"><span class="icon">🔒</span>Authentification JWT</a></li>
+      <li><a href="#erreurs"><span class="icon">⚠️</span>Gestion des erreurs</a></li>
+      <li><a href="#env"><span class="icon">⚙️</span>Variables d'environnement</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <h1>Node.js / Express / MongoDB <span class="badge" style="background:rgba(104,160,99,0.2);color:#68a063;">Stack MERN</span></h1>
+      <p>Serveur Node.js, API REST avec Express, base de données MongoDB et Mongoose ODM.</p>
+    </div>
+
+    <!-- NODE.JS BASES -->
+    <section class="section" id="nodejs">
+      <div class="section-title">Node.js — Bases</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Modules natifs — events, process, util</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// Variables globales Node.js
+console.log(__filename); // Chemin absolu du fichier courant
+console.log(__dirname);  // Dossier du fichier courant
+console.log(process.env.NODE_ENV); // Variables d'environnement
+console.log(process.argv);         // Arguments de la ligne de commande
+process.exit(0);                   // Quitter le processus (0 = succès)
+process.exit(1);                   // Quitter avec erreur
+
+// EventEmitter
+const EventEmitter = require('events');
+class MonEmitter extends EventEmitter {}
+const emitter = new MonEmitter();
+
+emitter.on('message', (data) => console.log('Reçu:', data));
+emitter.emit('message', { texte: 'Bonjour !' });
+emitter.once('connect', () => console.log('Connecté une fois'));
+emitter.removeAllListeners('message');
+
+// Timers
+setTimeout(() => console.log('Après 2 secondes'), 2000);
+const interval = setInterval(() => console.log('Toutes les secondes'), 1000);
+clearInterval(interval);
+setImmediate(() => console.log('Prochaine itération event loop'));
+process.nextTick(() => console.log('Avant les I/O'));</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NPM -->
+    <section class="section" id="npm">
+      <div class="section-title">npm &amp; package.json</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Commandes npm essentielles</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Initialiser un projet
+npm init -y                         # package.json par défaut
+
+# Installer des packages
+npm install express                  # dépendance de prod
+npm install -D nodemon jest          # dépendance de dev
+npm install -g pm2                   # installation globale
+npm install express mongoose dotenv cors bcryptjs jsonwebtoken
+
+# Mettre à jour / supprimer
+npm update express
+npm uninstall express
+npm list                             # lister les packages
+npm list --depth=0                   # uniquement les directs
+npm outdated                         # packages obsolètes
+
+# Scripts
+npm run dev
+npm run build
+npm test
+npm start</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">package.json — configuration complète</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSON</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-json">{
+  "name": "mon-api",
+  "version": "1.0.0",
+  "description": "API REST Node.js / Express / MongoDB",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start":   "node server.js",
+    "dev":     "nodemon server.js",
+    "test":    "jest --watchAll",
+    "lint":    "eslint ."
+  },
+  "dependencies": {
+    "bcryptjs":         "^2.4.3",
+    "cors":             "^2.8.5",
+    "dotenv":           "^16.0.0",
+    "express":          "^4.18.2",
+    "jsonwebtoken":     "^9.0.0",
+    "mongoose":         "^8.0.0",
+    "morgan":           "^1.10.0"
+  },
+  "devDependencies": {
+    "jest":    "^29.0.0",
+    "nodemon": "^3.0.0"
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="section" id="modules">
+      <div class="section-title">Modules CommonJS / ESM</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">require vs import/export</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// ===== CommonJS (par défaut, "type": "commonjs") =====
+const express = require('express');
+const path    = require('path');
+const { readFile } = require('fs/promises');
+const MonModule = require('./mon-module');
+
+module.exports = { maFonction, maConstante };
+module.exports = MaClasse; // export par défaut
+
+// ===== ES Modules ("type": "module" dans package.json) =====
+import express from 'express';
+import { readFile, writeFile } from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// __dirname équivalent en ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname  = path.dirname(__filename);
+
+// Export
+export const maConstante = 42;
+export function maFonction() {}
+export default class MaClasse {}
+
+// Import dynamique
+const module = await import('./module.js');</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FICHIERS & CHEMINS -->
+    <section class="section" id="fs">
+      <div class="section-title">Fichiers &amp; Chemins</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Module fs, path</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">import { readFile, writeFile, appendFile, unlink, mkdir, readdir, stat } from 'fs/promises';
+import { existsSync } from 'fs';
+import path from 'path';
+
+// Lire un fichier
+const contenu = await readFile('./data.json', 'utf-8');
+const data = JSON.parse(contenu);
+
+// Écrire un fichier
+await writeFile('./output.json', JSON.stringify(data, null, 2), 'utf-8');
+
+// Ajouter au fichier
+await appendFile('./log.txt', `${new Date().toISOString()} - Action\n`);
+
+// Supprimer
+await unlink('./fichier.tmp');
+
+// Créer un dossier
+await mkdir('./uploads', { recursive: true });
+
+// Lister un dossier
+const fichiers = await readdir('./public');
+
+// Infos d'un fichier
+const infos = await stat('./fichier.txt');
+infos.size;       // taille en octets
+infos.mtime;      // date de modification
+infos.isDirectory(); // true/false
+
+// Vérifier l'existence
+if (existsSync('./config.json')) { ... }
+
+// ===== PATH =====
+path.join(__dirname, 'public', 'index.html'); // chemin sécurisé
+path.resolve('./public');                      // chemin absolu
+path.basename('/chemin/vers/fichier.txt');     // 'fichier.txt'
+path.dirname('/chemin/vers/fichier.txt');      // '/chemin/vers'
+path.extname('fichier.txt');                   // '.txt'
+path.parse('/chemin/fichier.txt');
+// { root: '/', dir: '/chemin', base: 'fichier.txt', ext: '.txt', name: 'fichier' }</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPRESS SETUP -->
+    <section class="section" id="express-setup">
+      <div class="section-title">Express — Setup</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Configuration d'un serveur Express complet</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// server.js
+import express from 'express';
+import cors    from 'cors';
+import morgan  from 'morgan';
+import dotenv  from 'dotenv';
+import connectDB from './config/db.js';
+import userRoutes    from './routes/users.js';
+import articleRoutes from './routes/articles.js';
+import { errorHandler, notFound } from './middleware/error.js';
+
+dotenv.config();
+
+const app  = express();
+const PORT = process.env.PORT || 5000;
+
+// ===== CONNEXION BASE DE DONNÉES =====
+connectDB();
+
+// ===== MIDDLEWARE GLOBAUX =====
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  credentials: true,
+}));
+app.use(morgan('dev'));            // logs HTTP
+app.use(express.json());           // parse JSON body
+app.use(express.urlencoded({ extended: true })); // parse form data
+app.use(express.static('public')); // fichiers statiques
+
+// ===== ROUTES =====
+app.get('/', (req, res) => res.json({ message: 'API ThinkSmart v1' }));
+app.use('/api/users',    userRoutes);
+app.use('/api/articles', articleRoutes);
+
+// ===== GESTION DES ERREURS (toujours en dernier) =====
+app.use(notFound);
+app.use(errorHandler);
+
+// ===== DÉMARRAGE =====
+app.listen(PORT, () => {
+  console.log(`✅ Serveur démarré sur http://localhost:${PORT}`);
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROUTES -->
+    <section class="section" id="routes">
+      <div class="section-title">Routes &amp; Paramètres</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Router Express — tous les cas</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// routes/articles.js
+import express from 'express';
+import { protect } from '../middleware/auth.js';
+import {
+  getArticles, getArticle, createArticle, updateArticle, deleteArticle
+} from '../controllers/articleController.js';
+
+const router = express.Router();
+
+// Routes publiques
+router.get('/',    getArticles);    // GET    /api/articles
+router.get('/:id', getArticle);     // GET    /api/articles/64abc123
+
+// Routes protégées (nécessitent un token JWT)
+router.post('/',        protect, createArticle);   // POST   /api/articles
+router.put('/:id',      protect, updateArticle);   // PUT    /api/articles/64abc123
+router.delete('/:id',   protect, deleteArticle);   // DELETE /api/articles/64abc123
+
+// Chainable
+router.route('/')
+  .get(getArticles)
+  .post(protect, createArticle);
+
+router.route('/:id')
+  .get(getArticle)
+  .put(protect, updateArticle)
+  .delete(protect, deleteArticle);
+
+export default router;
+
+// ===== PARAMÈTRES =====
+// Route params : /articles/:id/:slug
+app.get('/articles/:id', (req, res) => {
+  const { id } = req.params;                    // { id: "64abc123" }
+});
+
+// Query string : /articles?page=2&limit=10&sort=date
+app.get('/articles', (req, res) => {
+  const { page = 1, limit = 10, sort = 'date' } = req.query;
+});
+
+// Route avec regex
+app.get('/articles/:id(\\d+)', handler);         // id numérique seulement
+app.get('/assets/*', handler);                   // wildcard</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MIDDLEWARE -->
+    <section class="section" id="middleware">
+      <div class="section-title">Middleware</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Créer des middleware personnalisés</div></div>
+        <div class="card-body">
+          <p class="card-desc">Un middleware est une fonction <code>(req, res, next)</code>. Il peut modifier req/res, terminer la requête ou appeler <code>next()</code> pour passer au suivant.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// middleware/logger.js — Logger custom
+export const logger = (req, res, next) => {
+  console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
+  next(); // OBLIGATOIRE pour continuer
+};
+
+// middleware/auth.js — Vérification JWT
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+
+export const protect = async (req, res, next) => {
+  let token;
+
+  if (req.headers.authorization?.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: 'Non autorisé — token manquant' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.id).select('-password');
+    next();
+  } catch {
+    res.status(401).json({ message: 'Token invalide' });
+  }
+};
+
+// middleware/admin.js — Vérification du rôle
+export const adminOnly = (req, res, next) => {
+  if (req.user?.role !== 'admin') {
+    return res.status(403).json({ message: 'Accès refusé — admin requis' });
+  }
+  next();
+};
+
+// middleware/validate.js — Validation des données
+export const validate = (schema) => (req, res, next) => {
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+  next();
+};
+
+// middleware/rateLimit.js — Limitation du débit
+import rateLimit from 'express-rate-limit';
+export const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,                  // max 100 requêtes par fenêtre
+  message: 'Trop de requêtes, réessayez dans 15 minutes.',
+});
+
+// Middleware d'erreur (4 paramètres obligatoires)
+export const errorHandler = (err, req, res, next) => {
+  const status = err.status || 500;
+  res.status(status).json({
+    message: err.message || 'Erreur serveur',
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+  });
+};
+
+export const notFound = (req, res) => {
+  res.status(404).json({ message: `Route ${req.url} non trouvée` });
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REQUEST & RESPONSE -->
+    <section class="section" id="request-response">
+      <div class="section-title">Request &amp; Response</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Objet req et res — toutes les propriétés/méthodes</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">app.all('/exemple', (req, res) => {
+
+  // ===== REQUÊTE (req) =====
+  req.method;           // "GET", "POST", "PUT", "DELETE"
+  req.url;              // "/api/users?page=2"
+  req.path;             // "/api/users"
+  req.originalUrl;      // URL originale avant le montage
+  req.params;           // { id: "42" } — paramètres de route
+  req.query;            // { page: "2", limit: "10" } — query string
+  req.body;             // { nom: "Alice" } — body JSON (après express.json())
+  req.headers;          // { authorization: "Bearer ...", ... }
+  req.headers['content-type']; // "application/json"
+  req.get('Authorization');    // raccourci header
+  req.ip;               // IP du client
+  req.hostname;         // nom d'hôte
+  req.protocol;         // "http" ou "https"
+  req.secure;           // true si HTTPS
+  req.cookies;          // { session: "..." } — avec cookie-parser
+  req.file;             // fichier uploadé (multer)
+  req.files;            // plusieurs fichiers
+  req.user;             // utilisateur (ajouté par middleware d'auth)
+
+  // ===== RÉPONSE (res) =====
+
+  // Statuts courants : 200 OK, 201 Created, 204 No Content,
+  //   400 Bad Request, 401 Unauthorized, 403 Forbidden,
+  //   404 Not Found, 409 Conflict, 422 Unprocessable, 500 Server Error
+
+  // JSON
+  res.status(200).json({ success: true, data: users });
+  res.status(201).json({ message: 'Créé', data: newUser });
+  res.status(204).send(); // No Content (DELETE)
+
+  // Texte
+  res.send('Bonjour');
+  res.status(404).send('Non trouvé');
+
+  // HTML
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+
+  // Headers
+  res.set('Content-Type', 'application/json');
+  res.set('X-Custom-Header', 'valeur');
+
+  // Redirection
+  res.redirect('/nouveau-chemin');
+  res.redirect(301, '/permanent');
+
+  // Cookie
+  res.cookie('session', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours
+  });
+  res.clearCookie('session');
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MONGODB -->
+    <section class="section" id="mongodb">
+      <div class="section-title">MongoDB — Bases</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Connexion &amp; commandes MongoDB shell</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// config/db.js — Connexion Mongoose
+import mongoose from 'mongoose';
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`✅ MongoDB connecté : ${conn.connection.host}`);
+  } catch (err) {
+    console.error('❌ Erreur MongoDB:', err.message);
+    process.exit(1);
+  }
+};
+
+export default connectDB;
+
+// .env
+// MONGO_URI=mongodb://localhost:27017/ma_base
+// MONGO_URI=mongodb+srv://user:password@cluster.mongodb.net/ma_base</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># MongoDB Shell (mongosh)
+mongosh                         # se connecter localement
+use ma_base                     # créer/utiliser une base
+show dbs                        # lister les bases
+show collections                # lister les collections
+
+# CRUD basique en shell
+db.users.insertOne({ nom: "Alice", email: "alice@ex.fr" })
+db.users.insertMany([{ nom: "Bob" }, { nom: "Charlie" }])
+db.users.find()
+db.users.find({ nom: "Alice" })
+db.users.findOne({ email: "alice@ex.fr" })
+db.users.updateOne({ nom: "Alice" }, { $set: { age: 30 } })
+db.users.deleteOne({ nom: "Alice" })
+db.users.countDocuments({ actif: true })
+db.users.drop()                 # supprimer la collection</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MONGOOSE SCHÉMAS -->
+    <section class="section" id="mongoose">
+      <div class="section-title">Mongoose — Schémas &amp; Modèles</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Définir un schéma Mongoose complet</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// models/User.js
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+
+const userSchema = new mongoose.Schema(
+  {
+    nom: {
+      type: String,
+      required: [true, 'Le nom est obligatoire'],
+      trim: true,
+      minlength: [2, 'Minimum 2 caractères'],
+      maxlength: [50, 'Maximum 50 caractères'],
+    },
+    email: {
+      type: String,
+      required: [true, "L'email est obligatoire"],
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: [/^\S+@\S+\.\S+$/, 'Email invalide'],
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 8,
+      select: false,       // exclu par défaut des requêtes
+    },
+    role: {
+      type: String,
+      enum: ['user', 'admin', 'moderateur'],
+      default: 'user',
+    },
+    actif: { type: Boolean, default: true },
+    age:   { type: Number, min: 0, max: 150 },
+    bio:   { type: String, default: null },
+    avatar: {
+      type: String,
+      default: 'default-avatar.png',
+    },
+    // Référence vers une autre collection
+    articles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Article' }],
+  },
+  {
+    timestamps: true,         // ajoute createdAt et updatedAt automatiquement
+    toJSON:   { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+// ===== VIRTUAL (propriété calculée, non stockée) =====
+userSchema.virtual('nomComplet').get(function() {
+  return `${this.prenom} ${this.nom}`;
+});
+
+// ===== MIDDLEWARE (hooks) =====
+
+// Avant la sauvegarde : hasher le mot de passe
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+// ===== MÉTHODES D'INSTANCE =====
+userSchema.methods.comparePassword = async function(plainPassword) {
+  return bcrypt.compare(plainPassword, this.password);
+};
+
+userSchema.methods.toPublic = function() {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
+
+// ===== MÉTHODES STATIQUES =====
+userSchema.statics.findByEmail = function(email) {
+  return this.findOne({ email: email.toLowerCase() });
+};
+
+// ===== INDEX =====
+userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ createdAt: -1 });
+
+const User = mongoose.model('User', userSchema);
+export default User;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Modèle Article avec population</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// models/Article.js
+import mongoose from 'mongoose';
+
+const articleSchema = new mongoose.Schema({
+  titre: {
+    type: String,
+    required: [true, 'Titre obligatoire'],
+    trim: true,
+    maxlength: 200,
+  },
+  slug: {
+    type: String,
+    unique: true,
+  },
+  contenu:  { type: String, required: true },
+  resume:   { type: String, maxlength: 500 },
+  publie:   { type: Boolean, default: false },
+  vues:     { type: Number, default: 0 },
+  tags:     [String],
+
+  // Référence à l'auteur
+  auteur: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  // Commentaires embarqués (subdocuments)
+  commentaires: [{
+    user:    { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    texte:   { type: String, required: true },
+    date:    { type: Date, default: Date.now },
+  }],
+}, { timestamps: true });
+
+// Générer le slug avant sauvegarde
+articleSchema.pre('save', function(next) {
+  if (this.isModified('titre')) {
+    this.slug = this.titre.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  }
+  next();
+});
+
+const Article = mongoose.model('Article', articleSchema);
+export default Article;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MONGOOSE CRUD -->
+    <section class="section" id="mongoose-crud">
+      <div class="section-title">Mongoose — CRUD &amp; Requêtes</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Toutes les méthodes Mongoose</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">import Article from '../models/Article.js';
+import User    from '../models/User.js';
+
+// ===== CREATE =====
+const article = new Article({ titre: 'Mon article', auteur: userId });
+await article.save();
+
+// Raccourci
+const article = await Article.create({
+  titre:   'Mon article',
+  contenu: 'Contenu...',
+  auteur:  req.user._id,
+});
+
+// Plusieurs
+await Article.insertMany([{ titre: 'A1' }, { titre: 'A2' }]);
+
+// ===== READ =====
+const articles = await Article.find();
+const articles = await Article.find({ publie: true });
+
+// Sélectionner les champs
+await Article.find().select('titre resume createdAt');
+await Article.find().select('-contenu');            // exclure
+
+// Population (jointure)
+await Article.find().populate('auteur', 'nom email');
+await Article.findById(id)
+  .populate('auteur', 'nom email avatar')
+  .populate('commentaires.user', 'nom');
+
+// Tri, pagination
+await Article.find({ publie: true })
+  .sort({ createdAt: -1 })             // décroissant
+  .sort({ vues: -1, createdAt: -1 })   // multi-critères
+  .skip((page - 1) * limit)
+  .limit(limit);
+
+// Filtres avancés
+await Article.find({
+  publie: true,
+  vues:   { $gt: 100 },               // supérieur à
+  tags:   { $in: ['javascript', 'nodejs'] }, // contient l'un des tags
+  titre:  { $regex: query, $options: 'i' }, // like, insensible casse
+  createdAt: { $gte: new Date('2024-01-01') },
+});
+
+// Compter
+const total = await Article.countDocuments({ publie: true });
+
+// findOne
+const article = await Article.findOne({ slug: 'mon-article' });
+const article = await Article.findById(id);  // équiv. findOne({ _id: id })
+
+// ===== UPDATE =====
+
+// Trouver et modifier (retourne le document MIS À JOUR)
+const updated = await Article.findByIdAndUpdate(
+  id,
+  { $set: { titre: 'Nouveau titre', publie: true } },
+  { new: true, runValidators: true }
+);
+
+// Opérateurs de mise à jour MongoDB
+await Article.findByIdAndUpdate(id, {
+  $set:       { titre: 'Nouveau' },       // définir un champ
+  $unset:     { resume: '' },             // supprimer un champ
+  $inc:       { vues: 1 },               // incrémenter
+  $push:      { tags: 'nouveau-tag' },   // ajouter à un tableau
+  $pull:      { tags: 'ancien-tag' },    // retirer d'un tableau
+  $addToSet:  { tags: 'tag-unique' },    // ajouter si absent
+});
+
+// Mise à jour multiple
+await Article.updateMany({ publie: false }, { $set: { publie: true } });
+
+// Upsert (créer si n'existe pas)
+await Article.findOneAndUpdate(
+  { slug: 'mon-article' },
+  { titre: 'Titre' },
+  { upsert: true, new: true }
+);
+
+// ===== DELETE =====
+await Article.findByIdAndDelete(id);
+await Article.deleteMany({ publie: false, vues: 0 });
+
+// ===== AGGREGATION =====
+const stats = await Article.aggregate([
+  { $match:  { publie: true } },
+  { $group:  { _id: '$auteur', totalArticles: { $sum: 1 }, totalVues: { $sum: '$vues' } } },
+  { $sort:   { totalVues: -1 } },
+  { $limit:  10 },
+  { $lookup: { from: 'users', localField: '_id', foreignField: '_id', as: 'auteur' } },
+  { $unwind: '$auteur' },
+  { $project: { 'auteur.password': 0 } },
+]);</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- API CRUD COMPLÈTE -->
+    <section class="section" id="api-crud">
+      <div class="section-title">API CRUD complète</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Controller CRUD — Pattern complet</div><div class="card-tags"><span class="tag tag-green">Production-ready</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// controllers/articleController.js
+import Article from '../models/Article.js';
+
+// @desc    Récupérer tous les articles
+// @route   GET /api/articles
+// @access  Public
+export const getArticles = async (req, res) => {
+  try {
+    const page    = parseInt(req.query.page)  || 1;
+    const limit   = parseInt(req.query.limit) || 10;
+    const sort    = req.query.sort || '-createdAt';
+    const search  = req.query.search;
+    const skip    = (page - 1) * limit;
+
+    const filter = { publie: true };
+    if (search) filter.titre = { $regex: search, $options: 'i' };
+
+    const [articles, total] = await Promise.all([
+      Article.find(filter)
+        .populate('auteur', 'nom avatar')
+        .sort(sort)
+        .skip(skip)
+        .limit(limit)
+        .select('-contenu'),
+      Article.countDocuments(filter),
+    ]);
+
+    res.json({
+      success: true,
+      data:  articles,
+      total,
+      page,
+      pages: Math.ceil(total / limit),
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+// @desc    Récupérer un article par ID
+// @route   GET /api/articles/:id
+// @access  Public
+export const getArticle = async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.id)
+      .populate('auteur', 'nom email avatar');
+
+    if (!article) {
+      return res.status(404).json({ message: 'Article non trouvé' });
+    }
+
+    // Incrémenter les vues
+    await Article.findByIdAndUpdate(req.params.id, { $inc: { vues: 1 } });
+
+    res.json({ success: true, data: article });
+  } catch (err) {
+    if (err.name === 'CastError') {
+      return res.status(400).json({ message: 'ID invalide' });
+    }
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc    Créer un article
+// @route   POST /api/articles
+// @access  Private
+export const createArticle = async (req, res) => {
+  try {
+    const { titre, contenu, tags, resume } = req.body;
+
+    const article = await Article.create({
+      titre,
+      contenu,
+      tags,
+      resume,
+      auteur: req.user._id,
+    });
+
+    const populated = await article.populate('auteur', 'nom email');
+    res.status(201).json({ success: true, data: populated });
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(e => e.message);
+      return res.status(400).json({ message: messages.join(', ') });
+    }
+    if (err.code === 11000) {
+      return res.status(409).json({ message: 'Cet article existe déjà' });
+    }
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc    Modifier un article
+// @route   PUT /api/articles/:id
+// @access  Private
+export const updateArticle = async (req, res) => {
+  try {
+    let article = await Article.findById(req.params.id);
+    if (!article) return res.status(404).json({ message: 'Non trouvé' });
+
+    // Vérifier que l'utilisateur est l'auteur ou admin
+    if (article.auteur.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Non autorisé' });
+    }
+
+    article = await Article.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true, runValidators: true }
+    ).populate('auteur', 'nom email');
+
+    res.json({ success: true, data: article });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @desc    Supprimer un article
+// @route   DELETE /api/articles/:id
+// @access  Private
+export const deleteArticle = async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.id);
+    if (!article) return res.status(404).json({ message: 'Non trouvé' });
+
+    if (article.auteur.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Non autorisé' });
+    }
+
+    await article.deleteOne();
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTH JWT -->
+    <section class="section" id="auth-jwt">
+      <div class="section-title">Authentification JWT</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Register, Login, Token — pattern complet</div><div class="card-tags"><span class="tag tag-red">Sécurité</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// controllers/authController.js
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+
+// Générer un token JWT
+const generateToken = (userId) => {
+  return jwt.sign(
+    { id: userId },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+  );
+};
+
+// Envoyer le token en cookie + JSON
+const sendToken = (user, statusCode, res) => {
+  const token = generateToken(user._id);
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure:   process.env.NODE_ENV === 'production',
+    maxAge:   7 * 24 * 60 * 60 * 1000,
+  });
+
+  res.status(statusCode).json({
+    success: true,
+    token,
+    user: { id: user._id, nom: user.nom, email: user.email, role: user.role },
+  });
+};
+
+// @route POST /api/auth/register
+export const register = async (req, res) => {
+  try {
+    const { nom, email, password } = req.body;
+
+    if (await User.findOne({ email })) {
+      return res.status(409).json({ message: 'Email déjà utilisé' });
+    }
+
+    const user = await User.create({ nom, email, password });
+    sendToken(user, 201, res);
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({ message: Object.values(err.errors).map(e => e.message).join(', ') });
+    }
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @route POST /api/auth/login
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email et mot de passe requis' });
+    }
+
+    // select('+password') car le champ est select: false dans le schéma
+    const user = await User.findOne({ email }).select('+password');
+
+    if (!user || !(await user.comparePassword(password))) {
+      return res.status(401).json({ message: 'Identifiants invalides' });
+    }
+
+    if (!user.actif) {
+      return res.status(403).json({ message: 'Compte désactivé' });
+    }
+
+    sendToken(user, 200, res);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @route GET /api/auth/me
+export const getMe = async (req, res) => {
+  const user = await User.findById(req.user._id);
+  res.json({ success: true, data: user });
+};
+
+// @route POST /api/auth/logout
+export const logout = (req, res) => {
+  res.cookie('token', '', { httpOnly: true, expires: new Date(0) });
+  res.json({ success: true, message: 'Déconnecté' });
+};
+
+// routes/auth.js
+import { register, login, getMe, logout } from '../controllers/authController.js';
+import { protect } from '../middleware/auth.js';
+const router = express.Router();
+router.post('/register', register);
+router.post('/login',    login);
+router.get('/me',        protect, getMe);
+router.post('/logout',   protect, logout);</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GESTION DES ERREURS -->
+    <section class="section" id="erreurs">
+      <div class="section-title">Gestion des erreurs</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Classe d'erreur custom + middleware centralisé</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// utils/AppError.js
+export class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = true;  // distingue les erreurs "métier" des bugs
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+// middleware/error.js
+import { AppError } from '../utils/AppError.js';
+
+export const errorHandler = (err, req, res, next) => {
+  let error = { ...err, message: err.message };
+
+  // Erreur ID MongoDB invalide
+  if (err.name === 'CastError') {
+    error = new AppError('ID invalide', 400);
+  }
+  // Doublon (champ unique)
+  if (err.code === 11000) {
+    const field = Object.keys(err.keyValue)[0];
+    error = new AppError(`${field} déjà utilisé`, 409);
+  }
+  // Erreur de validation Mongoose
+  if (err.name === 'ValidationError') {
+    const msg = Object.values(err.errors).map(e => e.message).join(', ');
+    error = new AppError(msg, 400);
+  }
+  // Token JWT invalide
+  if (err.name === 'JsonWebTokenError') {
+    error = new AppError('Token invalide', 401);
+  }
+  if (err.name === 'TokenExpiredError') {
+    error = new AppError('Token expiré', 401);
+  }
+
+  res.status(error.statusCode || 500).json({
+    success: false,
+    message: error.message || 'Erreur serveur',
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+  });
+};
+
+// Wrapper async pour éviter try/catch répétitif
+export const asyncHandler = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
+
+// Utilisation avec asyncHandler
+import { asyncHandler } from '../middleware/error.js';
+
+export const getArticle = asyncHandler(async (req, res) => {
+  const article = await Article.findById(req.params.id);
+  if (!article) throw new AppError('Article non trouvé', 404);
+  res.json({ success: true, data: article });
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VARIABLES D'ENVIRONNEMENT -->
+    <section class="section" id="env">
+      <div class="section-title">Variables d'environnement &amp; Configuration</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">dotenv — fichier .env complet</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">ENV</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># .env (jamais versionné — dans .gitignore)
+
+# Serveur
+NODE_ENV=development
+PORT=5000
+
+# Base de données
+MONGO_URI=mongodb://localhost:27017/thinksmart_dev
+
+# JWT
+JWT_SECRET=un_secret_tres_long_et_aleatoire_ici_minimum_32_chars
+JWT_EXPIRES_IN=7d
+
+# Client (CORS)
+CLIENT_URL=http://localhost:3000
+
+# Email
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USER=votre_user
+MAIL_PASS=votre_pass
+MAIL_FROM=noreply@thinksmart.fr
+
+# Cloudinary (upload images)
+CLOUDINARY_CLOUD_NAME=votre_cloud
+CLOUDINARY_API_KEY=votre_key
+CLOUDINARY_API_SECRET=votre_secret</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// config/index.js — Centraliser la config
+import dotenv from 'dotenv';
+dotenv.config();
+
+export default {
+  env:      process.env.NODE_ENV || 'development',
+  port:     parseInt(process.env.PORT) || 5000,
+  mongoUri: process.env.MONGO_URI,
+  jwt: {
+    secret:    process.env.JWT_SECRET,
+    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+  },
+  clientUrl: process.env.CLIENT_URL || 'http://localhost:3000',
+  isDev:  process.env.NODE_ENV === 'development',
+  isProd: process.env.NODE_ENV === 'production',
+};
+
+// Utilisation
+import config from './config/index.js';
+console.log(config.port);        // 5000
+console.log(config.jwt.secret);  // votre secret</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+  </main>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

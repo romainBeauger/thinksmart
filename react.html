@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — React</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li class="active"><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher un hook, composant, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">React</div>
+    <ul class="sidebar-nav">
+      <li><a href="#setup"><span class="icon">⚙️</span>Installation &amp; Setup</a></li>
+      <li><a href="#composants"><span class="icon">🧩</span>Composants</a></li>
+      <li><a href="#jsx"><span class="icon">🎨</span>JSX</a></li>
+      <li><a href="#props"><span class="icon">📨</span>Props</a></li>
+      <li><a href="#usestate"><span class="icon">🔄</span>useState</a></li>
+      <li><a href="#useeffect"><span class="icon">⚡</span>useEffect</a></li>
+      <li><a href="#useref"><span class="icon">🔗</span>useRef</a></li>
+      <li><a href="#usecontext"><span class="icon">🌐</span>useContext</a></li>
+      <li><a href="#usememo"><span class="icon">⚡</span>useMemo &amp; useCallback</a></li>
+      <li><a href="#hooks"><span class="icon">🪝</span>Custom Hooks</a></li>
+      <li><a href="#forms"><span class="icon">📝</span>Formulaires</a></li>
+      <li><a href="#listes"><span class="icon">📋</span>Listes &amp; Keys</a></li>
+      <li><a href="#conditional"><span class="icon">🔀</span>Conditional Rendering</a></li>
+      <li><a href="#router"><span class="icon">🌍</span>React Router</a></li>
+      <li><a href="#state"><span class="icon">📦</span>Zustand / State global</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <h1>React <span class="badge" style="background:rgba(97,218,251,0.15);color:#61dafb;">v18</span></h1>
+      <p>Composants, Hooks, gestion d'état, React Router et patterns essentiels pour construire des interfaces React.</p>
+    </div>
+
+    <!-- INSTALLATION & SETUP -->
+    <section class="section" id="setup">
+      <div class="section-title">Installation &amp; Setup</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer un projet React</div>
+          <div class="card-tags"><span class="tag tag-green">npm</span><span class="tag tag-blue">Vite</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Vite est l'outil recommandé pour créer un projet React — démarrage rapide, HMR instantané et build optimisé.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Vite (recommandé)
+npm create vite@latest mon-app -- --template react
+cd mon-app &amp;&amp; npm install &amp;&amp; npm run dev
+
+# Create React App (classique)
+npx create-react-app mon-app
+cd mon-app &amp;&amp; npm start
+
+# Scripts npm
+npm run dev       # serveur de développement (Vite)
+npm run build     # build de production
+npm run preview   # prévisualiser le build</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPOSANTS -->
+    <section class="section" id="composants">
+      <div class="section-title">Composants</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Composants fonction</div>
+          <div class="card-tags"><span class="tag tag-blue">JSX</span><span class="tag tag-purple">export</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un composant React est une fonction qui retourne du JSX. Il peut être déclaré avec <code>function</code> ou comme une arrow function.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">// Composant simple
+function Bonjour() {
+  return &lt;h1&gt;Bonjour monde !&lt;/h1&gt;;
+}
+
+// Arrow function
+const Bonjour = () =&gt; &lt;h1&gt;Bonjour monde !&lt;/h1&gt;;
+
+// Export
+export default Bonjour;
+export { Bonjour }; // export nommé
+
+// Utilisation
+&lt;Bonjour /&gt;
+
+// Composant avec plusieurs éléments (Fragment)
+function App() {
+  return (
+    &lt;&gt;
+      &lt;Header /&gt;
+      &lt;Main /&gt;
+      &lt;Footer /&gt;
+    &lt;/&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JSX -->
+    <section class="section" id="jsx">
+      <div class="section-title">JSX</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Syntaxe JSX</div>
+          <div class="card-tags"><span class="tag tag-blue">expressions</span><span class="tag tag-purple">attributs</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">JSX est une extension de syntaxe JavaScript. Les expressions JS s'écrivent entre accolades <code>{}</code>. Les attributs suivent la convention camelCase.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">const nom = "Alice";
+const estConnecte = true;
+const styles = { color: "red", fontSize: "16px" };
+
+// Expressions JS entre accolades {}
+&lt;h1&gt;Bonjour {nom} !&lt;/h1&gt;
+&lt;p&gt;{2 + 2}&lt;/p&gt;
+&lt;p&gt;{estConnecte ? "Connecté" : "Déconnecté"}&lt;/p&gt;
+
+// Attributs JSX (camelCase)
+&lt;div className="container"&gt;         {/* class → className */}
+&lt;label htmlFor="email"&gt;Email&lt;/label&gt; {/* for → htmlFor */}
+&lt;input
+  type="text"
+  value={valeur}
+  onChange={e =&gt; setValeur(e.target.value)}
+  disabled={!estActif}              {/* true/false */}
+  style={{ color: "red", marginTop: "10px" }}
+/&gt;
+
+// Auto-fermeture obligatoire pour les balises vides
+&lt;br /&gt; &lt;img src="..." alt="..." /&gt; &lt;input /&gt;
+
+// Commentaires en JSX
+{/* Ceci est un commentaire JSX */}
+
+// Fragments
+&lt;React.Fragment key={id}&gt;...&lt;/React.Fragment&gt;
+&lt;&gt;...&lt;/&gt;
+
+// dangerouslySetInnerHTML (attention XSS !)
+&lt;div dangerouslySetInnerHTML={{ __html: htmlSanitize }} /&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROPS -->
+    <section class="section" id="props">
+      <div class="section-title">Props</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Passer et recevoir des props</div>
+          <div class="card-tags"><span class="tag tag-blue">props</span><span class="tag tag-green">children</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les props permettent de passer des données d'un composant parent à un composant enfant. Elles sont en lecture seule.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">// Passer des props
+&lt;UserCard nom="Alice" age={30} actif={true} onClick={handleClick} /&gt;
+
+// Recevoir des props
+function UserCard({ nom, age, actif = false, onClick }) {
+  return (
+    &lt;div className={`card ${actif ? "active" : ""}`} onClick={onClick}&gt;
+      &lt;h2&gt;{nom}&lt;/h2&gt;
+      &lt;p&gt;{age} ans&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Prop children
+function Modal({ titre, children, onClose }) {
+  return (
+    &lt;div className="modal"&gt;
+      &lt;div className="modal-header"&gt;
+        &lt;h2&gt;{titre}&lt;/h2&gt;
+        &lt;button onClick={onClose}&gt;✕&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div className="modal-body"&gt;{children}&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+// Utilisation
+&lt;Modal titre="Connexion" onClose={() =&gt; setOpen(false)}&gt;
+  &lt;LoginForm /&gt;
+&lt;/Modal&gt;
+
+// Spread des props
+const props = { nom: "Alice", age: 30 };
+&lt;UserCard {...props} /&gt;
+
+// PropTypes (validation runtime)
+import PropTypes from "prop-types";
+UserCard.propTypes = {
+  nom: PropTypes.string.isRequired,
+  age: PropTypes.number,
+  onClick: PropTypes.func,
+};
+UserCard.defaultProps = { age: 0 };</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USESTATE -->
+    <section class="section" id="usestate">
+      <div class="section-title">useState</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Gestion de l'état local</div>
+          <div class="card-tags"><span class="tag tag-blue">hook</span><span class="tag tag-purple">état</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>useState</code> retourne une valeur d'état et une fonction pour la mettre à jour. Chaque appel à la fonction de mise à jour provoque un re-rendu.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">import { useState } from "react";
+
+// Valeur simple
+const [count, setCount] = useState(0);
+const [nom, setNom]     = useState("");
+const [actif, setActif] = useState(false);
+
+// Objet
+const [user, setUser] = useState({ nom: "", email: "" });
+
+// Mise à jour
+setCount(count + 1);
+setCount(prev =&gt; prev + 1);   // fonction de mise à jour (sûre)
+
+// Objet : spread pour ne pas perdre les autres propriétés
+setUser(prev =&gt; ({ ...prev, nom: "Alice" }));
+
+// Tableau
+const [items, setItems] = useState([]);
+setItems(prev =&gt; [...prev, nouvelItem]);           // ajouter
+setItems(prev =&gt; prev.filter(i =&gt; i.id !== id));   // supprimer
+setItems(prev =&gt; prev.map(i =&gt; i.id === id ? { ...i, done: true } : i)); // modifier
+
+// Initialisation lazy (pour calculs coûteux)
+const [data, setData] = useState(() =&gt; JSON.parse(localStorage.getItem("data")) ?? []);
+
+// Exemple formulaire complet
+function LoginForm() {
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) =&gt; {
+    setForm(prev =&gt; ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) =&gt; {
+    e.preventDefault();
+    console.log(form);
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input name="email"    value={form.email}    onChange={handleChange} /&gt;
+      &lt;input name="password" value={form.password} onChange={handleChange} type="password" /&gt;
+      &lt;button type="submit"&gt;Connexion&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USEEFFECT -->
+    <section class="section" id="useeffect">
+      <div class="section-title">useEffect</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Effets de bord et cycle de vie</div>
+          <div class="card-tags"><span class="tag tag-blue">hook</span><span class="tag tag-green">async</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>useEffect</code> permet d'effectuer des opérations après le rendu : fetch de données, abonnements, manipulation du DOM. Le tableau de dépendances contrôle quand l'effet s'exécute.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">import { useEffect } from "react";
+
+// Exécuté après chaque rendu
+useEffect(() =&gt; {
+  console.log("Rendu !");
+});
+
+// Exécuté une seule fois (montage)
+useEffect(() =&gt; {
+  fetchData();
+}, []);
+
+// Exécuté quand userId change
+useEffect(() =&gt; {
+  fetchUser(userId);
+}, [userId]);
+
+// Avec nettoyage (cleanup)
+useEffect(() =&gt; {
+  const timer = setInterval(() =&gt; setCount(c =&gt; c + 1), 1000);
+  return () =&gt; clearInterval(timer); // cleanup au démontage ou avant la prochaine exécution
+}, []);
+
+// Fetch de données
+useEffect(() =&gt; {
+  const controller = new AbortController();
+
+  async function load() {
+    try {
+      const res = await fetch(`/api/users/${id}`, { signal: controller.signal });
+      const data = await res.json();
+      setUser(data);
+    } catch (err) {
+      if (err.name !== "AbortError") setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  setLoading(true);
+  load();
+  return () =&gt; controller.abort(); // annule si l'id change avant la fin
+}, [id]);</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USEREF -->
+    <section class="section" id="useref">
+      <div class="section-title">useRef</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Références DOM et valeurs persistantes</div>
+          <div class="card-tags"><span class="tag tag-blue">hook</span><span class="tag tag-purple">DOM</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>useRef</code> retourne un objet mutable dont la propriété <code>.current</code> persiste entre les rendus sans provoquer de re-rendu lors de sa modification.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">import { useRef } from "react";
+
+// Référence DOM
+function InputFocus() {
+  const inputRef = useRef(null);
+
+  const focus = () =&gt; inputRef.current.focus();
+
+  return (
+    &lt;&gt;
+      &lt;input ref={inputRef} type="text" /&gt;
+      &lt;button onClick={focus}&gt;Focus&lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+
+// Valeur persistante SANS re-rendu (ex: timer, valeur précédente)
+function Chrono() {
+  const [time, setTime] = useState(0);
+  const timerRef = useRef(null);
+
+  const start = () =&gt; {
+    timerRef.current = setInterval(() =&gt; setTime(t =&gt; t + 1), 1000);
+  };
+  const stop = () =&gt; clearInterval(timerRef.current);
+
+  return (
+    &lt;&gt;
+      &lt;p&gt;{time}s&lt;/p&gt;
+      &lt;button onClick={start}&gt;Start&lt;/button&gt;
+      &lt;button onClick={stop}&gt;Stop&lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+
+// Garder la valeur précédente
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() =&gt; { ref.current = value; });
+  return ref.current;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USECONTEXT -->
+    <section class="section" id="usecontext">
+      <div class="section-title">useContext</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Partage d'état global sans prop drilling</div>
+          <div class="card-tags"><span class="tag tag-blue">hook</span><span class="tag tag-green">context</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>useContext</code> permet de consommer un contexte React sans avoir à passer des props à chaque niveau de l'arbre de composants.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">import { createContext, useContext, useState } from "react";
+
+// 1. Créer le contexte
+const ThemeContext = createContext("light");
+const AuthContext  = createContext(null);
+
+// 2. Fournir le contexte
+function App() {
+  const [theme, setTheme] = useState("dark");
+  const [user, setUser]   = useState(null);
+
+  return (
+    &lt;ThemeContext.Provider value={{ theme, setTheme }}&gt;
+      &lt;AuthContext.Provider value={{ user, setUser }}&gt;
+        &lt;Router /&gt;
+      &lt;/AuthContext.Provider&gt;
+    &lt;/ThemeContext.Provider&gt;
+  );
+}
+
+// 3. Consommer le contexte
+function Navbar() {
+  const { user } = useContext(AuthContext);
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  return (
+    &lt;nav className={theme}&gt;
+      &lt;span&gt;{user?.nom ?? "Invité"}&lt;/span&gt;
+      &lt;button onClick={() =&gt; setTheme(t =&gt; t === "dark" ? "light" : "dark")}&gt;
+        Toggle Thème
+      &lt;/button&gt;
+    &lt;/nav&gt;
+  );
+}
+
+// Custom hook pour le contexte
+export const useAuth = () =&gt; useContext(AuthContext);
+export const useTheme = () =&gt; useContext(ThemeContext);</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USEMEMO & USECALLBACK -->
+    <section class="section" id="usememo">
+      <div class="section-title">useMemo &amp; useCallback</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Mémoïsation et optimisation des performances</div>
+          <div class="card-tags"><span class="tag tag-blue">hook</span><span class="tag tag-purple">perf</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>useMemo</code> mémoïse le résultat d'un calcul coûteux. <code>useCallback</code> mémoïse une fonction pour éviter de recréer sa référence à chaque rendu.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">import { useMemo, useCallback } from "react";
+
+// useMemo — mémoïse le RÉSULTAT d'un calcul coûteux
+const total = useMemo(() =&gt; {
+  return items.reduce((sum, item) =&gt; sum + item.prix, 0);
+}, [items]); // recalcule seulement si items change
+
+// useCallback — mémoïse une FONCTION
+const handleDelete = useCallback((id) =&gt; {
+  setItems(prev =&gt; prev.filter(item =&gt; item.id !== id));
+}, []); // la fonction ne change jamais de référence
+
+// useCallback avec dépendance
+const handleSearch = useCallback((query) =&gt; {
+  return items.filter(item =&gt; item.nom.includes(query));
+}, [items]);
+
+// Quand utiliser ?
+// useMemo   : calculs lourds, filtres/tris sur grandes listes
+// useCallback : fonctions passées à des composants enfants avec React.memo</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOM HOOKS -->
+    <section class="section" id="hooks">
+      <div class="section-title">Custom Hooks</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer ses propres hooks</div>
+          <div class="card-tags"><span class="tag tag-blue">hook</span><span class="tag tag-green">réutilisable</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un custom hook est une fonction dont le nom commence par <code>use</code> et qui peut appeler d'autres hooks. Ils permettent d'extraire et réutiliser de la logique avec état.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">// Hook de fetch générique
+function useFetch(url) {
+  const [data, setData]       = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError]     = useState(null);
+
+  useEffect(() =&gt; {
+    setLoading(true);
+    fetch(url)
+      .then(res =&gt; { if (!res.ok) throw new Error(res.statusText); return res.json(); })
+      .then(data =&gt; { setData(data); setLoading(false); })
+      .catch(err =&gt; { setError(err.message); setLoading(false); });
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+// Utilisation
+const { data: users, loading, error } = useFetch("/api/users");
+
+// Hook localStorage
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() =&gt;
+    JSON.parse(localStorage.getItem(key)) ?? initialValue
+  );
+  const set = (val) =&gt; {
+    setValue(val);
+    localStorage.setItem(key, JSON.stringify(val));
+  };
+  return [value, set];
+}
+
+// Hook media query
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(() =&gt; window.matchMedia(query).matches);
+  useEffect(() =&gt; {
+    const media = window.matchMedia(query);
+    const handler = () =&gt; setMatches(media.matches);
+    media.addEventListener("change", handler);
+    return () =&gt; media.removeEventListener("change", handler);
+  }, [query]);
+  return matches;
+}
+const isMobile = useMediaQuery("(max-width: 768px)");</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULAIRES -->
+    <section class="section" id="forms">
+      <div class="section-title">Formulaires</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Formulaire contrôlé avec validation</div>
+          <div class="card-tags"><span class="tag tag-blue">formulaire</span><span class="tag tag-purple">validation</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Dans un formulaire contrôlé, React est la source de vérité pour la valeur des champs via <code>value</code> et <code>onChange</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">// Formulaire contrôlé
+function RegisterForm() {
+  const [form, setForm]     = useState({ nom: "", email: "", password: "" });
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) =&gt;
+    setForm(prev =&gt; ({ ...prev, [e.target.name]: e.target.value }));
+
+  const validate = () =&gt; {
+    const err = {};
+    if (!form.nom)      err.nom = "Nom requis";
+    if (!form.email.includes("@")) err.email = "Email invalide";
+    if (form.password.length &lt; 8)  err.password = "8 caractères minimum";
+    return err;
+  };
+
+  const handleSubmit = async (e) =&gt; {
+    e.preventDefault();
+    const err = validate();
+    if (Object.keys(err).length &gt; 0) return setErrors(err);
+    setLoading(true);
+    try {
+      await api("/api/register", { method: "POST", body: form });
+    } finally { setLoading(false); }
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input name="nom" value={form.nom} onChange={handleChange} /&gt;
+      {errors.nom &amp;&amp; &lt;span className="error"&gt;{errors.nom}&lt;/span&gt;}
+
+      &lt;input name="email" type="email" value={form.email} onChange={handleChange} /&gt;
+      {errors.email &amp;&amp; &lt;span className="error"&gt;{errors.email}&lt;/span&gt;}
+
+      &lt;input name="password" type="password" value={form.password} onChange={handleChange} /&gt;
+      {errors.password &amp;&amp; &lt;span className="error"&gt;{errors.password}&lt;/span&gt;}
+
+      &lt;button type="submit" disabled={loading}&gt;
+        {loading ? "Chargement..." : "S'inscrire"}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTES & KEYS -->
+    <section class="section" id="listes">
+      <div class="section-title">Listes &amp; Keys</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Rendu de listes avec .map()</div>
+          <div class="card-tags"><span class="tag tag-blue">map</span><span class="tag tag-purple">key</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">L'attribut <code>key</code> est obligatoire lors du rendu de listes. Il doit être unique et stable — préférer un identifiant métier plutôt que l'index du tableau.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">// Rendu de liste
+const users = [
+  { id: 1, nom: "Alice", role: "admin" },
+  { id: 2, nom: "Bob",   role: "user" },
+];
+
+function UserList({ users }) {
+  if (!users.length) return &lt;p&gt;Aucun utilisateur.&lt;/p&gt;;
+
+  return (
+    &lt;ul&gt;
+      {users.map(user =&gt; (
+        &lt;UserItem key={user.id} user={user} /&gt;  // key OBLIGATOIRE, unique, stable
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Clés : utiliser un id unique, PAS l'index (sauf liste statique)
+// ❌  {items.map((item, index) =&gt; &lt;li key={index}&gt;)}
+// ✅  {items.map(item =&gt; &lt;li key={item.id}&gt;)}
+
+// Filtrer et trier
+{users
+  .filter(u =&gt; u.role === "admin")
+  .sort((a, b) =&gt; a.nom.localeCompare(b.nom))
+  .map(u =&gt; &lt;UserItem key={u.id} user={u} /&gt;)
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONDITIONAL RENDERING -->
+    <section class="section" id="conditional">
+      <div class="section-title">Conditional Rendering</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Affichage conditionnel</div>
+          <div class="card-tags"><span class="tag tag-blue">ternaire</span><span class="tag tag-green">&amp;&amp;</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">React offre plusieurs patterns pour afficher conditionnellement des éléments. Attention au court-circuit <code>&amp;&amp;</code> avec les valeurs falsy numériques.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">// if/else avec JSX
+function Status({ estConnecte }) {
+  if (estConnecte) return &lt;p&gt;Bienvenue !&lt;/p&gt;;
+  return &lt;p&gt;Veuillez vous connecter.&lt;/p&gt;;
+}
+
+// Opérateur ternaire
+&lt;div&gt;{estConnecte ? &lt;Dashboard /&gt; : &lt;LoginPage /&gt;}&lt;/div&gt;
+
+// Court-circuit &amp;&amp; (attention : ne jamais mettre 0 !)
+{isLoading &amp;&amp; &lt;Spinner /&gt;}
+{error &amp;&amp; &lt;ErrorMessage message={error} /&gt;}
+{!!users.length &amp;&amp; &lt;UserList users={users} /&gt;}  // !! pour éviter le 0
+
+// Rendu null (ne rien afficher)
+if (!data) return null;
+
+// État de chargement + erreur + données
+function UserPage({ id }) {
+  const { data, loading, error } = useFetch(`/api/users/${id}`);
+
+  if (loading) return &lt;div className="spinner"&gt;Chargement...&lt;/div&gt;;
+  if (error)   return &lt;div className="error"&gt;Erreur: {error}&lt;/div&gt;;
+  if (!data)   return null;
+
+  return &lt;UserCard user={data} /&gt;;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REACT ROUTER -->
+    <section class="section" id="router">
+      <div class="section-title">React Router v6</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Configuration des routes</div>
+          <div class="card-tags"><span class="tag tag-blue">routing</span><span class="tag tag-green">npm</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">React Router v6 utilise <code>&lt;Routes&gt;</code> et <code>&lt;Route&gt;</code> pour définir les routes. Les routes imbriquées s'affichent via <code>&lt;Outlet /&gt;</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">import { BrowserRouter, Routes, Route, Link, NavLink, useNavigate, useParams, useSearchParams, Outlet } from "react-router-dom";
+
+// npm install react-router-dom
+
+// Configuration des routes
+function App() {
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;Routes&gt;
+        &lt;Route path="/"          element={&lt;HomePage /&gt;} /&gt;
+        &lt;Route path="/users"     element={&lt;UsersPage /&gt;} /&gt;
+        &lt;Route path="/users/:id" element={&lt;UserDetail /&gt;} /&gt;
+        &lt;Route path="/about"     element={&lt;AboutPage /&gt;} /&gt;
+        &lt;Route path="*"          element={&lt;NotFound /&gt;} /&gt;  {/* 404 */}
+
+        {/* Routes imbriquées */}
+        &lt;Route path="/dashboard" element={&lt;Dashboard /&gt;}&gt;
+          &lt;Route index            element={&lt;DashboardHome /&gt;} /&gt;
+          &lt;Route path="profil"    element={&lt;Profil /&gt;} /&gt;
+          &lt;Route path="settings"  element={&lt;Settings /&gt;} /&gt;
+        &lt;/Route&gt;
+      &lt;/Routes&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}
+
+// Outlet (rendu des routes enfants)
+function Dashboard() {
+  return (
+    &lt;div&gt;
+      &lt;Sidebar /&gt;
+      &lt;main&gt;&lt;Outlet /&gt;&lt;/main&gt;  {/* les routes enfants s'affichent ici */}
+    &lt;/div&gt;
+  );
+}
+
+// Navigation
+&lt;Link to="/users"&gt;Utilisateurs&lt;/Link&gt;
+&lt;NavLink to="/users" className={({ isActive }) =&gt; isActive ? "active" : ""}&gt;
+  Utilisateurs
+&lt;/NavLink&gt;
+
+// Hooks de navigation
+function UserDetail() {
+  const { id } = useParams();            // paramètres URL (/users/:id)
+  const [params] = useSearchParams();    // query string (?page=2)
+  const navigate  = useNavigate();       // navigation programmatique
+
+  const page = params.get("page") ?? 1;
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;User ID: {id}&lt;/p&gt;
+      &lt;button onClick={() =&gt; navigate("/users")}&gt;Retour&lt;/button&gt;
+      &lt;button onClick={() =&gt; navigate(-1)}&gt;Page précédente&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Route protégée
+function ProtectedRoute({ children }) {
+  const { user } = useAuth();
+  if (!user) return &lt;Navigate to="/login" replace /&gt;;
+  return children;
+}
+// Usage: &lt;Route path="/dashboard" element={&lt;ProtectedRoute&gt;&lt;Dashboard /&gt;&lt;/ProtectedRoute&gt;} /&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZUSTAND -->
+    <section class="section" id="state">
+      <div class="section-title">Zustand / State global</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Gestion d'état global avec Zustand</div>
+          <div class="card-tags"><span class="tag tag-blue">zustand</span><span class="tag tag-green">store</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Zustand est une solution de gestion d'état légère et sans boilerplate. Le store est accessible depuis n'importe quel composant sans Provider.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-jsx">// npm install zustand
+import { create } from "zustand";
+
+// Créer un store
+const useCartStore = create((set, get) =&gt; ({
+  items: [],
+  total: 0,
+
+  addItem: (product) =&gt;
+    set(state =&gt; ({
+      items: [...state.items, product],
+      total: state.total + product.prix,
+    })),
+
+  removeItem: (id) =&gt;
+    set(state =&gt; {
+      const item = state.items.find(i =&gt; i.id === id);
+      return {
+        items: state.items.filter(i =&gt; i.id !== id),
+        total: state.total - (item?.prix ?? 0),
+      };
+    }),
+
+  clearCart: () =&gt; set({ items: [], total: 0 }),
+  itemCount: () =&gt; get().items.length,
+}));
+
+// Utilisation dans n'importe quel composant
+function CartButton() {
+  const { items, addItem } = useCartStore();
+  return &lt;button&gt;{items.length} articles&lt;/button&gt;;
+}
+
+function ProductCard({ product }) {
+  const addItem = useCartStore(state =&gt; state.addItem);
+  return &lt;button onClick={() =&gt; addItem(product)}&gt;Ajouter au panier&lt;/button&gt;;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+  </main>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

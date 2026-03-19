@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — Tailwind CSS</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li class="active"><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une classe, utilitaire, composant…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Tailwind CSS</div>
+    <ul class="sidebar-nav">
+      <li><a href="#setup"><span class="icon">⚙️</span>Installation &amp; Config</a></li>
+      <li><a href="#layout"><span class="icon">📐</span>Layout &amp; Container</a></li>
+      <li><a href="#flex"><span class="icon">↔️</span>Flexbox</a></li>
+      <li><a href="#grid"><span class="icon">▦</span>Grid</a></li>
+      <li><a href="#spacing"><span class="icon">📏</span>Spacing</a></li>
+      <li><a href="#typo"><span class="icon">🔤</span>Typographie</a></li>
+      <li><a href="#colors"><span class="icon">🎨</span>Couleurs &amp; Fonds</a></li>
+      <li><a href="#borders"><span class="icon">⬜</span>Bordures &amp; Ombres</a></li>
+      <li><a href="#transitions"><span class="icon">✨</span>Transitions</a></li>
+      <li><a href="#responsive"><span class="icon">📱</span>Responsive</a></li>
+      <li><a href="#darkmode"><span class="icon">🌙</span>Dark Mode</a></li>
+      <li><a href="#states"><span class="icon">🎭</span>Hover &amp; Focus States</a></li>
+      <li><a href="#components"><span class="icon">🧩</span>Composants courants</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <h1>Tailwind CSS <span class="badge" style="background:rgba(56,189,248,0.15);color:#38bdf8;">v3</span></h1>
+      <p>Framework CSS utility-first — composez des interfaces directement dans votre HTML avec des classes atomiques.</p>
+    </div>
+
+    <!-- INSTALLATION -->
+    <section class="section" id="setup">
+      <div class="section-title">Installation &amp; Config</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Installation via npm (recommandée)</div>
+          <div class="card-tags"><span class="tag tag-green">npm</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># 1. Installer Tailwind CSS
+npm install -D tailwindcss postcss autoprefixer
+
+# 2. Créer le fichier de configuration
+npx tailwindcss init
+
+# 3. Avec PostCSS
+npx tailwindcss init -p</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JavaScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  // Fichiers à scanner pour les classes utilisées (tree-shaking)
+  content: [
+    './src/**/*.{html,js,jsx,ts,tsx,vue}',
+    './pages/**/*.{js,jsx,ts,tsx}',
+    './components/**/*.{js,jsx,ts,tsx}',
+    './index.html',
+  ],
+  // Activation du dark mode par classe
+  darkMode: 'class',
+  theme: {
+    extend: {
+      // Étendre le thème sans écraser
+      colors: {
+        brand: {
+          50:  '#f0f9ff',
+          500: '#0ea5e9',
+          900: '#0c4a6e',
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+};</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">/* src/input.css — Directives Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Vous pouvez ajouter vos propres styles ici */
+@layer components {
+  .btn-primary {
+    @apply bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors;
+  }
+}</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Compiler (watch mode)
+npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
+
+# Build production (minifié)
+npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">CDN Play — prototypage rapide</div>
+          <div class="card-tags"><span class="tag tag-blue">CDN</span><span class="tag tag-yellow">Prototype</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le CDN Play inclut toutes les classes Tailwind sans configuration. A n'utiliser qu'en développement ou prototypage — pas optimal pour la production.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;title&gt;Prototype Tailwind&lt;/title&gt;
+  &lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: { brand: '#0ea5e9' }
+        }
+      }
+    }
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body class="bg-gray-100 p-8"&gt;
+  &lt;h1 class="text-3xl font-bold text-gray-900"&gt;Bonjour Tailwind !&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LAYOUT -->
+    <section class="section" id="layout">
+      <div class="section-title">Layout &amp; Container</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Container, largeurs, hauteurs et position</div>
+          <div class="card-tags"><span class="tag tag-blue">layout</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Container centré avec padding auto --&gt;
+&lt;div class="container mx-auto px-4"&gt;...&lt;/div&gt;
+
+&lt;!-- Largeurs max --&gt;
+&lt;div class="max-w-sm"&gt;max-width: 24rem&lt;/div&gt;
+&lt;div class="max-w-md"&gt;max-width: 28rem&lt;/div&gt;
+&lt;div class="max-w-lg"&gt;max-width: 32rem&lt;/div&gt;
+&lt;div class="max-w-xl"&gt;max-width: 36rem&lt;/div&gt;
+&lt;div class="max-w-2xl"&gt;max-width: 42rem&lt;/div&gt;
+&lt;div class="max-w-4xl"&gt;max-width: 56rem&lt;/div&gt;
+&lt;div class="max-w-screen-lg"&gt;max-width: 1024px&lt;/div&gt;
+&lt;div class="max-w-prose"&gt;max-width: 65ch (lisibilité optimale)&lt;/div&gt;
+
+&lt;!-- Largeurs en % --&gt;
+&lt;div class="w-full"&gt;width: 100%&lt;/div&gt;
+&lt;div class="w-1/2"&gt;width: 50%&lt;/div&gt;
+&lt;div class="w-1/3"&gt;width: 33.33%&lt;/div&gt;
+
+&lt;!-- Hauteurs --&gt;
+&lt;div class="h-screen"&gt;height: 100vh&lt;/div&gt;
+&lt;div class="min-h-screen"&gt;min-height: 100vh&lt;/div&gt;
+&lt;div class="h-full"&gt;height: 100%&lt;/div&gt;
+
+&lt;!-- Aspect ratio --&gt;
+&lt;div class="aspect-video"&gt;16/9 (vidéo)&lt;/div&gt;
+&lt;div class="aspect-square"&gt;1/1 (carré)&lt;/div&gt;
+
+&lt;!-- Display --&gt;
+&lt;div class="block"&gt;display: block&lt;/div&gt;
+&lt;span class="inline-block"&gt;display: inline-block&lt;/span&gt;
+&lt;div class="hidden"&gt;display: none&lt;/div&gt;
+
+&lt;!-- Position --&gt;
+&lt;div class="relative"&gt;
+  &lt;div class="absolute top-0 right-0"&gt;Coin haut-droite&lt;/div&gt;
+  &lt;div class="absolute inset-0"&gt;Couvre tout le parent&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="fixed top-0 left-0 right-0 z-50"&gt;Navbar fixe&lt;/div&gt;
+&lt;div class="sticky top-0 z-10"&gt;Sticky sidebar&lt;/div&gt;
+
+&lt;!-- Overflow --&gt;
+&lt;div class="overflow-hidden"&gt;...&lt;/div&gt;
+&lt;div class="overflow-auto"&gt;...&lt;/div&gt;
+&lt;div class="overflow-x-auto"&gt;scroll horizontal&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLEXBOX -->
+    <section class="section" id="flex">
+      <div class="section-title">Flexbox</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Classes Flexbox Tailwind</div>
+          <div class="card-tags"><span class="tag tag-blue">flex</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Activer flex --&gt;
+&lt;div class="flex"&gt;...&lt;/div&gt;
+&lt;div class="inline-flex"&gt;...&lt;/div&gt;
+
+&lt;!-- Direction --&gt;
+&lt;div class="flex flex-row"&gt;Horizontal (défaut)&lt;/div&gt;
+&lt;div class="flex flex-col"&gt;Vertical&lt;/div&gt;
+&lt;div class="flex flex-row-reverse"&gt;Horizontal inversé&lt;/div&gt;
+&lt;div class="flex flex-col-reverse"&gt;Vertical inversé&lt;/div&gt;
+
+&lt;!-- Justify-content --&gt;
+&lt;div class="flex justify-start"&gt;...&lt;/div&gt;
+&lt;div class="flex justify-end"&gt;...&lt;/div&gt;
+&lt;div class="flex justify-center"&gt;...&lt;/div&gt;
+&lt;div class="flex justify-between"&gt;...&lt;/div&gt;
+&lt;div class="flex justify-around"&gt;...&lt;/div&gt;
+&lt;div class="flex justify-evenly"&gt;...&lt;/div&gt;
+
+&lt;!-- Align-items --&gt;
+&lt;div class="flex items-start"&gt;...&lt;/div&gt;
+&lt;div class="flex items-end"&gt;...&lt;/div&gt;
+&lt;div class="flex items-center"&gt;...&lt;/div&gt;
+&lt;div class="flex items-stretch"&gt;...&lt;/div&gt;
+&lt;div class="flex items-baseline"&gt;...&lt;/div&gt;
+
+&lt;!-- Wrap --&gt;
+&lt;div class="flex flex-wrap"&gt;...&lt;/div&gt;
+&lt;div class="flex flex-nowrap"&gt;...&lt;/div&gt;
+
+&lt;!-- Gap --&gt;
+&lt;div class="flex gap-4"&gt;gap: 1rem&lt;/div&gt;
+&lt;div class="flex gap-x-4 gap-y-2"&gt;gap-x et gap-y séparés&lt;/div&gt;
+
+&lt;!-- Flex items --&gt;
+&lt;div class="flex"&gt;
+  &lt;div class="flex-1"&gt;Prend l'espace disponible&lt;/div&gt;
+  &lt;div class="flex-auto"&gt;Taille selon contenu + grandit&lt;/div&gt;
+  &lt;div class="flex-none"&gt;Taille fixe, ne grandit pas&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Grow / Shrink --&gt;
+&lt;div class="grow"&gt;flex-grow: 1&lt;/div&gt;
+&lt;div class="shrink-0"&gt;flex-shrink: 0&lt;/div&gt;
+
+&lt;!-- Self-alignment --&gt;
+&lt;div class="self-start"&gt;...&lt;/div&gt;
+&lt;div class="self-center"&gt;...&lt;/div&gt;
+&lt;div class="self-end"&gt;...&lt;/div&gt;
+
+&lt;!-- Order --&gt;
+&lt;div class="order-first"&gt;Premier&lt;/div&gt;
+&lt;div class="order-last"&gt;Dernier&lt;/div&gt;
+&lt;div class="order-2"&gt;2ème position&lt;/div&gt;
+
+&lt;!-- Centrage parfait (pattern courant) --&gt;
+&lt;div class="flex items-center justify-center h-screen"&gt;
+  &lt;p&gt;Centré horizontalement et verticalement&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="section" id="grid">
+      <div class="section-title">Grid</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">CSS Grid avec Tailwind</div>
+          <div class="card-tags"><span class="tag tag-blue">grid</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Activer grid --&gt;
+&lt;div class="grid"&gt;...&lt;/div&gt;
+
+&lt;!-- Colonnes --&gt;
+&lt;div class="grid grid-cols-1"&gt;1 colonne&lt;/div&gt;
+&lt;div class="grid grid-cols-2"&gt;2 colonnes&lt;/div&gt;
+&lt;div class="grid grid-cols-3"&gt;3 colonnes&lt;/div&gt;
+&lt;div class="grid grid-cols-4"&gt;4 colonnes&lt;/div&gt;
+&lt;div class="grid grid-cols-6"&gt;6 colonnes&lt;/div&gt;
+&lt;div class="grid grid-cols-12"&gt;12 colonnes&lt;/div&gt;
+
+&lt;!-- Gap --&gt;
+&lt;div class="grid grid-cols-3 gap-4"&gt;...&lt;/div&gt;
+&lt;div class="grid grid-cols-3 gap-x-6 gap-y-4"&gt;...&lt;/div&gt;
+
+&lt;!-- Colspan --&gt;
+&lt;div class="grid grid-cols-6"&gt;
+  &lt;div class="col-span-2"&gt;Occupe 2 colonnes&lt;/div&gt;
+  &lt;div class="col-span-4"&gt;Occupe 4 colonnes&lt;/div&gt;
+  &lt;div class="col-span-full"&gt;Pleine largeur&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Lignes --&gt;
+&lt;div class="grid grid-rows-3"&gt;...&lt;/div&gt;
+&lt;div class="row-span-2"&gt;Occupe 2 lignes&lt;/div&gt;
+
+&lt;!-- Place-items (alignement dans les cellules) --&gt;
+&lt;div class="grid place-items-center h-48"&gt;
+  &lt;p&gt;Centré dans la grille&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Grille responsive (pattern courant) --&gt;
+&lt;div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"&gt;
+  &lt;div class="bg-white rounded-lg p-4 shadow"&gt;Carte 1&lt;/div&gt;
+  &lt;div class="bg-white rounded-lg p-4 shadow"&gt;Carte 2&lt;/div&gt;
+  &lt;div class="bg-white rounded-lg p-4 shadow"&gt;Carte 3&lt;/div&gt;
+  &lt;div class="bg-white rounded-lg p-4 shadow"&gt;Carte 4&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPACING -->
+    <section class="section" id="spacing">
+      <div class="section-title">Spacing</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Padding, Margin, Space, Width, Height</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Tailwind utilise une échelle de 4px : <code>1 = 4px</code>, <code>2 = 8px</code>, <code>4 = 16px</code>, <code>8 = 32px</code>, <code>16 = 64px</code>…</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Padding --&gt;
+&lt;div class="p-4"&gt;padding: 1rem (16px) tous côtés&lt;/div&gt;
+&lt;div class="px-4"&gt;padding left + right&lt;/div&gt;
+&lt;div class="py-4"&gt;padding top + bottom&lt;/div&gt;
+&lt;div class="pt-4"&gt;padding-top: 1rem&lt;/div&gt;
+&lt;div class="pb-8"&gt;padding-bottom: 2rem&lt;/div&gt;
+&lt;div class="pl-2 pr-6"&gt;left: 0.5rem, right: 1.5rem&lt;/div&gt;
+
+&lt;!-- Margin --&gt;
+&lt;div class="m-4"&gt;margin: 1rem tous côtés&lt;/div&gt;
+&lt;div class="mx-auto"&gt;centrage horizontal&lt;/div&gt;
+&lt;div class="mt-4"&gt;margin-top: 1rem&lt;/div&gt;
+&lt;div class="mb-8"&gt;margin-bottom: 2rem&lt;/div&gt;
+&lt;div class="my-6"&gt;margin top + bottom: 1.5rem&lt;/div&gt;
+
+&lt;!-- Space between (espacement entre enfants) --&gt;
+&lt;div class="flex space-x-4"&gt;  &lt;!-- margin entre enfants horizontaux --&gt;
+  &lt;div&gt;Item 1&lt;/div&gt;
+  &lt;div&gt;Item 2&lt;/div&gt;
+  &lt;div&gt;Item 3&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="flex flex-col space-y-4"&gt; &lt;!-- margin entre enfants verticaux --&gt;
+  &lt;div&gt;Item 1&lt;/div&gt;
+  &lt;div&gt;Item 2&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Largeurs --&gt;
+&lt;div class="w-4"&gt;width: 1rem&lt;/div&gt;
+&lt;div class="w-8"&gt;width: 2rem&lt;/div&gt;
+&lt;div class="w-16"&gt;width: 4rem&lt;/div&gt;
+&lt;div class="w-32"&gt;width: 8rem&lt;/div&gt;
+&lt;div class="w-48"&gt;width: 12rem&lt;/div&gt;
+&lt;div class="w-64"&gt;width: 16rem&lt;/div&gt;
+&lt;div class="w-full"&gt;width: 100%&lt;/div&gt;
+&lt;div class="w-screen"&gt;width: 100vw&lt;/div&gt;
+
+&lt;!-- Hauteurs --&gt;
+&lt;div class="h-4"&gt;height: 1rem&lt;/div&gt;
+&lt;div class="h-16"&gt;height: 4rem&lt;/div&gt;
+&lt;div class="h-full"&gt;height: 100%&lt;/div&gt;
+&lt;div class="h-screen"&gt;height: 100vh&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TYPOGRAPHIE -->
+    <section class="section" id="typo">
+      <div class="section-title">Typographie</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Classes de texte Tailwind</div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Tailles de police --&gt;
+&lt;p class="text-xs"&gt;xs — 0.75rem&lt;/p&gt;
+&lt;p class="text-sm"&gt;sm — 0.875rem&lt;/p&gt;
+&lt;p class="text-base"&gt;base — 1rem (défaut)&lt;/p&gt;
+&lt;p class="text-lg"&gt;lg — 1.125rem&lt;/p&gt;
+&lt;p class="text-xl"&gt;xl — 1.25rem&lt;/p&gt;
+&lt;p class="text-2xl"&gt;2xl — 1.5rem&lt;/p&gt;
+&lt;p class="text-3xl"&gt;3xl — 1.875rem&lt;/p&gt;
+&lt;p class="text-4xl"&gt;4xl — 2.25rem&lt;/p&gt;
+&lt;p class="text-5xl"&gt;5xl — 3rem&lt;/p&gt;
+&lt;p class="text-6xl"&gt;6xl — 3.75rem&lt;/p&gt;
+
+&lt;!-- Graisse de police --&gt;
+&lt;p class="font-thin"&gt;Thin (100)&lt;/p&gt;
+&lt;p class="font-light"&gt;Light (300)&lt;/p&gt;
+&lt;p class="font-normal"&gt;Normal (400)&lt;/p&gt;
+&lt;p class="font-medium"&gt;Medium (500)&lt;/p&gt;
+&lt;p class="font-semibold"&gt;Semi-gras (600)&lt;/p&gt;
+&lt;p class="font-bold"&gt;Gras (700)&lt;/p&gt;
+&lt;p class="font-extrabold"&gt;Extra-gras (800)&lt;/p&gt;
+&lt;p class="font-black"&gt;Black (900)&lt;/p&gt;
+
+&lt;!-- Style --&gt;
+&lt;p class="italic"&gt;Italique&lt;/p&gt;
+&lt;p class="not-italic"&gt;Normal&lt;/p&gt;
+
+&lt;!-- Espacement des lettres --&gt;
+&lt;p class="tracking-tight"&gt;Lettres serrées&lt;/p&gt;
+&lt;p class="tracking-normal"&gt;Normal&lt;/p&gt;
+&lt;p class="tracking-wide"&gt;Lettres espacées&lt;/p&gt;
+&lt;p class="tracking-widest"&gt;Très espacées&lt;/p&gt;
+
+&lt;!-- Interlignage --&gt;
+&lt;p class="leading-tight"&gt;Lignes serrées&lt;/p&gt;
+&lt;p class="leading-normal"&gt;Normal&lt;/p&gt;
+&lt;p class="leading-relaxed"&gt;Détendu&lt;/p&gt;
+&lt;p class="leading-loose"&gt;Large&lt;/p&gt;
+
+&lt;!-- Alignement --&gt;
+&lt;p class="text-left"&gt;Gauche&lt;/p&gt;
+&lt;p class="text-center"&gt;Centré&lt;/p&gt;
+&lt;p class="text-right"&gt;Droite&lt;/p&gt;
+&lt;p class="text-justify"&gt;Justifié&lt;/p&gt;
+
+&lt;!-- Transformation --&gt;
+&lt;p class="uppercase"&gt;TOUT EN MAJUSCULES&lt;/p&gt;
+&lt;p class="lowercase"&gt;tout en minuscules&lt;/p&gt;
+&lt;p class="capitalize"&gt;Première Lettre En Majuscule&lt;/p&gt;
+
+&lt;!-- Décoration --&gt;
+&lt;a class="underline"&gt;Souligné&lt;/a&gt;
+&lt;a class="no-underline"&gt;Sans soulignement&lt;/a&gt;
+
+&lt;!-- Troncature --&gt;
+&lt;p class="truncate"&gt;Texte trop long tronqué...&lt;/p&gt;
+&lt;p class="line-clamp-2"&gt;Texte limité à 2 lignes puis tronqué avec ellipsis...&lt;/p&gt;
+
+&lt;!-- Listes --&gt;
+&lt;ul class="list-disc list-inside"&gt;
+  &lt;li&gt;Item avec puce&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul class="list-none"&gt;
+  &lt;li&gt;Item sans puce&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COULEURS & FONDS -->
+    <section class="section" id="colors">
+      <div class="section-title">Couleurs &amp; Fonds</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Palette de couleurs Tailwind</div>
+          <div class="card-tags"><span class="tag tag-blue">text-*</span><span class="tag tag-purple">bg-*</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Tailwind fournit une palette complète avec des teintes de 50 (très clair) à 950 (très foncé). Familles disponibles : <code>slate</code>, <code>gray</code>, <code>zinc</code>, <code>neutral</code>, <code>stone</code>, <code>red</code>, <code>orange</code>, <code>amber</code>, <code>yellow</code>, <code>lime</code>, <code>green</code>, <code>emerald</code>, <code>teal</code>, <code>cyan</code>, <code>sky</code>, <code>blue</code>, <code>indigo</code>, <code>violet</code>, <code>purple</code>, <code>fuchsia</code>, <code>pink</code>, <code>rose</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Couleur de texte --&gt;
+&lt;p class="text-slate-900"&gt;Presque noir&lt;/p&gt;
+&lt;p class="text-gray-600"&gt;Gris moyen&lt;/p&gt;
+&lt;p class="text-blue-500"&gt;Bleu standard&lt;/p&gt;
+&lt;p class="text-red-600"&gt;Rouge&lt;/p&gt;
+&lt;p class="text-green-500"&gt;Vert&lt;/p&gt;
+&lt;p class="text-yellow-400"&gt;Jaune&lt;/p&gt;
+&lt;p class="text-white"&gt;Blanc&lt;/p&gt;
+
+&lt;!-- Fond --&gt;
+&lt;div class="bg-white"&gt;Fond blanc&lt;/div&gt;
+&lt;div class="bg-gray-100"&gt;Fond gris très clair&lt;/div&gt;
+&lt;div class="bg-gray-900"&gt;Fond sombre&lt;/div&gt;
+&lt;div class="bg-blue-500"&gt;Fond bleu&lt;/div&gt;
+&lt;div class="bg-emerald-400"&gt;Fond vert émeraude&lt;/div&gt;
+
+&lt;!-- Opacité des couleurs (syntaxe /) --&gt;
+&lt;div class="bg-blue-500/50"&gt;Fond bleu à 50% d'opacité&lt;/div&gt;
+&lt;div class="bg-black/75"&gt;Fond noir à 75% d'opacité&lt;/div&gt;
+&lt;p class="text-black/75"&gt;Texte noir à 75%&lt;/p&gt;
+
+&lt;!-- Dégradés --&gt;
+&lt;div class="bg-gradient-to-r from-blue-500 to-purple-600"&gt;Dégradé gauche→droite&lt;/div&gt;
+&lt;div class="bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600"&gt;Dégradé diagonal avec via&lt;/div&gt;
+&lt;div class="bg-gradient-to-b from-transparent to-black/50"&gt;Overlay sombre en bas&lt;/div&gt;</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JavaScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// Couleurs personnalisées dans tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          light: '#60a5fa',
+          DEFAULT: '#3b82f6',
+          dark: '#1d4ed8',
+        },
+        // Usage : text-brand, bg-brand-light, bg-brand-dark
+      },
+    },
+  },
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BORDURES & OMBRES -->
+    <section class="section" id="borders">
+      <div class="section-title">Bordures &amp; Ombres</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Border, Border-radius, Ring, Shadow</div>
+          <div class="card-tags"><span class="tag tag-blue">border</span><span class="tag tag-purple">shadow</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Bordures --&gt;
+&lt;div class="border"&gt;Bordure 1px&lt;/div&gt;
+&lt;div class="border-2"&gt;Bordure 2px&lt;/div&gt;
+&lt;div class="border-4"&gt;Bordure 4px&lt;/div&gt;
+&lt;div class="border-0"&gt;Sans bordure&lt;/div&gt;
+
+&lt;!-- Côtés spécifiques --&gt;
+&lt;div class="border-t"&gt;Bordure top seulement&lt;/div&gt;
+&lt;div class="border-b"&gt;Bordure bottom seulement&lt;/div&gt;
+&lt;div class="border-l"&gt;Bordure left seulement&lt;/div&gt;
+&lt;div class="border-r"&gt;Bordure right seulement&lt;/div&gt;
+
+&lt;!-- Couleurs de bordure --&gt;
+&lt;div class="border border-gray-200"&gt;Bordure grise claire&lt;/div&gt;
+&lt;div class="border-2 border-blue-500"&gt;Bordure bleue&lt;/div&gt;
+&lt;div class="border border-red-300"&gt;Bordure rouge&lt;/div&gt;
+
+&lt;!-- Border-radius --&gt;
+&lt;div class="rounded"&gt;0.25rem&lt;/div&gt;
+&lt;div class="rounded-md"&gt;0.375rem&lt;/div&gt;
+&lt;div class="rounded-lg"&gt;0.5rem&lt;/div&gt;
+&lt;div class="rounded-xl"&gt;0.75rem&lt;/div&gt;
+&lt;div class="rounded-2xl"&gt;1rem&lt;/div&gt;
+&lt;div class="rounded-3xl"&gt;1.5rem&lt;/div&gt;
+&lt;div class="rounded-full"&gt;9999px — cercle ou pilule&lt;/div&gt;
+
+&lt;!-- Ring (outline/focus ring) --&gt;
+&lt;input class="ring-2 ring-blue-500"&gt;Avec ring bleu&lt;/input&gt;
+&lt;input class="focus:ring-2 focus:ring-blue-500 focus:outline-none"&gt;Focus ring&lt;/input&gt;
+&lt;div class="ring-1 ring-gray-200 ring-offset-2"&gt;Avec offset&lt;/div&gt;
+
+&lt;!-- Ombres --&gt;
+&lt;div class="shadow-sm"&gt;Ombre légère&lt;/div&gt;
+&lt;div class="shadow"&gt;Ombre standard&lt;/div&gt;
+&lt;div class="shadow-md"&gt;Ombre moyenne&lt;/div&gt;
+&lt;div class="shadow-lg"&gt;Ombre large&lt;/div&gt;
+&lt;div class="shadow-xl"&gt;Ombre très large&lt;/div&gt;
+&lt;div class="shadow-2xl"&gt;Ombre maximale&lt;/div&gt;
+&lt;div class="shadow-none"&gt;Sans ombre&lt;/div&gt;
+
+&lt;!-- Ombre colorée --&gt;
+&lt;button class="shadow-lg shadow-blue-500/50"&gt;Ombre bleue&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSITIONS -->
+    <section class="section" id="transitions">
+      <div class="section-title">Transitions &amp; Animations</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Transitions</div>
+          <div class="card-tags"><span class="tag tag-blue">transition</span><span class="tag tag-purple">duration</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Propriétés à transitionner --&gt;
+&lt;div class="transition"&gt;Toutes les propriétés communes&lt;/div&gt;
+&lt;div class="transition-all"&gt;Toutes les propriétés&lt;/div&gt;
+&lt;div class="transition-colors"&gt;Couleur / fond seulement&lt;/div&gt;
+&lt;div class="transition-transform"&gt;Transform seulement&lt;/div&gt;
+&lt;div class="transition-opacity"&gt;Opacité seulement&lt;/div&gt;
+
+&lt;!-- Durée --&gt;
+&lt;div class="transition duration-150"&gt;150ms&lt;/div&gt;
+&lt;div class="transition duration-200"&gt;200ms&lt;/div&gt;
+&lt;div class="transition duration-300"&gt;300ms&lt;/div&gt;
+&lt;div class="transition duration-500"&gt;500ms&lt;/div&gt;
+&lt;div class="transition duration-700"&gt;700ms&lt;/div&gt;
+
+&lt;!-- Timing functions --&gt;
+&lt;div class="transition ease-linear"&gt;Linéaire&lt;/div&gt;
+&lt;div class="transition ease-in"&gt;Accélère&lt;/div&gt;
+&lt;div class="transition ease-out"&gt;Décélère&lt;/div&gt;
+&lt;div class="transition ease-in-out"&gt;Les deux&lt;/div&gt;
+
+&lt;!-- Délai --&gt;
+&lt;div class="transition delay-150"&gt;Délai 150ms&lt;/div&gt;
+
+&lt;!-- Bouton avec transition complète --&gt;
+&lt;button class="bg-blue-500 text-white px-6 py-3 rounded-lg
+  transition-all duration-200 ease-in-out
+  hover:bg-blue-600 hover:shadow-lg hover:scale-105
+  active:scale-95"&gt;
+  Cliquez-moi
+&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Animations intégrées</div>
+          <div class="card-tags"><span class="tag tag-purple">animate-*</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Animations prédéfinies --&gt;
+&lt;div class="animate-spin"&gt;Rotation continue (loader)&lt;/div&gt;
+&lt;div class="animate-ping"&gt;Effet radar / notification&lt;/div&gt;
+&lt;div class="animate-pulse"&gt;Pulsation (skeleton loading)&lt;/div&gt;
+&lt;div class="animate-bounce"&gt;Rebond (scroll indicator)&lt;/div&gt;
+
+&lt;!-- Loader spinner --&gt;
+&lt;div class="animate-spin h-8 w-8 border-4 border-gray-300
+  border-t-blue-500 rounded-full"&gt;&lt;/div&gt;
+
+&lt;!-- Skeleton loading --&gt;
+&lt;div class="animate-pulse space-y-3"&gt;
+  &lt;div class="h-4 bg-gray-200 rounded w-3/4"&gt;&lt;/div&gt;
+  &lt;div class="h-4 bg-gray-200 rounded"&gt;&lt;/div&gt;
+  &lt;div class="h-4 bg-gray-200 rounded w-5/6"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Notification dot --&gt;
+&lt;span class="relative flex h-3 w-3"&gt;
+  &lt;span class="animate-ping absolute inline-flex h-full w-full
+    rounded-full bg-sky-400 opacity-75"&gt;&lt;/span&gt;
+  &lt;span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"&gt;&lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- Transforms au hover --&gt;
+&lt;div class="hover:scale-105 transition-transform duration-200"&gt;Zoom au hover&lt;/div&gt;
+&lt;div class="hover:rotate-3 transition-transform"&gt;Rotation au hover&lt;/div&gt;
+&lt;div class="hover:-translate-y-1 transition-transform"&gt;Remonte au hover&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESPONSIVE -->
+    <section class="section" id="responsive">
+      <div class="section-title">Responsive</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Breakpoints et approche Mobile First</div>
+          <div class="card-tags"><span class="tag tag-blue">Mobile First</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Tailwind est <strong>mobile first</strong> : les classes sans préfixe s'appliquent à tous les écrans, les préfixées écrasent à partir du breakpoint indiqué.</p>
+          <table class="attr-table">
+            <thead><tr><th>Préfixe</th><th>Min-width</th><th>Appareils</th></tr></thead>
+            <tbody>
+              <tr><td>(aucun)</td><td>0px</td><td class="desc">Tous écrans (mobile)</td></tr>
+              <tr><td><code>sm:</code></td><td>640px</td><td class="desc">Téléphones paysage</td></tr>
+              <tr><td><code>md:</code></td><td>768px</td><td class="desc">Tablettes</td></tr>
+              <tr><td><code>lg:</code></td><td>1024px</td><td class="desc">Petits desktops</td></tr>
+              <tr><td><code>xl:</code></td><td>1280px</td><td class="desc">Desktops</td></tr>
+              <tr><td><code>2xl:</code></td><td>1536px</td><td class="desc">Grands écrans</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Texte responsive --&gt;
+&lt;h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"&gt;
+  Titre responsive
+&lt;/h1&gt;
+
+&lt;!-- Affichage conditionnel --&gt;
+&lt;div class="hidden md:block"&gt;Visible seulement sur tablette+&lt;/div&gt;
+&lt;div class="block md:hidden"&gt;Visible seulement sur mobile&lt;/div&gt;
+
+&lt;!-- Layout responsive --&gt;
+&lt;div class="flex flex-col lg:flex-row gap-6"&gt;
+  &lt;aside class="w-full lg:w-64 shrink-0"&gt;Sidebar&lt;/aside&gt;
+  &lt;main class="flex-1"&gt;Contenu principal&lt;/main&gt;
+&lt;/div&gt;
+
+&lt;!-- Grille de cartes responsive --&gt;
+&lt;div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"&gt;
+  &lt;div class="bg-white rounded-xl shadow-md overflow-hidden"&gt;
+    &lt;img src="img.jpg" class="w-full h-48 object-cover" alt="Card image" /&gt;
+    &lt;div class="p-4"&gt;
+      &lt;h3 class="font-semibold text-gray-900 truncate"&gt;Titre de la carte&lt;/h3&gt;
+      &lt;p class="text-sm text-gray-500 mt-1 line-clamp-2"&gt;Description courte.&lt;/p&gt;
+      &lt;button class="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg
+        hover:bg-blue-600 transition-colors text-sm font-medium"&gt;
+        Voir plus
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Padding responsive --&gt;
+&lt;div class="px-4 sm:px-6 md:px-8 lg:px-12"&gt;
+  Padding qui grandit avec l'écran
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DARK MODE -->
+    <section class="section" id="darkmode">
+      <div class="section-title">Dark Mode</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Mode sombre avec le préfixe <code>dark:</code></div>
+          <div class="card-tags"><span class="tag tag-blue">dark:</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Activez <code>darkMode: 'class'</code> dans la config, puis ajoutez la classe <code>dark</code> sur l'élément <code>&lt;html&gt;</code> pour activer le mode sombre.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JavaScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// tailwind.config.js
+module.exports = {
+  darkMode: 'class', // active le dark mode via la classe .dark sur &lt;html&gt;
+  // ...
+};
+
+// Toggle dark mode en JavaScript
+function toggleDarkMode() {
+  document.documentElement.classList.toggle('dark');
+}
+
+// Persistance avec localStorage
+function initDarkMode() {
+  if (
+    localStorage.getItem('darkMode') === 'true' ||
+    (!localStorage.getItem('darkMode') &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    document.documentElement.classList.add('dark');
+  }
+}
+
+function toggleDarkMode() {
+  const isDark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('darkMode', isDark);
+}</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Classes dark: --&gt;
+&lt;body class="bg-white dark:bg-gray-900"&gt;
+  &lt;h1 class="text-gray-900 dark:text-white"&gt;Titre&lt;/h1&gt;
+  &lt;p class="text-gray-600 dark:text-gray-400"&gt;Paragraphe&lt;/p&gt;
+
+  &lt;!-- Card en dark mode --&gt;
+  &lt;div class="bg-white dark:bg-gray-800 border border-gray-200
+    dark:border-gray-700 rounded-xl p-6 shadow-sm"&gt;
+    &lt;h2 class="font-semibold text-gray-900 dark:text-white"&gt;Carte dark mode&lt;/h2&gt;
+    &lt;p class="text-gray-500 dark:text-gray-400 mt-2"&gt;Description.&lt;/p&gt;
+    &lt;button class="mt-4 bg-blue-500 dark:bg-blue-600 text-white
+      px-4 py-2 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700
+      transition-colors"&gt;
+      Action
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Input dark mode --&gt;
+  &lt;input class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+    border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2
+    focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400
+    focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500"
+    placeholder="Rechercher..." /&gt;
+
+  &lt;!-- Toggle button --&gt;
+  &lt;button onclick="toggleDarkMode()"
+    class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700
+    text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600
+    transition-colors"&gt;
+    ☀️ / 🌙
+  &lt;/button&gt;
+&lt;/body&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOVER & FOCUS STATES -->
+    <section class="section" id="states">
+      <div class="section-title">Hover, Focus &amp; Active States</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Modificateurs d'état</div>
+          <div class="card-tags"><span class="tag tag-blue">hover:</span><span class="tag tag-purple">focus:</span><span class="tag tag-green">group-hover:</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Hover --&gt;
+&lt;button class="bg-blue-500 hover:bg-blue-600 hover:shadow-lg transition-all"&gt;
+  Survol
+&lt;/button&gt;
+
+&lt;!-- Focus --&gt;
+&lt;input class="border border-gray-300 focus:border-blue-500
+  focus:ring-2 focus:ring-blue-500/30 focus:outline-none rounded-lg px-4 py-2"
+  placeholder="Focus ring" /&gt;
+
+&lt;!-- Active --&gt;
+&lt;button class="bg-blue-500 hover:bg-blue-600 active:scale-95
+  active:bg-blue-700 transition-all"&gt;
+  Cliquez
+&lt;/button&gt;
+
+&lt;!-- Disabled --&gt;
+&lt;button class="bg-blue-500 text-white px-4 py-2 rounded-lg
+  disabled:opacity-50 disabled:cursor-not-allowed" disabled&gt;
+  Désactivé
+&lt;/button&gt;
+
+&lt;!-- Group hover (parent contrôle les enfants) --&gt;
+&lt;div class="group bg-white hover:bg-blue-500 rounded-xl p-6 transition-colors cursor-pointer"&gt;
+  &lt;h3 class="text-gray-900 group-hover:text-white font-semibold transition-colors"&gt;
+    Titre de la carte
+  &lt;/h3&gt;
+  &lt;p class="text-gray-500 group-hover:text-blue-100 text-sm mt-1 transition-colors"&gt;
+    La couleur change au hover du parent.
+  &lt;/p&gt;
+  &lt;svg class="text-blue-500 group-hover:text-white mt-4 transition-colors w-5 h-5"&gt;
+    ...
+  &lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;!-- Peer (input contrôle son voisin) --&gt;
+&lt;div class="relative"&gt;
+  &lt;input class="peer border rounded-lg px-4 py-2 focus:outline-none"
+    placeholder=" " id="email" /&gt;
+  &lt;label for="email"
+    class="absolute left-4 top-2.5 text-gray-400 text-sm
+    peer-focus:-top-2 peer-focus:text-xs peer-focus:text-blue-500
+    transition-all"&gt;
+    Email
+  &lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- First / Last / Odd / Even --&gt;
+&lt;ul&gt;
+  &lt;li class="py-2 first:pt-0 last:pb-0 odd:bg-gray-50 even:bg-white
+    border-b last:border-0"&gt;Item&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Placeholder --&gt;
+&lt;input class="placeholder:text-gray-400 placeholder:italic" placeholder="Texte gris italique" /&gt;
+
+&lt;!-- Selection --&gt;
+&lt;p class="selection:bg-blue-500 selection:text-white"&gt;
+  Sélectionnez ce texte pour voir l'effet.
+&lt;/p&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPOSANTS -->
+    <section class="section" id="components">
+      <div class="section-title">Composants courants</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Bouton primaire avec états</div>
+          <div class="card-tags"><span class="tag tag-blue">button</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;button class="inline-flex items-center gap-2
+  bg-blue-600 hover:bg-blue-700 active:bg-blue-800
+  text-white text-sm font-semibold
+  px-5 py-2.5 rounded-lg
+  shadow-sm hover:shadow-md
+  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+  active:scale-95
+  disabled:opacity-50 disabled:cursor-not-allowed
+  transition-all duration-150"&gt;
+  &lt;svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;
+    &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /&gt;
+  &lt;/svg&gt;
+  Confirmer
+&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Card avec image, titre, texte, bouton</div>
+          <div class="card-tags"><span class="tag tag-blue">card</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden
+  hover:shadow-xl transition-shadow duration-300 max-w-sm"&gt;
+  &lt;!-- Image --&gt;
+  &lt;div class="relative overflow-hidden h-48"&gt;
+    &lt;img src="image.jpg" alt="Article"
+      class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" /&gt;
+    &lt;span class="absolute top-3 right-3 bg-blue-500 text-white
+      text-xs font-bold px-2 py-1 rounded-full"&gt;
+      Nouveau
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;!-- Contenu --&gt;
+  &lt;div class="p-5"&gt;
+    &lt;div class="flex items-center gap-2 mb-3"&gt;
+      &lt;span class="text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wide"&gt;
+        Technologie
+      &lt;/span&gt;
+      &lt;span class="text-xs text-gray-400"&gt;• 5 min de lecture&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;h3 class="text-lg font-bold text-gray-900 dark:text-white line-clamp-2 mb-2"&gt;
+      Titre de l'article intéressant
+    &lt;/h3&gt;
+    &lt;p class="text-gray-500 dark:text-gray-400 text-sm line-clamp-3 mb-4"&gt;
+      Description courte de l'article qui peut faire plusieurs lignes mais sera
+      tronquée après trois lignes.
+    &lt;/p&gt;
+    &lt;button class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm
+      font-medium py-2 rounded-lg transition-colors"&gt;
+      Lire l'article
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Badge / Pill &amp; Alert / Notification</div>
+          <div class="card-tags"><span class="tag tag-blue">badge</span><span class="tag tag-green">alert</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Badges --&gt;
+&lt;span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs
+  font-medium bg-blue-100 text-blue-800"&gt;
+  Nouveau
+&lt;/span&gt;
+&lt;span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs
+  font-medium bg-green-100 text-green-800"&gt;
+  Actif
+&lt;/span&gt;
+&lt;span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs
+  font-medium bg-red-100 text-red-800"&gt;
+  Erreur
+&lt;/span&gt;
+&lt;span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs
+  font-medium bg-yellow-100 text-yellow-800"&gt;
+  En attente
+&lt;/span&gt;
+
+&lt;!-- Alert/Notification --&gt;
+&lt;div class="flex items-start gap-4 p-4 bg-green-50 border border-green-200
+  rounded-xl dark:bg-green-900/20 dark:border-green-800"&gt;
+  &lt;div class="flex-shrink-0 w-5 h-5 text-green-500 mt-0.5"&gt;
+    &lt;svg fill="currentColor" viewBox="0 0 20 20"&gt;
+      &lt;path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /&gt;
+    &lt;/svg&gt;
+  &lt;/div&gt;
+  &lt;div class="flex-1"&gt;
+    &lt;h4 class="text-sm font-semibold text-green-800 dark:text-green-300"&gt;
+      Succès !
+    &lt;/h4&gt;
+    &lt;p class="text-sm text-green-700 dark:text-green-400 mt-1"&gt;
+      Votre opération a été réalisée avec succès.
+    &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="text-green-400 hover:text-green-600 transition-colors"&gt;
+    &lt;svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"&gt;
+      &lt;path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Input avec label et focus ring</div>
+          <div class="card-tags"><span class="tag tag-purple">form</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;div class="space-y-4"&gt;
+  &lt;!-- Input classique --&gt;
+  &lt;div&gt;
+    &lt;label for="nom" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"&gt;
+      Nom complet
+    &lt;/label&gt;
+    &lt;input id="nom" type="text"
+      class="w-full bg-white dark:bg-gray-800
+        text-gray-900 dark:text-white
+        border border-gray-300 dark:border-gray-600
+        rounded-lg px-4 py-2.5 text-sm
+        placeholder:text-gray-400
+        focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500
+        transition-colors"
+      placeholder="Jean Dupont" /&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Input avec icône --&gt;
+  &lt;div class="relative"&gt;
+    &lt;div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"&gt;
+      &lt;svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;
+        &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /&gt;
+      &lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;input type="email"
+      class="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600
+        rounded-lg text-sm bg-white dark:bg-gray-800
+        focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 focus:outline-none
+        transition-colors"
+      placeholder="email@exemple.com" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Navbar responsive</div>
+          <div class="card-tags"><span class="tag tag-blue">navbar</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;nav class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800
+  sticky top-0 z-50"&gt;
+  &lt;div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;
+    &lt;div class="flex items-center justify-between h-16"&gt;
+
+      &lt;!-- Logo --&gt;
+      &lt;a href="#" class="flex items-center gap-2 font-bold text-xl text-gray-900 dark:text-white"&gt;
+        &lt;span class="text-blue-500"&gt;My&lt;/span&gt;App
+      &lt;/a&gt;
+
+      &lt;!-- Menu desktop --&gt;
+      &lt;ul class="hidden md:flex items-center gap-6 text-sm"&gt;
+        &lt;li&gt;&lt;a href="#" class="text-gray-700 dark:text-gray-300 hover:text-blue-500 transition-colors font-medium"&gt;Accueil&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#" class="text-gray-700 dark:text-gray-300 hover:text-blue-500 transition-colors"&gt;Fonctionnalités&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#" class="text-gray-700 dark:text-gray-300 hover:text-blue-500 transition-colors"&gt;Tarifs&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;!-- Actions desktop --&gt;
+      &lt;div class="hidden md:flex items-center gap-3"&gt;
+        &lt;a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"&gt;
+          Connexion
+        &lt;/a&gt;
+        &lt;a href="#" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium
+          px-4 py-2 rounded-lg transition-colors"&gt;
+          S'inscrire
+        &lt;/a&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Bouton hamburger mobile --&gt;
+      &lt;button id="menuBtn" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-400
+        hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"&gt;
+        &lt;svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;
+          &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /&gt;
+        &lt;/svg&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Menu mobile --&gt;
+  &lt;div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-800"&gt;
+    &lt;div class="px-4 py-4 space-y-3"&gt;
+      &lt;a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-500"&gt;Accueil&lt;/a&gt;
+      &lt;a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-500"&gt;Fonctionnalités&lt;/a&gt;
+      &lt;a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-500"&gt;Tarifs&lt;/a&gt;
+      &lt;hr class="border-gray-200 dark:border-gray-700" /&gt;
+      &lt;a href="#" class="block bg-blue-600 text-white text-center py-2 rounded-lg"&gt;S'inscrire&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Avatar avec indicateur de statut</div>
+          <div class="card-tags"><span class="tag tag-purple">avatar</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Avatar simple --&gt;
+&lt;img src="avatar.jpg" alt="Alice"
+  class="w-10 h-10 rounded-full object-cover ring-2 ring-blue-500 ring-offset-2" /&gt;
+
+&lt;!-- Avatar avec initiales --&gt;
+&lt;div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center
+  text-white font-semibold text-sm"&gt;
+  AD
+&lt;/div&gt;
+
+&lt;!-- Avatar avec indicateur de statut --&gt;
+&lt;div class="relative inline-flex"&gt;
+  &lt;img src="avatar.jpg" alt="Alice"
+    class="w-12 h-12 rounded-full object-cover" /&gt;
+  &lt;!-- Point vert = en ligne --&gt;
+  &lt;span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full
+    bg-green-400 ring-2 ring-white dark:ring-gray-900"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Groupe d'avatars empilés --&gt;
+&lt;div class="flex -space-x-3"&gt;
+  &lt;img src="a1.jpg" alt="Alice"
+    class="w-9 h-9 rounded-full ring-2 ring-white dark:ring-gray-900 object-cover" /&gt;
+  &lt;img src="a2.jpg" alt="Bob"
+    class="w-9 h-9 rounded-full ring-2 ring-white dark:ring-gray-900 object-cover" /&gt;
+  &lt;img src="a3.jpg" alt="Carol"
+    class="w-9 h-9 rounded-full ring-2 ring-white dark:ring-gray-900 object-cover" /&gt;
+  &lt;div class="w-9 h-9 rounded-full ring-2 ring-white dark:ring-gray-900
+    bg-gray-200 dark:bg-gray-700 flex items-center justify-center
+    text-xs font-medium text-gray-600 dark:text-gray-300"&gt;
+    +5
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+  </main>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

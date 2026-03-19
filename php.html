@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — PHP / Symfony</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li class="active"><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une fonction, commande, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">PHP / Symfony</div>
+    <ul class="sidebar-nav">
+      <li><a href="#bases"><span class="icon">📦</span>Bases PHP</a></li>
+      <li><a href="#strings"><span class="icon">🔤</span>Chaînes de caractères</a></li>
+      <li><a href="#tableaux"><span class="icon">📋</span>Tableaux</a></li>
+      <li><a href="#fonctions"><span class="icon">⚙️</span>Fonctions</a></li>
+      <li><a href="#oop"><span class="icon">🏗️</span>POO — Classes</a></li>
+      <li><a href="#symfony-install"><span class="icon">🚀</span>Symfony — Installation</a></li>
+      <li><a href="#symfony-structure"><span class="icon">📁</span>Structure du projet</a></li>
+      <li><a href="#routing"><span class="icon">🗺️</span>Routes &amp; Contrôleurs</a></li>
+      <li><a href="#twig"><span class="icon">🎨</span>Twig — Templates</a></li>
+      <li><a href="#doctrine"><span class="icon">🗄️</span>Doctrine — Entités</a></li>
+      <li><a href="#repository"><span class="icon">🔍</span>Repository &amp; Requêtes</a></li>
+      <li><a href="#forms"><span class="icon">📝</span>Formulaires Symfony</a></li>
+      <li><a href="#security"><span class="icon">🔒</span>Sécurité &amp; Auth</a></li>
+      <li><a href="#services"><span class="icon">🔧</span>Services &amp; DI</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <h1>PHP / Symfony <span class="badge" style="background:rgba(119,123,180,0.2);color:#9b9fd4;">PHP 8.2 — Symfony 7</span></h1>
+      <p>Bases PHP, programmation orientée objet, et le framework Symfony complet avec Doctrine ORM.</p>
+    </div>
+
+    <!-- BASES PHP -->
+    <section class="section" id="bases">
+      <div class="section-title">Bases PHP</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Variables, types, opérateurs</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+// Variables (toujours préfixées par $)
+$nom    = "Alice";
+$age    = 30;
+$prix   = 19.99;
+$actif  = true;
+$rien   = null;
+
+// Constantes
+define('VERSION', '1.0.0');
+const APP_NAME = 'MonApp';
+
+// Types
+gettype($nom);     // "string"
+is_string($nom);   // true
+is_int($age);      // true
+is_null($rien);    // true
+isset($nom);       // true (existe et !== null)
+empty($nom);       // false (non vide)
+
+// Casting
+(int) "42";        // 42
+(float) "3.14";    // 3.14
+(string) 42;       // "42"
+(bool) 1;          // true
+(array) $nom;      // ["Alice"]
+intval("42px");    // 42
+
+// Opérateurs de comparaison
+$a == $b;   // égal (loose)
+$a === $b;  // identique (valeur + type) — à préférer
+$a != $b;   // différent
+$a !== $b;  // non identique
+$a &lt;=&gt; $b;  // spaceship : -1, 0, ou 1
+
+// Opérateurs logiques
+$a && $b;   // ET
+$a || $b;   // OU
+!$a;        // NON
+$a and $b;  // ET (priorité plus basse)
+
+// Null coalescing
+$valeur = $user['nom'] ?? 'Anonyme';    // PHP 7+
+$user['age'] ??= 18;                    // affecte si null (PHP 7.4+)
+
+// Spaceship pour tri
+usort($items, fn($a, $b) =&gt; $a['prix'] &lt;=&gt; $b['prix']);</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Structures de contrôle</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+// if / elseif / else
+if ($age &gt;= 18) {
+    echo "Majeur";
+} elseif ($age &gt;= 13) {
+    echo "Adolescent";
+} else {
+    echo "Enfant";
+}
+
+// Ternaire
+$statut = $actif ? "Actif" : "Inactif";
+
+// Match (PHP 8) — plus strict que switch
+$message = match($code) {
+    200       =&gt; "OK",
+    404       =&gt; "Non trouvé",
+    500, 503  =&gt; "Erreur serveur",
+    default   =&gt; "Inconnu",
+};
+
+// for
+for ($i = 0; $i &lt; 10; $i++) {
+    echo $i;
+}
+
+// while
+while ($condition) { ... }
+
+// foreach
+foreach ($fruits as $fruit) {
+    echo $fruit;
+}
+foreach ($users as $id =&gt; $user) {
+    echo "$id: {$user['nom']}";
+}
+
+// break / continue
+foreach ($items as $item) {
+    if ($item === "skip") continue;
+    if ($item === "stop") break;
+    echo $item;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAÎNES DE CARACTÈRES -->
+    <section class="section" id="strings">
+      <div class="section-title">Chaînes de caractères</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Fonctions de chaînes essentielles</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+// Interpolation
+$nom = "Alice";
+echo "Bonjour $nom !";
+echo "Bonjour {$nom} !";      // avec accolades (objets, tableaux)
+echo 'Pas d\'interpolation';  // guillemets simples = littéral
+
+// Heredoc (interpolation)
+$texte = &lt;&lt;&lt;EOT
+Bonjour $nom,
+Bienvenue !
+EOT;
+
+// Nowdoc (pas d'interpolation)
+$texte = &lt;&lt;&lt;'EOT'
+Bonjour $nom,
+EOT;
+
+// Longueur et recherche
+strlen("Bonjour");             // 7
+mb_strlen("Héllo");            // 5 (multi-byte — UTF-8)
+strpos("Bonjour", "jour");     // 3 (ou false)
+strrpos("aabaa", "a");         // 4 (dernière occurrence)
+str_contains("Bonjour", "jour"); // true (PHP 8)
+str_starts_with("Bonjour", "Bon"); // true (PHP 8)
+str_ends_with("Bonjour", "jour");  // true (PHP 8)
+substr_count("banana", "an");  // 2
+
+// Transformation
+strtolower("HELLO");           // "hello"
+strtoupper("hello");           // "HELLO"
+ucfirst("bonjour");            // "Bonjour"
+ucwords("bonjour monde");      // "Bonjour Monde"
+trim("  espaces  ");           // "espaces"
+ltrim("  gauche");
+rtrim("droite  ");
+str_pad("5", 3, "0", STR_PAD_LEFT); // "005"
+str_repeat("ab", 3);           // "ababab"
+wordwrap($texte, 75, "\n", true);
+
+// Remplacement
+str_replace("foo", "bar", "foo baz");     // "bar baz"
+str_ireplace("FOO", "bar", "foo baz");    // insensible à la casse
+substr("Bonjour", 3, 4);                  // "jour"
+substr_replace("Bonjour", "soir", 3);     // "Bonsoir"
+
+// Découpage / assemblage
+explode(",", "a,b,c");         // ["a", "b", "c"]
+implode(", ", ["a", "b", "c"]); // "a, b, c"
+str_split("abc", 1);           // ["a", "b", "c"]
+
+// Recherche & extraction
+preg_match('/(\d+)/', 'Prix: 42€', $matches); // $matches[1] = "42"
+preg_match_all('/\d+/', 'a1b2c3', $matches);  // $matches[0] = ["1","2","3"]
+preg_replace('/\s+/', ' ', $texte);
+preg_split('/,\s*/', "a, b,c");
+
+// Sécurité
+htmlspecialchars($input, ENT_QUOTES, 'UTF-8'); // Escaper pour HTML (anti-XSS)
+strip_tags($html);             // Supprimer les balises HTML
+addslashes($str);              // Échapper
+nl2br($texte);                 // \n → &lt;br /&gt;
+
+// Hashage
+password_hash("monMotDePasse", PASSWORD_BCRYPT); // hachage sécurisé
+password_verify("monMotDePasse", $hash);          // vérification</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABLEAUX -->
+    <section class="section" id="tableaux">
+      <div class="section-title">Tableaux</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Tableaux indexés, associatifs, fonctions</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+// Tableaux indexés
+$fruits = ["pomme", "banane", "cerise"];
+$fruits[] = "fraise";           // ajouter à la fin
+$fruits[0];                     // "pomme"
+
+// Tableaux associatifs
+$user = [
+    "nom"   =&gt; "Alice",
+    "email" =&gt; "alice@exemple.fr",
+    "age"   =&gt; 30,
+];
+$user["nom"];                   // "Alice"
+
+// Tableaux multidimensionnels
+$users = [
+    ["id" =&gt; 1, "nom" =&gt; "Alice"],
+    ["id" =&gt; 2, "nom" =&gt; "Bob"],
+];
+
+// Vérification
+in_array("banane", $fruits);    // true
+array_key_exists("nom", $user); // true
+isset($user["age"]);            // true
+count($fruits);                 // 4
+
+// Manipulation
+array_push($fruits, "melon");
+array_pop($fruits);             // supprime et retourne le dernier
+array_shift($fruits);           // supprime et retourne le premier
+array_unshift($fruits, "ananas"); // ajoute au début
+array_splice($fruits, 1, 2);    // supprime 2 éléments à l'index 1
+array_slice($fruits, 0, 2);     // retourne les 2 premiers (non mutant)
+
+// Recherche
+array_search("banane", $fruits); // index (ou false)
+array_keys($user);               // ["nom", "email", "age"]
+array_values($user);             // ["Alice", "alice@...", 30]
+
+// Transformations
+array_map(fn($n) =&gt; $n * 2, [1, 2, 3]);       // [2, 4, 6]
+array_filter([1, 0, 2, false, 3], fn($n) =&gt; $n &gt; 0); // [1, 2, 3]
+array_reduce([1,2,3,4], fn($acc, $n) =&gt; $acc + $n, 0); // 10
+
+// Tri
+sort($fruits);                   // tri indexé croissant (mute)
+rsort($fruits);                  // décroissant
+asort($user);                    // tri associatif par valeur
+arsort($user);
+ksort($user);                    // tri par clé
+usort($users, fn($a, $b) =&gt; $a["age"] &lt;=&gt; $b["age"]); // personnalisé
+
+// Fusion / Découpage
+array_merge($arr1, $arr2);       // fusionne (ré-indexe si numérique)
+array_merge_recursive($arr1, $arr2);
+$fusionné = [...$arr1, ...$arr2]; // spread operator PHP 7.4+
+array_unique([1, 1, 2, 2, 3]);   // [1, 2, 3]
+array_flip(["a"=&gt;"b", "c"=&gt;"d"]); // ["b"=&gt;"a", "d"=&gt;"c"]
+array_combine(["a","b"], [1,2]);   // ["a"=&gt;1, "b"=&gt;2]
+array_chunk([1,2,3,4,5], 2);      // [[1,2],[3,4],[5]]
+array_column($users, "nom");      // ["Alice", "Bob"]</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FONCTIONS -->
+    <section class="section" id="fonctions">
+      <div class="section-title">Fonctions</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Déclaration, paramètres, closures, arrow functions</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+// Déclaration avec types (PHP 7+)
+function additionner(int $a, int $b): int {
+    return $a + $b;
+}
+
+// Paramètres par défaut
+function saluer(string $nom, string $salutation = "Bonjour"): string {
+    return "$salutation, $nom !";
+}
+
+// Type nullable
+function trouverUser(?int $id): ?array {
+    if ($id === null) return null;
+    return ["id" =&gt; $id, "nom" =&gt; "Alice"];
+}
+
+// Union types (PHP 8)
+function traiter(int|string $valeur): void {
+    echo $valeur;
+}
+
+// Valeur de retour multiple (via array)
+function diviser(int $a, int $b): array {
+    return [$a / $b, $a % $b]; // [quotient, reste]
+}
+[$quotient, $reste] = diviser(10, 3);
+
+// Passage par référence
+function incrementer(int &$n): void {
+    $n++;
+}
+$x = 5;
+incrementer($x); // $x vaut maintenant 6
+
+// Nombre variable d'arguments
+function somme(int ...$nombres): int {
+    return array_sum($nombres);
+}
+somme(1, 2, 3, 4); // 10
+
+// Closure (fonction anonyme)
+$double = function(int $n): int {
+    return $n * 2;
+};
+
+// Closure avec capture de variables extérieures
+$multiplicateur = 3;
+$multiplier = function(int $n) use ($multiplicateur): int {
+    return $n * $multiplicateur;
+};
+
+// Arrow function (PHP 7.4) — capture automatique
+$multiplier = fn(int $n) =&gt; $n * $multiplicateur;
+
+// Fonctions de première classe (PHP 8.1)
+$fn = strlen(...);  // référence à une fonction native
+$fn("Bonjour");     // 7</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POO -->
+    <section class="section" id="oop">
+      <div class="section-title">POO — Classes &amp; Objets</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Classes, héritage, interfaces, traits</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+// ===== CLASSE DE BASE =====
+class Animal {
+    // Propriétés typées (PHP 7.4+)
+    private string $nom;
+    protected int $age;
+    public static int $count = 0;
+
+    // Constructeur (PHP 8 : promotion des propriétés)
+    public function __construct(
+        private string $espece,
+        string $nom,
+        protected int $pattes = 4
+    ) {
+        $this-&gt;nom = $nom;
+        self::$count++;
+    }
+
+    // Méthodes
+    public function getNom(): string { return $this-&gt;nom; }
+    public function setNom(string $nom): void { $this-&gt;nom = $nom; }
+
+    public function parler(): string {
+        return "{$this-&gt;nom} fait un bruit.";
+    }
+
+    public static function getCount(): int {
+        return self::$count;
+    }
+
+    // Méthode magique
+    public function __toString(): string {
+        return "{$this-&gt;nom} ({$this-&gt;espece})";
+    }
+}
+
+// ===== HÉRITAGE =====
+class Chien extends Animal {
+    public function __construct(string $nom, private string $race) {
+        parent::__construct("Canis lupus", $nom, 4);
+    }
+
+    public function parler(): string {
+        return "{$this-&gt;getNom()} aboie : Wouf !";
+    }
+
+    public function getRace(): string { return $this-&gt;race; }
+}
+
+// ===== INTERFACE =====
+interface Serializable {
+    public function toArray(): array;
+    public function toJson(): string;
+}
+
+// ===== CLASSE ABSTRAITE =====
+abstract class Shape {
+    abstract public function area(): float;
+    public function describe(): string {
+        return "Forme avec surface : " . $this-&gt;area();
+    }
+}
+
+class Cercle extends Shape {
+    public function __construct(private float $rayon) {}
+    public function area(): float { return M_PI * $this-&gt;rayon ** 2; }
+}
+
+// ===== TRAIT =====
+trait Timestampable {
+    private DateTime $createdAt;
+    private DateTime $updatedAt;
+
+    public function setCreatedAt(): void { $this-&gt;createdAt = new DateTime(); }
+    public function getCreatedAt(): DateTime { return $this-&gt;createdAt; }
+}
+
+class Article {
+    use Timestampable;
+    // Hérite des méthodes du trait
+}
+
+// ===== READONLY (PHP 8.1) =====
+class Point {
+    public function __construct(
+        public readonly float $x,
+        public readonly float $y,
+    ) {}
+}
+$p = new Point(1.5, 2.5);
+// $p-&gt;x = 3.0; // Erreur !
+
+// ===== ENUM (PHP 8.1) =====
+enum Statut: string {
+    case Actif   = 'actif';
+    case Inactif = 'inactif';
+    case Banni   = 'banni';
+}
+$s = Statut::Actif;
+$s-&gt;value;              // "actif"
+Statut::from('actif');  // Statut::Actif</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SYMFONY INSTALLATION -->
+    <section class="section" id="symfony-install">
+      <div class="section-title">Symfony — Installation &amp; CLI</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Créer et gérer un projet Symfony</div><div class="card-tags"><span class="tag tag-purple">Symfony 7</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Installer Symfony CLI
+curl -sS https://get.symfony.com/cli/installer | bash
+
+# Créer un projet web complet
+symfony new mon-projet --webapp
+
+# Créer un projet minimal (API)
+symfony new mon-api --no-interaction
+
+# Lancer le serveur de développement
+symfony serve
+symfony serve -d              # en arrière-plan
+symfony server:stop
+
+# Composer
+composer require symfony/orm-pack          # Doctrine ORM
+composer require symfony/form              # Formulaires
+composer require symfony/security-bundle  # Sécurité
+composer require symfony/mailer            # Emails
+composer require symfony/validator         # Validation
+composer require nelmio/cors-bundle        # CORS (API)
+composer require lexik/jwt-authentication-bundle # JWT
+composer require --dev symfony/maker-bundle     # Générateurs
+
+# Commandes Symfony
+php bin/console list                            # toutes les commandes
+php bin/console make:controller NomController   # créer un contrôleur
+php bin/console make:entity NomEntite           # créer une entité
+php bin/console make:migration                  # créer une migration
+php bin/console doctrine:migrations:migrate     # exécuter les migrations
+php bin/console make:form NomType               # créer un form type
+php bin/console make:user                       # créer l'entité User
+php bin/console make:auth                       # créer le système d'auth
+php bin/console make:crud NomEntite             # CRUD complet
+php bin/console debug:router                    # lister toutes les routes
+php bin/console debug:container                 # lister les services
+php bin/console cache:clear                     # vider le cache
+php bin/console doctrine:fixtures:load          # charger les fixtures</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRUCTURE DU PROJET -->
+    <section class="section" id="symfony-structure">
+      <div class="section-title">Structure du projet Symfony</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Arborescence d'un projet Symfony</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">mon-projet/
+├── config/
+│   ├── packages/           # Configuration des bundles
+│   ├── routes/             # Configuration des routes (yaml)
+│   └── services.yaml       # Configuration des services
+├── migrations/             # Migrations Doctrine
+├── public/
+│   └── index.php           # Point d'entrée
+├── src/
+│   ├── Controller/         # Contrôleurs
+│   ├── Entity/             # Entités Doctrine (modèles)
+│   ├── Form/               # Form Types
+│   ├── Repository/         # Repositories Doctrine
+│   ├── Service/            # Services métier
+│   ├── EventSubscriber/    # Écouteurs d'événements
+│   └── Kernel.php
+├── templates/              # Templates Twig (.html.twig)
+├── tests/                  # Tests unitaires et fonctionnels
+├── var/
+│   ├── cache/
+│   └── log/
+├── vendor/                 # Dépendances Composer
+├── .env                    # Variables d'environnement
+├── .env.local              # Variables locales (gitignore)
+├── composer.json
+└── symfony.lock</code></pre>
+          </div>
+          <p class="card-desc" style="margin-top:12px;">Fichier <code>.env</code> — variables d'environnement :</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">ENV</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">APP_ENV=dev
+APP_SECRET=un_secret_aleatoire_tres_long
+DATABASE_URL="mysql://user:password@127.0.0.1:3306/ma_base?serverVersion=8.0"
+# PostgreSQL :
+# DATABASE_URL="postgresql://user:password@127.0.0.1:5432/ma_base?serverVersion=15"
+MAILER_DSN=smtp://localhost:1025</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROUTES & CONTRÔLEURS -->
+    <section class="section" id="routing">
+      <div class="section-title">Routes &amp; Contrôleurs</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Créer des routes avec attributs PHP 8</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\{Request, Response, JsonResponse, RedirectResponse};
+use Symfony\Component\Routing\Attribute\Route;
+
+#[Route('/articles', name: 'article_')]
+class ArticleController extends AbstractController
+{
+    // GET /articles
+    #[Route('/', name: 'index', methods: ['GET'])]
+    public function index(): Response
+    {
+        return $this-&gt;render('article/index.html.twig', [
+            'articles' =&gt; [],
+        ]);
+    }
+
+    // GET /articles/42
+    #[Route('/{id}', name: 'show', requirements: ['id' =&gt; '\d+'], methods: ['GET'])]
+    public function show(int $id): Response
+    {
+        return $this-&gt;render('article/show.html.twig', ['id' =&gt; $id]);
+    }
+
+    // GET /articles/new
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
+    {
+        // Récupérer données POST
+        $titre = $request-&gt;request-&gt;get('titre');
+        $page  = $request-&gt;query-&gt;get('page', 1); // query string
+
+        return $this-&gt;redirectToRoute('article_index');
+    }
+
+    // Réponse JSON (API)
+    #[Route('/api/articles', name: 'api_list', methods: ['GET'])]
+    public function apiList(): JsonResponse
+    {
+        $data = ['articles' =&gt; [], 'total' =&gt; 0];
+        return $this-&gt;json($data, 200);
+    }
+
+    // Redirection
+    #[Route('/redirect', name: 'redirect')]
+    public function redirect(): RedirectResponse
+    {
+        return $this-&gt;redirectToRoute('article_index', [], 302);
+    }
+
+    // Flash messages
+    public function withFlash(): Response
+    {
+        $this-&gt;addFlash('success', 'Article créé avec succès !');
+        $this-&gt;addFlash('error', 'Une erreur est survenue.');
+        return $this-&gt;redirectToRoute('article_index');
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TWIG -->
+    <section class="section" id="twig">
+      <div class="section-title">Twig — Templates</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Syntaxe Twig complète</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Twig</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-twig">{# Commentaire Twig #}
+
+{# Affichage #}
+{{ variable }}
+{{ user.nom }}
+{{ user.getNom() }}
+{{ 'Bonjour ' ~ nom ~ ' !' }}
+
+{# Filtres #}
+{{ nom | upper }}
+{{ nom | lower }}
+{{ texte | truncate(100, '...') }}
+{{ prix | number_format(2, ',', ' ') }}
+{{ date | date('d/m/Y') }}
+{{ tableau | length }}
+{{ tableau | join(', ') }}
+{{ texte | nl2br }}
+{{ html | raw }}               {# Ne pas échapper — attention XSS #}
+{{ valeur | default('N/A') }}  {# Valeur par défaut #}
+
+{# Conditions #}
+{% if user %}
+    Bonjour {{ user.nom }} !
+{% elseif invité %}
+    Bienvenue, invité !
+{% else %}
+    Veuillez vous connecter.
+{% endif %}
+
+{# Boucles #}
+{% for article in articles %}
+    &lt;h2&gt;{{ article.titre }}&lt;/h2&gt;
+{% else %}
+    &lt;p&gt;Aucun article.&lt;/p&gt;
+{% endfor %}
+
+{# Variables de boucle #}
+{% for item in items %}
+    {{ loop.index }}     {# 1, 2, 3... #}
+    {{ loop.index0 }}    {# 0, 1, 2... #}
+    {{ loop.first }}     {# true pour le premier #}
+    {{ loop.last }}      {# true pour le dernier #}
+    {{ loop.length }}    {# total #}
+{% endfor %}
+
+{# Définir une variable #}
+{% set titre = 'Mon titre' %}
+{% set users = ['Alice', 'Bob'] %}
+
+{# Include #}
+{% include 'partials/_navbar.html.twig' %}
+{% include 'partials/_card.html.twig' with { titre: 'Mon titre' } %}
+
+{# Héritage de template #}
+{# base.html.twig #}
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;{% block titre %}Mon Site{% endblock %}&lt;/title&gt;
+    {% block styles %}{% endblock %}
+&lt;/head&gt;
+&lt;body&gt;
+    {% block contenu %}{% endblock %}
+    {% block scripts %}{% endblock %}
+&lt;/body&gt;
+&lt;/html&gt;
+
+{# page.html.twig — hérite de base #}
+{% extends 'base.html.twig' %}
+
+{% block titre %}Ma Page — {{ parent() }}{% endblock %}
+
+{% block contenu %}
+    &lt;h1&gt;Contenu de la page&lt;/h1&gt;
+{% endblock %}
+
+{# Routes et assets #}
+&lt;a href="{{ path('article_index') }}"&gt;Articles&lt;/a&gt;
+&lt;a href="{{ path('article_show', { id: article.id }) }}"&gt;Voir&lt;/a&gt;
+&lt;img src="{{ asset('images/logo.png') }}" alt="Logo" /&gt;
+
+{# Flash messages #}
+{% for message in app.flashes('success') %}
+    &lt;div class="alert alert-success"&gt;{{ message }}&lt;/div&gt;
+{% endfor %}
+
+{# Vérifier le rôle de l'utilisateur #}
+{% if is_granted('ROLE_ADMIN') %}
+    &lt;a href="/admin"&gt;Admin&lt;/a&gt;
+{% endif %}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOCTRINE -->
+    <section class="section" id="doctrine">
+      <div class="section-title">Doctrine — Entités &amp; Migrations</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Créer et gérer des entités</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+namespace App\Entity;
+
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+class Article
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le titre est obligatoire')]
+    #[Assert\Length(min: 3, max: 255)]
+    private ?string $titre = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $contenu = null;
+
+    #[ORM\Column]
+    private bool $publie = false;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $prix = null;
+
+    #[ORM\Column]
+    private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    // Relation ManyToOne (plusieurs articles → un auteur)
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $auteur = null;
+
+    // Relation OneToMany (un article → plusieurs commentaires)
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Commentaire::class, cascade: ['persist', 'remove'])]
+    private Collection $commentaires;
+
+    // Relation ManyToMany (articles ↔ tags)
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles')]
+    private Collection $tags;
+
+    public function __construct()
+    {
+        $this-&gt;createdAt   = new \DateTimeImmutable();
+        $this-&gt;commentaires = new ArrayCollection();
+        $this-&gt;tags         = new ArrayCollection();
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this-&gt;updatedAt = new \DateTimeImmutable();
+    }
+
+    // Getters & setters générés par make:entity
+    public function getId(): ?int { return $this-&gt;id; }
+    public function getTitre(): ?string { return $this-&gt;titre; }
+    public function setTitre(string $titre): static { $this-&gt;titre = $titre; return $this; }
+    // ...
+}
+</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Créer la migration après modification d'une entité
+php bin/console make:migration
+
+# Exécuter les migrations
+php bin/console doctrine:migrations:migrate
+
+# Vérifier l'état des migrations
+php bin/console doctrine:migrations:status
+
+# Revenir à la migration précédente
+php bin/console doctrine:migrations:migrate prev
+
+# Recréer la base depuis zéro (développement)
+php bin/console doctrine:database:drop --force
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REPOSITORY -->
+    <section class="section" id="repository">
+      <div class="section-title">Repository &amp; Requêtes</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Requêtes Doctrine — EntityManager &amp; QueryBuilder</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+namespace App\Repository;
+
+use App\Entity\Article;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+class ArticleRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Article::class);
+    }
+
+    // ===== MÉTHODES DE BASE =====
+    // find(id)               → Article|null
+    // findAll()              → Article[]
+    // findBy(['publie'=&gt;true]) → Article[]
+    // findOneBy(['slug'=&gt;$slug]) → Article|null
+    // count(['publie'=&gt;true])   → int
+
+    // ===== QUERYBUILDER =====
+    public function findPublished(int $limit = 10, int $offset = 0): array
+    {
+        return $this-&gt;createQueryBuilder('a')
+            -&gt;where('a.publie = :publie')
+            -&gt;setParameter('publie', true)
+            -&gt;orderBy('a.createdAt', 'DESC')
+            -&gt;setMaxResults($limit)
+            -&gt;setFirstResult($offset)
+            -&gt;getQuery()
+            -&gt;getResult();
+    }
+
+    public function findByAuteur(int $auteurId): array
+    {
+        return $this-&gt;createQueryBuilder('a')
+            -&gt;join('a.auteur', 'u')
+            -&gt;where('u.id = :id')
+            -&gt;setParameter('id', $auteurId)
+            -&gt;orderBy('a.createdAt', 'DESC')
+            -&gt;getQuery()
+            -&gt;getResult();
+    }
+
+    public function search(string $query): array
+    {
+        return $this-&gt;createQueryBuilder('a')
+            -&gt;where('a.titre LIKE :q OR a.contenu LIKE :q')
+            -&gt;setParameter('q', '%' . $query . '%')
+            -&gt;andWhere('a.publie = true')
+            -&gt;getQuery()
+            -&gt;getResult();
+    }
+
+    // DQL (Doctrine Query Language)
+    public function countByMonth(): array
+    {
+        return $this-&gt;getEntityManager()
+            -&gt;createQuery('
+                SELECT YEAR(a.createdAt) AS annee,
+                       MONTH(a.createdAt) AS mois,
+                       COUNT(a.id) AS total
+                FROM App\Entity\Article a
+                GROUP BY annee, mois
+                ORDER BY annee DESC, mois DESC
+            ')
+            -&gt;getResult();
+    }
+}
+
+// ===== DANS UN CONTRÔLEUR =====
+class ArticleController extends AbstractController
+{
+    public function __construct(
+        private ArticleRepository $articleRepo,
+        private EntityManagerInterface $em,
+    ) {}
+
+    public function create(Request $request): Response
+    {
+        $article = new Article();
+        $article-&gt;setTitre($request-&gt;request-&gt;get('titre'));
+
+        $this-&gt;em-&gt;persist($article);  // préparer
+        $this-&gt;em-&gt;flush();             // écrire en base
+
+        return $this-&gt;redirectToRoute('article_index');
+    }
+
+    public function update(Article $article): Response // ParamConverter automatique
+    {
+        $article-&gt;setTitre("Nouveau titre");
+        $this-&gt;em-&gt;flush(); // pas besoin de persist (entité déjà managée)
+        return $this-&gt;redirectToRoute('article_index');
+    }
+
+    public function delete(Article $article): Response
+    {
+        $this-&gt;em-&gt;remove($article);
+        $this-&gt;em-&gt;flush();
+        return $this-&gt;redirectToRoute('article_index');
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULAIRES SYMFONY -->
+    <section class="section" id="forms">
+      <div class="section-title">Formulaires Symfony</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Form Type, rendu Twig, validation</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+// src/Form/ArticleType.php
+namespace App\Form;
+
+use App\Entity\Article;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\{TextType, TextareaType, CheckboxType, SubmitType};
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
+
+class ArticleType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            -&gt;add('titre', TextType::class, [
+                'label'       =&gt; 'Titre de l\'article',
+                'attr'        =&gt; ['placeholder' =&gt; 'Titre...', 'class' =&gt; 'form-control'],
+                'constraints' =&gt; [new Assert\NotBlank(), new Assert\Length(min: 3)],
+            ])
+            -&gt;add('contenu', TextareaType::class, [
+                'label'    =&gt; 'Contenu',
+                'required' =&gt; false,
+                'attr'     =&gt; ['rows' =&gt; 8],
+            ])
+            -&gt;add('publie', CheckboxType::class, [
+                'label'    =&gt; 'Publier l\'article',
+                'required' =&gt; false,
+            ])
+            -&gt;add('sauvegarder', SubmitType::class, [
+                'label' =&gt; 'Enregistrer',
+                'attr'  =&gt; ['class' =&gt; 'btn btn-primary'],
+            ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver-&gt;setDefaults(['data_class' =&gt; Article::class]);
+    }
+}
+
+// Dans le contrôleur
+public function new(Request $request): Response
+{
+    $article = new Article();
+    $form    = $this-&gt;createForm(ArticleType::class, $article);
+
+    $form-&gt;handleRequest($request);
+
+    if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+        $this-&gt;em-&gt;persist($article);
+        $this-&gt;em-&gt;flush();
+        $this-&gt;addFlash('success', 'Article créé !');
+        return $this-&gt;redirectToRoute('article_index');
+    }
+
+    return $this-&gt;render('article/new.html.twig', [
+        'form' =&gt; $form,
+    ]);
+}</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">Twig</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-twig">{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.titre) }}
+    {{ form_row(form.contenu) }}
+    {{ form_row(form.publie) }}
+
+    {# Rendu personnalisé d'un champ #}
+    &lt;div class="mb-3"&gt;
+        {{ form_label(form.titre) }}
+        {{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.titre) }}
+    &lt;/div&gt;
+
+    {{ form_widget(form.sauvegarder) }}
+{{ form_end(form) }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SÉCURITÉ -->
+    <section class="section" id="security">
+      <div class="section-title">Sécurité &amp; Authentification</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Configuration security.yaml, accès, rôles</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># config/packages/security.yaml
+security:
+    password_hashers:
+        App\Entity\User:
+            algorithm: auto
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: app_user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                default_target_path: app_dashboard
+            logout:
+                path: app_logout
+                target: app_home
+            remember_me:
+                secret: '%kernel.secret%'
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/dashboard, roles: ROLE_USER }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+// Protéger une action dans un contrôleur
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+#[IsGranted('ROLE_ADMIN')]
+class AdminController extends AbstractController { ... }
+
+#[IsGranted('ROLE_USER')]
+public function monCompte(): Response { ... }
+
+// Dans une méthode
+public function edit(Article $article): Response
+{
+    $this-&gt;denyAccessUnlessGranted('ROLE_ADMIN');
+    // ou
+    if (!$this-&gt;isGranted('ROLE_ADMIN')) {
+        throw $this-&gt;createAccessDeniedException();
+    }
+
+    $user = $this-&gt;getUser();  // utilisateur connecté
+    $user-&gt;getEmail();
+}
+
+// Voter personnalisé (autorisation fine)
+// src/Security/ArticleVoter.php
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+class ArticleVoter extends Voter
+{
+    const EDIT   = 'EDIT';
+    const DELETE = 'DELETE';
+
+    protected function supports(string $attribute, mixed $subject): bool
+    {
+        return in_array($attribute, [self::EDIT, self::DELETE])
+            &amp;&amp; $subject instanceof Article;
+    }
+
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
+    {
+        $user = $token-&gt;getUser();
+        if (!$user instanceof User) return false;
+
+        return match($attribute) {
+            self::EDIT, self::DELETE =&gt; $subject-&gt;getAuteur() === $user
+                || in_array('ROLE_ADMIN', $user-&gt;getRoles()),
+            default =&gt; false,
+        };
+    }
+}
+// Usage : $this-&gt;denyAccessUnlessGranted('EDIT', $article);</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services">
+      <div class="section-title">Services &amp; Injection de dépendances</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Créer et injecter un service</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+
+// src/Service/MailService.php
+namespace App\Service;
+
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
+class MailService
+{
+    public function __construct(
+        private MailerInterface $mailer,
+        private string $senderEmail,  // injecté depuis services.yaml
+    ) {}
+
+    public function sendWelcome(string $to, string $nom): void
+    {
+        $email = (new Email())
+            -&gt;from($this-&gt;senderEmail)
+            -&gt;to($to)
+            -&gt;subject('Bienvenue !')
+            -&gt;html("&lt;p&gt;Bonjour {$nom}, bienvenue !&lt;/p&gt;");
+
+        $this-&gt;mailer-&gt;send($email);
+    }
+}
+
+// config/services.yaml
+services:
+    App\Service\MailService:
+        arguments:
+            $senderEmail: 'noreply@monsite.fr'
+
+// Injection dans un contrôleur
+class RegisterController extends AbstractController
+{
+    public function __construct(private MailService $mailService) {}
+
+    public function register(Request $request): Response
+    {
+        // ... créer l'utilisateur ...
+        $this-&gt;mailService-&gt;sendWelcome($user-&gt;getEmail(), $user-&gt;getNom());
+        return $this-&gt;redirectToRoute('app_login');
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+  </main>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

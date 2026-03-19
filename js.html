@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — JavaScript</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li class="active"><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une fonction, méthode, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">JavaScript</div>
+    <ul class="sidebar-nav">
+      <li><a href="#variables"><span class="icon">📦</span>Variables &amp; Types</a></li>
+      <li><a href="#operateurs"><span class="icon">➗</span>Opérateurs</a></li>
+      <li><a href="#conditions"><span class="icon">🔀</span>Conditions</a></li>
+      <li><a href="#boucles"><span class="icon">🔁</span>Boucles</a></li>
+      <li><a href="#fonctions"><span class="icon">⚙️</span>Fonctions</a></li>
+      <li><a href="#tableaux"><span class="icon">📋</span>Tableaux</a></li>
+      <li><a href="#objets"><span class="icon">🗂️</span>Objets</a></li>
+      <li><a href="#destructuring"><span class="icon">🔓</span>Destructuring &amp; Spread</a></li>
+      <li><a href="#classes"><span class="icon">🏗️</span>Classes &amp; POO</a></li>
+      <li><a href="#dom"><span class="icon">🌐</span>DOM</a></li>
+      <li><a href="#evenements"><span class="icon">🖱️</span>Événements</a></li>
+      <li><a href="#async"><span class="icon">⏳</span>Async / Await</a></li>
+      <li><a href="#fetch"><span class="icon">🌍</span>Fetch API</a></li>
+      <li><a href="#modules"><span class="icon">📦</span>Modules ES6</a></li>
+      <li><a href="#storage"><span class="icon">💾</span>LocalStorage</a></li>
+      <li><a href="#erreurs"><span class="icon">⚠️</span>Erreurs</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <h1>JavaScript <span class="badge" style="background:rgba(247,223,30,0.15);color:#f7df1e;">ES2024</span></h1>
+      <p>Variables, fonctions, DOM, async/await et toutes les méthodes essentielles du JS moderne.</p>
+    </div>
+
+    <!-- VARIABLES & TYPES -->
+    <section class="section" id="variables">
+      <div class="section-title">Variables &amp; Types</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">let, const, var</div><div class="card-tags"><span class="tag tag-yellow">Essentiel</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// const : valeur constante (référence immutable) — à préférer
+const nom = "Alice";
+const age = 30;
+const PI = 3.14159;
+
+// let : variable réassignable — pour les valeurs qui changent
+let compteur = 0;
+compteur = 1; // ✅
+let total;    // undefined par défaut
+
+// var : à éviter (scope fonction, pas de bloc, hoisting)
+var legacy = "ancien";
+
+// Types primitifs
+const str    = "Bonjour";            // String
+const num    = 42;                   // Number
+const float  = 3.14;                 // Number (pas de float séparé)
+const bool   = true;                 // Boolean
+const nul    = null;                 // Null (absence intentionnelle)
+const undef  = undefined;            // Undefined
+const bigint = 9007199254740991n;    // BigInt
+const sym    = Symbol("description"); // Symbol
+
+// Vérifier le type
+typeof "hello"   // "string"
+typeof 42        // "number"
+typeof true      // "boolean"
+typeof undefined // "undefined"
+typeof null      // "object" (bug historique JS !)
+typeof {}        // "object"
+typeof []        // "object"
+typeof function(){}  // "function"
+Array.isArray([]) // true</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Conversion de types</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// Vers String
+String(42)        // "42"
+String(true)      // "true"
+(42).toString()   // "42"
+42 + ""           // "42" (implicite)
+
+// Vers Number
+Number("42")      // 42
+Number("3.14")    // 3.14
+Number("")        // 0
+Number("abc")     // NaN
+parseInt("42px")  // 42
+parseFloat("3.14em") // 3.14
++"42"             // 42 (raccourci unaire)
+
+// Vers Boolean
+Boolean(0)         // false
+Boolean("")        // false
+Boolean(null)      // false
+Boolean(undefined) // false
+Boolean(NaN)       // false
+Boolean([])        // true (attention !)
+Boolean({})        // true (attention !)
+!!"valeur"         // true (double négation)
+
+// Valeurs "falsy" : false, 0, "", null, undefined, NaN</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPÉRATEURS -->
+    <section class="section" id="operateurs">
+      <div class="section-title">Opérateurs</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Comparaison, logiques, optionnel chaîning</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// Comparaison stricte (préférer === à ==)
+1 === 1      // true  (valeur ET type)
+1 == "1"     // true  (type converti — éviter)
+1 !== 2      // true
+
+// Logiques
+true && false  // false (ET)
+true || false  // true  (OU)
+!true          // false (NON)
+
+// Nullish coalescing ?? — retourne la droite si null/undefined
+const val = null ?? "défaut";     // "défaut"
+const x   = 0 ?? "défaut";       // 0 (0 est une valeur valide)
+const y   = 0 || "défaut";       // "défaut" (0 est falsy — différence avec ??)
+
+// Optional chaining ?. — évite TypeError si null/undefined
+const user = null;
+user?.name                  // undefined (pas d'erreur)
+user?.address?.city         // undefined
+user?.getAge?.()            // undefined
+arr?.[0]                    // undefined si arr est null
+
+// Ternaire
+const msg = age >= 18 ? "Majeur" : "Mineur";
+
+// Affectation combinée
+let n = 5;
+n += 3;  // n = 8
+n -= 2;  // n = 6
+n *= 2;  // n = 12
+n /= 4;  // n = 3
+n **= 2; // n = 9 (puissance)
+n ??= "défaut"; // affecte seulement si null/undefined
+n ||= "défaut"; // affecte si falsy
+n &&= 10;       // affecte si truthy</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONDITIONS -->
+    <section class="section" id="conditions">
+      <div class="section-title">Conditions</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">if / else, switch, ternaire</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// if / else if / else
+if (score >= 90) {
+  console.log("Excellent");
+} else if (score >= 70) {
+  console.log("Bien");
+} else {
+  console.log("À améliorer");
+}
+
+// Switch
+switch (jour) {
+  case "lundi":
+  case "mardi":
+    console.log("Début de semaine");
+    break;
+  case "vendredi":
+    console.log("Fin de semaine !");
+    break;
+  default:
+    console.log("Milieu de semaine");
+}
+
+// Ternaire (inline)
+const statut = estConnecte ? "Connecté" : "Déconnecté";
+const classe  = isActive ? "btn-active" : "btn";
+
+// Short-circuit (affichage conditionnel en React)
+isLoggedIn && console.log("Bienvenue !");
+const prenom = user?.firstName || "Anonyme";
+
+// Object lookup (alternative au switch)
+const messages = {
+  success: "Opération réussie",
+  error:   "Une erreur est survenue",
+  loading: "Chargement...",
+};
+const msg = messages[statut] ?? "Statut inconnu";</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOUCLES -->
+    <section class="section" id="boucles">
+      <div class="section-title">Boucles</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">for, forEach, for…of, while, map, filter, reduce</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">const fruits = ["pomme", "banane", "cerise"];
+
+// for classique
+for (let i = 0; i < fruits.length; i++) {
+  console.log(i, fruits[i]);
+}
+
+// for...of (valeurs)
+for (const fruit of fruits) {
+  console.log(fruit);
+}
+
+// for...in (clés d'un objet)
+const user = { nom: "Alice", age: 30 };
+for (const cle in user) {
+  console.log(cle, user[cle]); // nom Alice | age 30
+}
+
+// forEach (tableau, pas de return)
+fruits.forEach((fruit, index) => {
+  console.log(index, fruit);
+});
+
+// while
+let i = 0;
+while (i < 5) { console.log(i); i++; }
+
+// do...while (s'exécute au moins une fois)
+do { console.log(i); i++; } while (i < 5);
+
+// break / continue
+for (const fruit of fruits) {
+  if (fruit === "banane") continue; // saute banane
+  if (fruit === "cerise") break;    // arrête la boucle
+  console.log(fruit);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FONCTIONS -->
+    <section class="section" id="fonctions">
+      <div class="section-title">Fonctions</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Déclaration, expression, arrow, paramètres</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// Déclaration (hoistée — utilisable avant sa définition)
+function saluer(nom) {
+  return `Bonjour, ${nom} !`;
+}
+
+// Expression (non hoistée)
+const saluer = function(nom) {
+  return `Bonjour, ${nom} !`;
+};
+
+// Arrow function (syntaxe moderne, this lexical)
+const saluer = (nom) => `Bonjour, ${nom} !`;
+const double = n => n * 2;                     // paramètre unique sans ()
+const carre  = n => { return n * n; };         // bloc avec return explicite
+const getObj = () => ({ id: 1, nom: "test" }); // retourner un objet (parenthèses requises)
+
+// Paramètres par défaut
+function creerUser(nom, role = "user", actif = true) {
+  return { nom, role, actif };
+}
+
+// Rest parameters (nombre variable d'arguments)
+function somme(...nombres) {
+  return nombres.reduce((acc, n) => acc + n, 0);
+}
+somme(1, 2, 3, 4); // 10
+
+// Fonctions de rappel (callbacks)
+setTimeout(() => console.log("3 secondes !"), 3000);
+[1,2,3].forEach(n => console.log(n));
+
+// Fermeture (closure)
+function compteur() {
+  let count = 0;
+  return {
+    incrementer: () => ++count,
+    valeur: () => count,
+  };
+}
+const c = compteur();
+c.incrementer(); // 1
+c.incrementer(); // 2
+c.valeur();      // 2
+
+// IIFE (Immediately Invoked Function Expression)
+(function() { console.log("Exécuté immédiatement"); })();
+(() => console.log("Arrow IIFE"))();</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABLEAUX -->
+    <section class="section" id="tableaux">
+      <div class="section-title">Tableaux (Arrays)</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Méthodes essentielles</div><div class="card-tags"><span class="tag tag-blue">Immutables</span><span class="tag tag-purple">Mutables</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">const arr = [1, 2, 3, 4, 5];
+
+// ===== MÉTHODES QUI RETOURNENT UN NOUVEAU TABLEAU =====
+
+// map — transforme chaque élément
+arr.map(n => n * 2);           // [2, 4, 6, 8, 10]
+
+// filter — filtre selon une condition
+arr.filter(n => n > 2);        // [3, 4, 5]
+
+// reduce — accumule en une seule valeur
+arr.reduce((acc, n) => acc + n, 0); // 15 (somme)
+arr.reduce((acc, n) => acc * n, 1); // 120 (produit)
+
+// slice — portion (non mutant)
+arr.slice(1, 3);               // [2, 3]  (index 1 inclus à 3 exclu)
+arr.slice(-2);                 // [4, 5]  (2 derniers)
+
+// flat — aplatit
+[[1,2],[3,4]].flat();          // [1, 2, 3, 4]
+[1,[2,[3,[4]]]].flat(Infinity);// [1, 2, 3, 4]
+
+// flatMap — map + flat
+["bonjour monde"].flatMap(s => s.split(" ")); // ["bonjour", "monde"]
+
+// concat — fusionne
+arr.concat([6, 7]);            // [1,2,3,4,5,6,7]
+
+// find / findIndex
+arr.find(n => n > 3);          // 4 (premier)
+arr.findIndex(n => n > 3);     // 3 (index du premier)
+
+// every / some
+arr.every(n => n > 0);         // true (tous > 0)
+arr.some(n => n > 4);          // true (au moins un > 4)
+
+// includes
+arr.includes(3);               // true
+
+// indexOf / lastIndexOf
+arr.indexOf(3);                // 2
+
+// ===== MÉTHODES QUI MUTENT LE TABLEAU =====
+
+// push / pop (fin)
+arr.push(6);       // ajoute à la fin, retourne nouvelle longueur
+arr.pop();         // supprime et retourne le dernier
+
+// shift / unshift (début)
+arr.unshift(0);    // ajoute au début
+arr.shift();       // supprime et retourne le premier
+
+// splice — supprime/insère à un index
+arr.splice(1, 2);          // supprime 2 éléments à l'index 1
+arr.splice(1, 0, 10, 11);  // insère 10, 11 à l'index 1
+
+// sort — tri (mute !)
+arr.sort((a, b) => a - b);          // croissant
+arr.sort((a, b) => b - a);          // décroissant
+["c","a","b"].sort();               // ["a","b","c"]
+
+// reverse
+arr.reverse(); // inverse le tableau (mute !)
+
+// fill
+new Array(5).fill(0);  // [0, 0, 0, 0, 0]
+
+// ===== UTILITAIRES =====
+
+arr.length;            // 5
+arr.join(", ");        // "1, 2, 3, 4, 5"
+Array.from("abc");     // ["a", "b", "c"]
+Array.from({length: 5}, (_, i) => i); // [0,1,2,3,4]
+[...new Set([1,1,2,2,3])]; // [1,2,3] — déduplique</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OBJETS -->
+    <section class="section" id="objets">
+      <div class="section-title">Objets</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Créer, accéder, modifier, itérer</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// Création
+const user = {
+  prenom: "Alice",
+  age: 30,
+  "clé avec espaces": true,
+
+  // Méthode raccourcie (ES6)
+  saluer() { return `Bonjour, ${this.prenom}`; },
+
+  // Propriété calculée
+  get nomComplet() { return `${this.prenom} Dupont`; },
+};
+
+// Accès
+user.prenom;              // "Alice"
+user["age"];              // 30
+user["clé avec espaces"]; // true
+
+// Modifier / ajouter / supprimer
+user.age = 31;
+user.email = "alice@exemple.fr";
+delete user.age;
+
+// Vérifier l'existence
+"prenom" in user;           // true
+user.hasOwnProperty("age"); // true
+
+// ===== MÉTHODES D'OBJET =====
+
+// Clés, valeurs, entrées
+Object.keys(user);          // ["prenom", "email", ...]
+Object.values(user);        // ["Alice", "alice@..."]
+Object.entries(user);       // [["prenom","Alice"], ...]
+
+// Itérer sur les entrées
+Object.entries(user).forEach(([cle, val]) => {
+  console.log(`${cle}: ${val}`);
+});
+
+// Fusionner des objets
+const merged = Object.assign({}, obj1, obj2);
+const merged2 = { ...obj1, ...obj2 }; // Spread (préférable)
+
+// Copie superficielle
+const copie = { ...user };
+const copie2 = Object.assign({}, user);
+
+// Copie profonde
+const clone = structuredClone(user); // ES2022, méthode native
+const clone2 = JSON.parse(JSON.stringify(user)); // ancienne méthode
+
+// Geler un objet (immuable)
+const config = Object.freeze({ api: "/api/v1" });
+
+// Raccourcis ES6 (shorthand)
+const nom = "Bob";
+const age = 25;
+const obj = { nom, age }; // { nom: "Bob", age: 25 }</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTRUCTURING & SPREAD -->
+    <section class="section" id="destructuring">
+      <div class="section-title">Destructuring &amp; Spread</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Destructuration, Spread, Rest</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// ===== DESTRUCTURATION TABLEAU =====
+const [a, b, c] = [1, 2, 3];
+const [premier, , troisieme] = [1, 2, 3]; // sauter un élément
+const [x = 0, y = 0] = [10];              // valeur par défaut
+const [tete, ...reste] = [1, 2, 3, 4];   // tete=1, reste=[2,3,4]
+
+// Swap de variables
+let p = 1, q = 2;
+[p, q] = [q, p]; // p=2, q=1
+
+// ===== DESTRUCTURATION OBJET =====
+const user = { nom: "Alice", age: 30, ville: "Paris" };
+
+const { nom, age } = user;
+const { nom: prenom, age: annees } = user; // renommer
+const { ville = "Inconnue", pays = "FR" } = user; // valeur par défaut
+const { nom: n, ...reste } = user; // rest sur objet
+
+// Destructuration imbriquée
+const { adresse: { rue, cp } } = { adresse: { rue: "Rue de la Paix", cp: "75001" } };
+
+// Dans les paramètres de fonction
+function afficher({ nom, age = 0 }) {
+  console.log(`${nom}, ${age} ans`);
+}
+afficher(user);
+
+// ===== SPREAD OPERATOR ... =====
+
+// Copier / fusionner tableaux
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5]; // [1,2,3,4,5]
+const fusion = [...arr1, ...arr2];
+
+// Copier / fusionner objets
+const base = { a: 1, b: 2 };
+const extended = { ...base, c: 3, b: 99 }; // b est écrasé
+
+// Passer un tableau comme arguments
+Math.max(...[1, 5, 3, 9, 2]); // 9
+
+// ===== TEMPLATE LITERALS =====
+const msg = `Bonjour ${nom}, tu as ${age} ans.`;
+const multiline = `
+  Ligne 1
+  Ligne 2
+`;
+const html = `
+  &lt;div class="user"&gt;
+    &lt;h2&gt;${nom}&lt;/h2&gt;
+  &lt;/div&gt;
+`;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLASSES -->
+    <section class="section" id="classes">
+      <div class="section-title">Classes &amp; POO</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Classes ES6 — héritage, getters, statiques</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">class Animal {
+  // Propriété de classe
+  static count = 0;
+
+  // Constructeur
+  constructor(nom, son) {
+    this.nom = nom;
+    this.son = son;
+    Animal.count++;
+  }
+
+  // Méthode d'instance
+  parler() {
+    return `${this.nom} fait ${this.son}`;
+  }
+
+  // Getter
+  get description() {
+    return `Je suis ${this.nom}`;
+  }
+
+  // Setter
+  set surnomAnimal(val) {
+    this._surnom = val.toLowerCase();
+  }
+
+  // Méthode statique (sur la classe, pas l'instance)
+  static creer(nom, son) {
+    return new Animal(nom, son);
+  }
+
+  // toString
+  toString() { return this.nom; }
+}
+
+// Héritage
+class Chien extends Animal {
+  constructor(nom, race) {
+    super(nom, "Wouf"); // appel du constructeur parent
+    this.race = race;
+  }
+
+  // Surcharge
+  parler() {
+    return `${super.parler()} (chien de race ${this.race})`;
+  }
+
+  // Méthode propre
+  fetcher(objet) {
+    return `${this.nom} va chercher ${objet} !`;
+  }
+}
+
+const chat = new Animal("Minou", "Miaou");
+const chien = new Chien("Rex", "Labrador");
+
+chat.parler();      // "Minou fait Miaou"
+chien.parler();     // "Rex fait Wouf (chien de race Labrador)"
+Animal.count;       // 2
+Animal.creer("Perroquet", "Coco"); // instance via méthode statique
+
+chien instanceof Chien;  // true
+chien instanceof Animal; // true</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOM -->
+    <section class="section" id="dom">
+      <div class="section-title">DOM — Manipulation du Document</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Sélectionner, créer, modifier des éléments</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// ===== SÉLECTION =====
+document.getElementById("monId");              // 1 élément
+document.querySelector(".ma-classe");          // 1er correspondant
+document.querySelectorAll("p.active");         // NodeList (tous)
+document.querySelector("nav > ul > li:first-child");
+
+// Navigation
+const el = document.querySelector(".parent");
+el.children;           // HTMLCollection des enfants
+el.firstElementChild;  // premier enfant
+el.lastElementChild;   // dernier enfant
+el.parentElement;      // parent
+el.nextElementSibling; // frère suivant
+el.previousElementSibling;
+
+// ===== MODIFIER LE CONTENU =====
+el.textContent = "Nouveau texte";          // texte brut
+el.innerHTML = "&lt;strong&gt;HTML&lt;/strong&gt;";   // HTML (prudence XSS)
+el.innerText   // texte visible (tient compte du CSS)
+
+// ===== MODIFIER LES ATTRIBUTS =====
+el.getAttribute("href");
+el.setAttribute("data-id", "42");
+el.removeAttribute("disabled");
+el.hasAttribute("required");             // true/false
+
+// ===== CLASSES =====
+el.classList.add("active", "visible");
+el.classList.remove("hidden");
+el.classList.toggle("open");             // ajoute/retire
+el.classList.contains("active");         // true/false
+el.classList.replace("old", "new");
+
+// ===== STYLES =====
+el.style.color = "red";
+el.style.backgroundColor = "#1c2128";  // camelCase
+el.style.display = "none";
+const styles = window.getComputedStyle(el);
+styles.getPropertyValue("font-size");
+
+// ===== CRÉER & INSÉRER =====
+const div = document.createElement("div");
+div.className = "card";
+div.textContent = "Nouveau contenu";
+
+// Insérer dans le DOM
+parent.appendChild(div);               // à la fin
+parent.prepend(div);                   // au début
+parent.insertBefore(div, reference);   // avant un élément
+reference.insertAdjacentElement("afterend", div);
+// positions: beforebegin, afterbegin, beforeend, afterend
+
+parent.insertAdjacentHTML("beforeend", "&lt;p&gt;Texte&lt;/p&gt;");
+
+// ===== SUPPRIMER =====
+el.remove();                           // supprime l'élément
+parent.removeChild(enfant);            // supprime un enfant
+
+// ===== CLONER =====
+const clone = el.cloneNode(true);      // true = avec les enfants</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉVÉNEMENTS -->
+    <section class="section" id="evenements">
+      <div class="section-title">Événements</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">addEventListener, délégation, événements courants</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">const btn = document.querySelector(".btn");
+
+// Ajouter un événement
+btn.addEventListener("click", function(e) {
+  console.log(e.target);         // élément cliqué
+  console.log(e.currentTarget);  // élément écouteur
+  e.preventDefault();            // annule comportement par défaut (form, lien)
+  e.stopPropagation();           // arrête la propagation vers le parent
+});
+
+// Supprimer un écouteur (nécessite une référence à la fonction)
+const handleClick = () => console.log("clic");
+btn.addEventListener("click", handleClick);
+btn.removeEventListener("click", handleClick);
+
+// Événement une seule fois
+btn.addEventListener("click", () => console.log("une fois"), { once: true });
+
+// ===== ÉVÉNEMENTS COURANTS =====
+// Souris
+el.addEventListener("click", handler);
+el.addEventListener("dblclick", handler);
+el.addEventListener("mouseenter", handler);  // entre dans l'élément
+el.addEventListener("mouseleave", handler);  // sort de l'élément
+el.addEventListener("mousemove", e => { console.log(e.clientX, e.clientY); });
+el.addEventListener("contextmenu", e => { e.preventDefault(); });
+
+// Clavier
+document.addEventListener("keydown", e => {
+  console.log(e.key, e.code);   // "Enter", "ArrowLeft"...
+  if (e.key === "Escape") fermerModal();
+  if (e.ctrlKey && e.key === "s") { e.preventDefault(); sauvegarder(); }
+});
+document.addEventListener("keyup", handler);
+
+// Formulaire
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const data = new FormData(e.target);
+  console.log(data.get("nom"));
+});
+input.addEventListener("input", e => console.log(e.target.value));
+input.addEventListener("change", handler);   // perd le focus avec changement
+input.addEventListener("focus", handler);
+input.addEventListener("blur", handler);
+
+// Fenêtre
+window.addEventListener("load", handler);        // page entière chargée
+document.addEventListener("DOMContentLoaded", handler); // DOM prêt
+window.addEventListener("resize", handler);
+window.addEventListener("scroll", () => { console.log(window.scrollY); });
+
+// ===== DÉLÉGATION D'ÉVÉNEMENTS =====
+// Écouter sur un parent au lieu de chaque enfant
+document.querySelector(".liste").addEventListener("click", e => {
+  if (e.target.matches(".item")) {
+    console.log("item cliqué:", e.target.textContent);
+  }
+  if (e.target.closest(".btn-delete")) {
+    e.target.closest(".item").remove();
+  }
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ASYNC / AWAIT -->
+    <section class="section" id="async">
+      <div class="section-title">Async / Await &amp; Promises</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Promises, async/await, gestion d'erreurs</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// ===== PROMISES =====
+const maPromesse = new Promise((resolve, reject) => {
+  const ok = true;
+  if (ok) resolve("Succès !");
+  else    reject(new Error("Échec"));
+});
+
+maPromesse
+  .then(result => console.log(result))
+  .catch(err   => console.error(err))
+  .finally(()  => console.log("Toujours exécuté"));
+
+// ===== ASYNC / AWAIT (préférable) =====
+async function chargerUtilisateur(id) {
+  try {
+    const reponse = await fetch(`/api/users/${id}`);
+
+    if (!reponse.ok) {
+      throw new Error(`HTTP ${reponse.status}`);
+    }
+
+    const user = await reponse.json();
+    return user;
+  } catch (err) {
+    console.error("Erreur:", err.message);
+    throw err; // re-propager si nécessaire
+  }
+}
+
+// Arrow async
+const getData = async () => {
+  const data = await fetch("/api/data").then(r => r.json());
+  return data;
+};
+
+// ===== PARALLÉLISME =====
+
+// Promise.all — attend TOUTES les promesses (échec si une échoue)
+const [users, posts] = await Promise.all([
+  fetch("/api/users").then(r => r.json()),
+  fetch("/api/posts").then(r => r.json()),
+]);
+
+// Promise.allSettled — attend toutes, même les échecs
+const resultats = await Promise.allSettled([p1, p2, p3]);
+resultats.forEach(r => {
+  if (r.status === "fulfilled") console.log(r.value);
+  else console.error(r.reason);
+});
+
+// Promise.race — la première qui résout/rejette
+const resultat = await Promise.race([fetchPrincipal(), fetchSecours()]);
+
+// Promise.any — la première qui réussit
+const premier = await Promise.any([p1, p2, p3]);</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FETCH API -->
+    <section class="section" id="fetch">
+      <div class="section-title">Fetch API</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">GET, POST, PUT, DELETE</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// ===== GET =====
+const res = await fetch("/api/users");
+const users = await res.json();
+
+// ===== POST =====
+const res = await fetch("/api/users", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ nom: "Alice", email: "alice@ex.fr" }),
+});
+const newUser = await res.json();
+
+// ===== PUT =====
+await fetch(`/api/users/${id}`, {
+  method: "PUT",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ nom: "Alice Modifiée" }),
+});
+
+// ===== DELETE =====
+await fetch(`/api/users/${id}`, { method: "DELETE" });
+
+// ===== AVEC TOKEN =====
+const res = await fetch("/api/profile", {
+  headers: {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    "Content-Type": "application/json",
+  },
+});
+
+// ===== FONCTION HELPER GÉNÉRIQUE =====
+async function api(url, options = {}) {
+  const res = await fetch(url, {
+    headers: { "Content-Type": "application/json", ...options.headers },
+    ...options,
+    body: options.body ? JSON.stringify(options.body) : undefined,
+  });
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+  if (res.status === 204) return null; // No Content
+  return res.json();
+}
+
+// Utilisation
+const users  = await api("/api/users");
+const newU   = await api("/api/users", { method: "POST", body: { nom: "Bob" } });
+const updated = await api(`/api/users/${id}`, { method: "PUT", body: { nom: "Bob+" } });
+await api(`/api/users/${id}`, { method: "DELETE" });</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="section" id="modules">
+      <div class="section-title">Modules ES6</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">import / export</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// ===== math.js — EXPORTS =====
+
+// Export nommé
+export const PI = 3.14159;
+export function addition(a, b) { return a + b; }
+export const double = n => n * 2;
+
+// Export par défaut (un seul par fichier)
+export default class Calculatrice {
+  add(a, b) { return a + b; }
+}
+
+// ===== main.js — IMPORTS =====
+
+// Import nommé
+import { PI, addition, double } from "./math.js";
+
+// Import avec alias
+import { addition as add } from "./math.js";
+
+// Import tout dans un namespace
+import * as Math from "./math.js";
+Math.PI; Math.addition(1, 2);
+
+// Import par défaut
+import Calculatrice from "./math.js";
+
+// Mélange
+import Calculatrice, { PI, addition } from "./math.js";
+
+// Import dynamique (lazy loading)
+const module = await import("./module.js");
+module.default; // export par défaut
+module.maFonction();
+
+// ===== Dans le HTML =====
+// &lt;script type="module" src="main.js"&gt;&lt;/script&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCALSTORAGE -->
+    <section class="section" id="storage">
+      <div class="section-title">LocalStorage &amp; SessionStorage</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Stocker des données côté client</div></div>
+        <div class="card-body">
+          <p class="card-desc">LocalStorage : persistant (reste après fermeture du navigateur). SessionStorage : effacé à la fermeture de l'onglet. Les deux stockent uniquement des strings.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// ===== LOCALSTORAGE =====
+
+// Écrire
+localStorage.setItem("token", "abc123");
+localStorage.setItem("user", JSON.stringify({ nom: "Alice", age: 30 }));
+
+// Lire
+const token = localStorage.getItem("token");          // "abc123"
+const user  = JSON.parse(localStorage.getItem("user")); // objet
+
+// Supprimer
+localStorage.removeItem("token");
+localStorage.clear(); // tout supprimer
+
+// Vérifier l'existence
+if (localStorage.getItem("token")) {
+  console.log("Connecté");
+}
+
+// ===== SESSIONSTORAGE =====
+sessionStorage.setItem("panier", JSON.stringify([]));
+const panier = JSON.parse(sessionStorage.getItem("panier"));
+
+// ===== HELPER =====
+const storage = {
+  get: (key, fallback = null) => {
+    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+    catch { return fallback; }
+  },
+  set: (key, value) => localStorage.setItem(key, JSON.stringify(value)),
+  remove: (key)     => localStorage.removeItem(key),
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ERREURS -->
+    <section class="section" id="erreurs">
+      <div class="section-title">Gestion des erreurs</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">try / catch / finally, types d'erreurs</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// ===== TRY / CATCH =====
+try {
+  const data = JSON.parse(texteInvalide); // lève une SyntaxError
+} catch (err) {
+  console.error(err.name);    // "SyntaxError"
+  console.error(err.message); // message d'erreur
+  console.error(err.stack);   // stack trace
+} finally {
+  console.log("Toujours exécuté (nettoyage)");
+}
+
+// ===== TYPES D'ERREURS =====
+// Error          — base
+// SyntaxError    — code JS invalide
+// TypeError      — mauvais type
+// ReferenceError — variable non définie
+// RangeError     — valeur hors limites
+// URIError       — URI malformée
+
+// ===== ERREUR PERSONNALISÉE =====
+class ApiError extends Error {
+  constructor(message, status) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
+throw new ApiError("Non autorisé", 401);
+
+// ===== CATCH SÉLECTIF =====
+try {
+  // ...
+} catch (err) {
+  if (err instanceof ApiError) {
+    console.error(`API Error ${err.status}: ${err.message}`);
+  } else if (err instanceof TypeError) {
+    console.error("Erreur de type:", err.message);
+  } else {
+    throw err; // re-propager les erreurs inconnues
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+  </main>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

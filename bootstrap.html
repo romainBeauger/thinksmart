@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — Bootstrap</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li class="active"><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une classe, composant, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Bootstrap</div>
+    <ul class="sidebar-nav">
+      <li><a href="#setup"><span class="icon">📐</span>Installation &amp; Setup</a></li>
+      <li><a href="#grid"><span class="icon">📦</span>Containers &amp; Grid</a></li>
+      <li><a href="#flex"><span class="icon">↔️</span>Flexbox Utilities</a></li>
+      <li><a href="#spacing"><span class="icon">📏</span>Spacing (m, p)</a></li>
+      <li><a href="#typo"><span class="icon">🔤</span>Typographie</a></li>
+      <li><a href="#buttons"><span class="icon">🔘</span>Boutons</a></li>
+      <li><a href="#cards"><span class="icon">🃏</span>Cards</a></li>
+      <li><a href="#navbar"><span class="icon">🧭</span>Navbar</a></li>
+      <li><a href="#forms"><span class="icon">📝</span>Formulaires</a></li>
+      <li><a href="#alerts"><span class="icon">🔔</span>Alertes &amp; Badges</a></li>
+      <li><a href="#tables"><span class="icon">📊</span>Tables</a></li>
+      <li><a href="#modal"><span class="icon">🪟</span>Modal</a></li>
+      <li><a href="#carousel"><span class="icon">🎠</span>Carousel</a></li>
+      <li><a href="#utilities"><span class="icon">🎨</span>Utilitaires</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <h1>Bootstrap 5 <span class="badge" style="background:rgba(121,82,179,0.2);color:#9d6fe8;">v5.3</span></h1>
+      <p>Framework CSS le plus populaire — grille responsive, composants prêts à l'emploi et utilitaires puissants.</p>
+    </div>
+
+    <!-- INSTALLATION -->
+    <section class="section" id="setup">
+      <div class="section-title">Installation &amp; Setup</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">CDN — intégration rapide</div>
+          <div class="card-tags"><span class="tag tag-blue">CDN</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Ajoutez le CSS dans le <code>&lt;head&gt;</code> et le JS Bundle (inclut Popper.js) avant la fermeture du <code>&lt;/body&gt;</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;title&gt;Mon projet Bootstrap&lt;/title&gt;
+  &lt;!-- Bootstrap CSS --&gt;
+  &lt;link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;!-- Votre contenu ici --&gt;
+
+  &lt;!-- Bootstrap JS Bundle (inclut Popper.js) --&gt;
+  &lt;script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmA0gpS+zRUtBCPGwmPLyGBCQbCL"
+    crossorigin="anonymous"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Installation via npm</div>
+          <div class="card-tags"><span class="tag tag-green">npm</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">npm install bootstrap@5.3.3
+
+# Importer dans votre fichier JS / entry point
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+# Ou importer uniquement les modules JS nécessaires
+import { Modal, Tooltip, Toast } from 'bootstrap';</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTAINERS & GRID -->
+    <section class="section" id="grid">
+      <div class="section-title">Containers &amp; Grid</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Types de containers</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les containers centrent et limitent la largeur du contenu. <code>container</code> a des max-width par breakpoint, <code>container-fluid</code> fait toujours 100%.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Container responsive (max-width par breakpoint) --&gt;
+&lt;div class="container"&gt;...&lt;/div&gt;
+
+&lt;!-- Container pleine largeur --&gt;
+&lt;div class="container-fluid"&gt;...&lt;/div&gt;
+
+&lt;!-- Container limité à partir d'un breakpoint --&gt;
+&lt;div class="container-sm"&gt;...&lt;/div&gt;   &lt;!-- 100% sous sm --&gt;
+&lt;div class="container-md"&gt;...&lt;/div&gt;   &lt;!-- 100% sous md --&gt;
+&lt;div class="container-lg"&gt;...&lt;/div&gt;   &lt;!-- 100% sous lg --&gt;
+&lt;div class="container-xl"&gt;...&lt;/div&gt;   &lt;!-- 100% sous xl --&gt;
+&lt;div class="container-xxl"&gt;...&lt;/div&gt;  &lt;!-- 100% sous xxl --&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Breakpoints Bootstrap 5</div>
+          <div class="card-tags"><span class="tag tag-blue">Responsive</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Préfixe</th><th>Breakpoint</th><th>Max-width container</th><th>Appareils</th></tr></thead>
+            <tbody>
+              <tr><td><code>xs</code> (aucun)</td><td>&lt; 576px</td><td>100%</td><td class="desc">Téléphones portrait</td></tr>
+              <tr><td><code>sm</code></td><td>≥ 576px</td><td>540px</td><td class="desc">Téléphones paysage</td></tr>
+              <tr><td><code>md</code></td><td>≥ 768px</td><td>720px</td><td class="desc">Tablettes</td></tr>
+              <tr><td><code>lg</code></td><td>≥ 992px</td><td>960px</td><td class="desc">Petits desktops</td></tr>
+              <tr><td><code>xl</code></td><td>≥ 1200px</td><td>1140px</td><td class="desc">Desktops</td></tr>
+              <tr><td><code>xxl</code></td><td>≥ 1400px</td><td>1320px</td><td class="desc">Grands écrans</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Système de grille — <code>row</code> et <code>col</code></div>
+          <div class="card-tags"><span class="tag tag-purple">12 colonnes</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">La grille Bootstrap divise chaque ligne en 12 colonnes. Les classes <code>col-*</code> définissent combien de colonnes occupe un élément.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;div class="container"&gt;
+
+  &lt;!-- Colonnes automatiques (largeur égale) --&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col"&gt;Auto&lt;/div&gt;
+    &lt;div class="col"&gt;Auto&lt;/div&gt;
+    &lt;div class="col"&gt;Auto&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Colonnes fixes (sur 12) --&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col-6"&gt;6/12 = 50%&lt;/div&gt;
+    &lt;div class="col-3"&gt;3/12 = 25%&lt;/div&gt;
+    &lt;div class="col-3"&gt;3/12 = 25%&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Responsive : 12 cols sur mobile, 6 sur md, 4 sur lg --&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col-12 col-md-6 col-lg-4"&gt;Carte 1&lt;/div&gt;
+    &lt;div class="col-12 col-md-6 col-lg-4"&gt;Carte 2&lt;/div&gt;
+    &lt;div class="col-12 col-md-6 col-lg-4"&gt;Carte 3&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Offset, Order, Gutters --&gt;
+  &lt;div class="row g-3"&gt; &lt;!-- g-3 = gap 16px --&gt;
+    &lt;div class="col-md-4 offset-md-2"&gt;Décalé de 2 colonnes&lt;/div&gt;
+    &lt;div class="col-md-4 order-md-1"&gt;Réordonné&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Layout complet : header / sidebar / content --&gt;
+  &lt;header class="row"&gt;
+    &lt;div class="col-12"&gt;&lt;nav&gt;Header&lt;/nav&gt;&lt;/div&gt;
+  &lt;/header&gt;
+  &lt;div class="row g-0"&gt;
+    &lt;aside class="col-12 col-md-3"&gt;Sidebar&lt;/aside&gt;
+    &lt;main class="col-12 col-md-9"&gt;Contenu principal&lt;/main&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLEXBOX UTILITIES -->
+    <section class="section" id="flex">
+      <div class="section-title">Flexbox Utilities</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Classes Flexbox Bootstrap</div>
+          <div class="card-tags"><span class="tag tag-blue">Utilitaires</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Bootstrap expose les propriétés CSS Flexbox via des classes utilitaires. Toutes sont déclinables par breakpoint : <code>d-md-flex</code>, <code>justify-content-lg-between</code>…</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Activer flex --&gt;
+&lt;div class="d-flex"&gt;...&lt;/div&gt;
+&lt;div class="d-inline-flex"&gt;...&lt;/div&gt;
+
+&lt;!-- Direction --&gt;
+&lt;div class="d-flex flex-row"&gt;...&lt;/div&gt;        &lt;!-- → défaut --&gt;
+&lt;div class="d-flex flex-column"&gt;...&lt;/div&gt;     &lt;!-- ↓ --&gt;
+&lt;div class="d-flex flex-row-reverse"&gt;...&lt;/div&gt;
+
+&lt;!-- Justify-content (axe principal) --&gt;
+&lt;div class="d-flex justify-content-start"&gt;...&lt;/div&gt;
+&lt;div class="d-flex justify-content-end"&gt;...&lt;/div&gt;
+&lt;div class="d-flex justify-content-center"&gt;...&lt;/div&gt;
+&lt;div class="d-flex justify-content-between"&gt;...&lt;/div&gt;
+&lt;div class="d-flex justify-content-around"&gt;...&lt;/div&gt;
+&lt;div class="d-flex justify-content-evenly"&gt;...&lt;/div&gt;
+
+&lt;!-- Align-items (axe secondaire) --&gt;
+&lt;div class="d-flex align-items-start"&gt;...&lt;/div&gt;
+&lt;div class="d-flex align-items-center"&gt;...&lt;/div&gt;
+&lt;div class="d-flex align-items-end"&gt;...&lt;/div&gt;
+&lt;div class="d-flex align-items-stretch"&gt;...&lt;/div&gt;
+&lt;div class="d-flex align-items-baseline"&gt;...&lt;/div&gt;
+
+&lt;!-- Wrap --&gt;
+&lt;div class="d-flex flex-wrap"&gt;...&lt;/div&gt;
+&lt;div class="d-flex flex-nowrap"&gt;...&lt;/div&gt;
+
+&lt;!-- Gap --&gt;
+&lt;div class="d-flex gap-3"&gt;...&lt;/div&gt;   &lt;!-- gap: 1rem --&gt;
+&lt;div class="d-flex gap-2"&gt;...&lt;/div&gt;   &lt;!-- gap: 0.5rem --&gt;
+
+&lt;!-- Flex items --&gt;
+&lt;div class="d-flex"&gt;
+  &lt;div class="flex-grow-1"&gt;Prend tout l'espace disponible&lt;/div&gt;
+  &lt;div class="ms-auto"&gt;Poussé à droite (margin-left: auto)&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Exemple barre de navigation --&gt;
+&lt;div class="d-flex align-items-center justify-content-between p-3"&gt;
+  &lt;span class="fw-bold"&gt;Logo&lt;/span&gt;
+  &lt;nav class="d-flex gap-3"&gt;
+    &lt;a href="#"&gt;Accueil&lt;/a&gt;
+    &lt;a href="#"&gt;À propos&lt;/a&gt;
+  &lt;/nav&gt;
+  &lt;button class="btn btn-primary ms-auto"&gt;Connexion&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPACING -->
+    <section class="section" id="spacing">
+      <div class="section-title">Spacing (m, p)</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Marges et Paddings — convention <code>{prop}{côté}-{taille}</code></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Bootstrap utilise une échelle de 0 à 5 (et <code>auto</code>) basée sur <code>$spacer = 1rem</code>. La syntaxe est <code>m</code> (margin) ou <code>p</code> (padding) + côté + tiret + valeur.</p>
+          <table class="attr-table">
+            <thead><tr><th>Côté</th><th>Signification</th></tr></thead>
+            <tbody>
+              <tr><td><code>t</code></td><td class="desc">top</td></tr>
+              <tr><td><code>b</code></td><td class="desc">bottom</td></tr>
+              <tr><td><code>s</code></td><td class="desc">start (left en LTR)</td></tr>
+              <tr><td><code>e</code></td><td class="desc">end (right en LTR)</td></tr>
+              <tr><td><code>x</code></td><td class="desc">left + right</td></tr>
+              <tr><td><code>y</code></td><td class="desc">top + bottom</td></tr>
+              <tr><td>(rien)</td><td class="desc">tous les côtés</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Marges --&gt;
+&lt;div class="m-0"&gt;margin: 0&lt;/div&gt;
+&lt;div class="m-1"&gt;margin: 0.25rem&lt;/div&gt;
+&lt;div class="m-2"&gt;margin: 0.5rem&lt;/div&gt;
+&lt;div class="m-3"&gt;margin: 1rem&lt;/div&gt;
+&lt;div class="m-4"&gt;margin: 1.5rem&lt;/div&gt;
+&lt;div class="m-5"&gt;margin: 3rem&lt;/div&gt;
+&lt;div class="mx-auto"&gt;centrage horizontal&lt;/div&gt;
+&lt;div class="mt-3 mb-2"&gt;top + bottom différents&lt;/div&gt;
+
+&lt;!-- Paddings --&gt;
+&lt;div class="p-3"&gt;padding: 1rem (tous les côtés)&lt;/div&gt;
+&lt;div class="px-4 py-2"&gt;padding horizontal 1.5rem, vertical 0.5rem&lt;/div&gt;
+&lt;div class="pt-0 pb-3"&gt;padding-top: 0, padding-bottom: 1rem&lt;/div&gt;
+
+&lt;!-- Tailles (width / height) --&gt;
+&lt;div class="w-25"&gt;width: 25%&lt;/div&gt;
+&lt;div class="w-50"&gt;width: 50%&lt;/div&gt;
+&lt;div class="w-75"&gt;width: 75%&lt;/div&gt;
+&lt;div class="w-100"&gt;width: 100%&lt;/div&gt;
+&lt;div class="h-100"&gt;height: 100%&lt;/div&gt;
+
+&lt;!-- Gap dans row/flex --&gt;
+&lt;div class="row g-3"&gt;...&lt;/div&gt;  &lt;!-- gutter 1rem --&gt;
+&lt;div class="row gx-4 gy-2"&gt;...&lt;/div&gt; &lt;!-- gutter-x / gutter-y séparés --&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TYPOGRAPHIE -->
+    <section class="section" id="typo">
+      <div class="section-title">Typographie</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Classes de typographie Bootstrap</div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Titres display (très grands) --&gt;
+&lt;h1 class="display-1"&gt;Display 1 (5rem)&lt;/h1&gt;
+&lt;h2 class="display-2"&gt;Display 2 (4.5rem)&lt;/h2&gt;
+&lt;h3 class="display-3"&gt;Display 3 (4rem)&lt;/h3&gt;
+&lt;h4 class="display-4"&gt;Display 4 (3.5rem)&lt;/h4&gt;
+&lt;h5 class="display-5"&gt;Display 5 (3rem)&lt;/h5&gt;
+&lt;h6 class="display-6"&gt;Display 6 (2.5rem)&lt;/h6&gt;
+
+&lt;!-- Tailles de police --&gt;
+&lt;p class="fs-1"&gt;fs-1 = 2.5rem&lt;/p&gt;
+&lt;p class="fs-2"&gt;fs-2 = 2rem&lt;/p&gt;
+&lt;p class="fs-3"&gt;fs-3 = 1.75rem&lt;/p&gt;
+&lt;p class="fs-4"&gt;fs-4 = 1.5rem&lt;/p&gt;
+&lt;p class="fs-5"&gt;fs-5 = 1.25rem&lt;/p&gt;
+&lt;p class="fs-6"&gt;fs-6 = 1rem&lt;/p&gt;
+
+&lt;!-- Couleurs de texte --&gt;
+&lt;p class="text-primary"&gt;Bleu primaire&lt;/p&gt;
+&lt;p class="text-secondary"&gt;Gris secondaire&lt;/p&gt;
+&lt;p class="text-success"&gt;Vert succès&lt;/p&gt;
+&lt;p class="text-danger"&gt;Rouge danger&lt;/p&gt;
+&lt;p class="text-warning"&gt;Jaune avertissement&lt;/p&gt;
+&lt;p class="text-info"&gt;Bleu ciel info&lt;/p&gt;
+&lt;p class="text-muted"&gt;Gris atténué&lt;/p&gt;
+
+&lt;!-- Graisse &amp; style --&gt;
+&lt;p class="fw-bold"&gt;Gras (700)&lt;/p&gt;
+&lt;p class="fw-semibold"&gt;Semi-gras (600)&lt;/p&gt;
+&lt;p class="fw-normal"&gt;Normal (400)&lt;/p&gt;
+&lt;p class="fw-light"&gt;Léger (300)&lt;/p&gt;
+&lt;p class="fst-italic"&gt;Italique&lt;/p&gt;
+
+&lt;!-- Alignement --&gt;
+&lt;p class="text-start"&gt;Aligné à gauche&lt;/p&gt;
+&lt;p class="text-center"&gt;Centré&lt;/p&gt;
+&lt;p class="text-end"&gt;Aligné à droite&lt;/p&gt;
+
+&lt;!-- Autres --&gt;
+&lt;p class="lead"&gt;Texte introductif plus grand&lt;/p&gt;
+&lt;p class="text-truncate" style="max-width:200px;"&gt;Texte trop long tronqué avec ellipsis...&lt;/p&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOUTONS -->
+    <section class="section" id="buttons">
+      <div class="section-title">Boutons</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Variantes de boutons</div>
+          <div class="card-tags"><span class="tag tag-blue">btn</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Boutons pleins --&gt;
+&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="btn btn-secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="btn btn-success"&gt;Success&lt;/button&gt;
+&lt;button class="btn btn-danger"&gt;Danger&lt;/button&gt;
+&lt;button class="btn btn-warning"&gt;Warning&lt;/button&gt;
+&lt;button class="btn btn-info"&gt;Info&lt;/button&gt;
+&lt;button class="btn btn-light"&gt;Light&lt;/button&gt;
+&lt;button class="btn btn-dark"&gt;Dark&lt;/button&gt;
+
+&lt;!-- Boutons outline --&gt;
+&lt;button class="btn btn-outline-primary"&gt;Outline Primary&lt;/button&gt;
+&lt;button class="btn btn-outline-danger"&gt;Outline Danger&lt;/button&gt;
+
+&lt;!-- Tailles --&gt;
+&lt;button class="btn btn-primary btn-sm"&gt;Petit&lt;/button&gt;
+&lt;button class="btn btn-primary"&gt;Normal&lt;/button&gt;
+&lt;button class="btn btn-primary btn-lg"&gt;Grand&lt;/button&gt;
+
+&lt;!-- Pleine largeur --&gt;
+&lt;div class="d-grid"&gt;
+  &lt;button class="btn btn-primary"&gt;Bouton pleine largeur&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Désactivé --&gt;
+&lt;button class="btn btn-primary" disabled&gt;Désactivé&lt;/button&gt;
+&lt;a class="btn btn-primary disabled" aria-disabled="true"&gt;Lien désactivé&lt;/a&gt;
+
+&lt;!-- Groupe de boutons --&gt;
+&lt;div class="btn-group" role="group"&gt;
+  &lt;button class="btn btn-outline-primary"&gt;Gauche&lt;/button&gt;
+  &lt;button class="btn btn-outline-primary"&gt;Centre&lt;/button&gt;
+  &lt;button class="btn btn-outline-primary"&gt;Droite&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Toggle buttons (boutons radio/checkbox stylisés) --&gt;
+&lt;div class="btn-group" role="group"&gt;
+  &lt;input type="radio" class="btn-check" name="options" id="opt1" autocomplete="off" checked /&gt;
+  &lt;label class="btn btn-outline-primary" for="opt1"&gt;Option 1&lt;/label&gt;
+  &lt;input type="radio" class="btn-check" name="options" id="opt2" autocomplete="off" /&gt;
+  &lt;label class="btn btn-outline-primary" for="opt2"&gt;Option 2&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARDS -->
+    <section class="section" id="cards">
+      <div class="section-title">Cards</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Composant Card Bootstrap</div>
+          <div class="card-tags"><span class="tag tag-purple">card</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Card de base --&gt;
+&lt;div class="card" style="width: 18rem;"&gt;
+  &lt;img src="image.jpg" class="card-img-top" alt="Image de la carte" /&gt;
+  &lt;div class="card-header"&gt;En-tête de la carte&lt;/div&gt;
+  &lt;div class="card-body"&gt;
+    &lt;h5 class="card-title"&gt;Titre de la carte&lt;/h5&gt;
+    &lt;p class="card-text"&gt;Description de la carte avec du contenu intéressant.&lt;/p&gt;
+    &lt;a href="#" class="btn btn-primary"&gt;Voir plus&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div class="card-footer text-muted"&gt;Mis à jour il y a 3 mins&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Card avec image en overlay --&gt;
+&lt;div class="card text-white"&gt;
+  &lt;img src="bg.jpg" class="card-img" alt="..." /&gt;
+  &lt;div class="card-img-overlay"&gt;
+    &lt;h5 class="card-title"&gt;Titre par-dessus l'image&lt;/h5&gt;
+    &lt;p class="card-text"&gt;Texte en overlay.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Deck de cartes avec grille (Bootstrap 5) --&gt;
+&lt;div class="row row-cols-1 row-cols-md-3 g-4"&gt;
+  &lt;div class="col"&gt;
+    &lt;div class="card h-100"&gt;
+      &lt;img src="img1.jpg" class="card-img-top" alt="..." /&gt;
+      &lt;div class="card-body"&gt;
+        &lt;h5 class="card-title"&gt;Carte 1&lt;/h5&gt;
+        &lt;p class="card-text"&gt;Description de la carte 1.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="card-footer"&gt;
+        &lt;small class="text-muted"&gt;Dernière mise à jour hier&lt;/small&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="col"&gt;
+    &lt;div class="card h-100"&gt;
+      &lt;div class="card-body"&gt;
+        &lt;h5 class="card-title"&gt;Carte 2&lt;/h5&gt;
+        &lt;p class="card-text"&gt;Description de la carte 2.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAVBAR -->
+    <section class="section" id="navbar">
+      <div class="section-title">Navbar</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Barre de navigation responsive</div>
+          <div class="card-tags"><span class="tag tag-blue">navbar</span><span class="tag tag-green">collapse</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">La navbar Bootstrap est responsive : le menu se replie en hamburger sur mobile avec <code>navbar-expand-lg</code>. Nécessite le JS Bootstrap pour le toggle.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;nav class="navbar navbar-expand-lg navbar-dark bg-dark"&gt;
+  &lt;div class="container"&gt;
+
+    &lt;!-- Logo / Brand --&gt;
+    &lt;a class="navbar-brand" href="#"&gt;MonSite&lt;/a&gt;
+
+    &lt;!-- Bouton hamburger (visible sur mobile) --&gt;
+    &lt;button class="navbar-toggler" type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"&gt;
+      &lt;span class="navbar-toggler-icon"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+
+    &lt;!-- Menu (se replie sur mobile) --&gt;
+    &lt;div class="collapse navbar-collapse" id="navbarNav"&gt;
+      &lt;ul class="navbar-nav me-auto"&gt;
+        &lt;li class="nav-item"&gt;
+          &lt;a class="nav-link active" href="#"&gt;Accueil&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class="nav-item"&gt;
+          &lt;a class="nav-link" href="#"&gt;Services&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;!-- Dropdown dans la navbar --&gt;
+        &lt;li class="nav-item dropdown"&gt;
+          &lt;a class="nav-link dropdown-toggle" href="#"
+            data-bs-toggle="dropdown"&gt;Ressources&lt;/a&gt;
+          &lt;ul class="dropdown-menu"&gt;
+            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Documentation&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Tutoriels&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;hr class="dropdown-divider" /&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Support&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;!-- Éléments à droite --&gt;
+      &lt;div class="d-flex gap-2"&gt;
+        &lt;button class="btn btn-outline-light"&gt;Connexion&lt;/button&gt;
+        &lt;button class="btn btn-primary"&gt;S'inscrire&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULAIRES -->
+    <section class="section" id="forms">
+      <div class="section-title">Formulaires</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Contrôles de formulaire</div>
+          <div class="card-tags"><span class="tag tag-blue">form-control</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Input classique avec label --&gt;
+&lt;div class="mb-3"&gt;
+  &lt;label for="email" class="form-label"&gt;Adresse email&lt;/label&gt;
+  &lt;input type="email" class="form-control" id="email" placeholder="nom@exemple.com" /&gt;
+&lt;/div&gt;
+
+&lt;!-- Textarea --&gt;
+&lt;div class="mb-3"&gt;
+  &lt;label for="message" class="form-label"&gt;Message&lt;/label&gt;
+  &lt;textarea class="form-control" id="message" rows="4"&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+
+&lt;!-- Select --&gt;
+&lt;div class="mb-3"&gt;
+  &lt;label for="pays" class="form-label"&gt;Pays&lt;/label&gt;
+  &lt;select class="form-select" id="pays"&gt;
+    &lt;option selected&gt;Choisir...&lt;/option&gt;
+    &lt;option value="fr"&gt;France&lt;/option&gt;
+    &lt;option value="be"&gt;Belgique&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/div&gt;
+
+&lt;!-- Checkbox et Radio --&gt;
+&lt;div class="form-check"&gt;
+  &lt;input class="form-check-input" type="checkbox" id="cgv" /&gt;
+  &lt;label class="form-check-label" for="cgv"&gt;J'accepte les CGV&lt;/label&gt;
+&lt;/div&gt;
+&lt;div class="form-check"&gt;
+  &lt;input class="form-check-input" type="radio" name="genre" id="homme" /&gt;
+  &lt;label class="form-check-label" for="homme"&gt;Homme&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Floating labels --&gt;
+&lt;div class="form-floating mb-3"&gt;
+  &lt;input type="text" class="form-control" id="nomFlottant" placeholder="Prénom" /&gt;
+  &lt;label for="nomFlottant"&gt;Prénom&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Input group --&gt;
+&lt;div class="input-group mb-3"&gt;
+  &lt;span class="input-group-text"&gt;@&lt;/span&gt;
+  &lt;input type="text" class="form-control" placeholder="Nom d'utilisateur" /&gt;
+  &lt;button class="btn btn-primary"&gt;Valider&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Validation HTML5 + Bootstrap --&gt;
+&lt;form class="needs-validation" novalidate&gt;
+  &lt;div class="mb-3"&gt;
+    &lt;label class="form-label"&gt;Nom&lt;/label&gt;
+    &lt;input type="text" class="form-control" required /&gt;
+    &lt;div class="valid-feedback"&gt;Parfait !&lt;/div&gt;
+    &lt;div class="invalid-feedback"&gt;Ce champ est requis.&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button type="submit" class="btn btn-primary"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;
+&lt;script&gt;
+// Activer la validation Bootstrap
+document.querySelectorAll('.needs-validation').forEach(form =&gt; {
+  form.addEventListener('submit', e =&gt; {
+    if (!form.checkValidity()) { e.preventDefault(); e.stopPropagation(); }
+    form.classList.add('was-validated');
+  });
+});
+&lt;/script&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALERTES & BADGES -->
+    <section class="section" id="alerts">
+      <div class="section-title">Alertes &amp; Badges</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Alertes</div>
+          <div class="card-tags"><span class="tag tag-blue">alert</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Alertes de base --&gt;
+&lt;div class="alert alert-primary" role="alert"&gt;Alerte primaire — information.&lt;/div&gt;
+&lt;div class="alert alert-success" role="alert"&gt;Succès ! Opération réussie.&lt;/div&gt;
+&lt;div class="alert alert-danger" role="alert"&gt;Erreur ! Quelque chose a mal tourné.&lt;/div&gt;
+&lt;div class="alert alert-warning" role="alert"&gt;Attention ! Vérifiez vos données.&lt;/div&gt;
+&lt;div class="alert alert-info" role="alert"&gt;Info — voici ce que vous devez savoir.&lt;/div&gt;
+
+&lt;!-- Alerte dismissible (avec bouton de fermeture) --&gt;
+&lt;div class="alert alert-warning alert-dismissible fade show" role="alert"&gt;
+  &lt;strong&gt;Attention !&lt;/strong&gt; Votre session expire bientôt.
+  &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Badges</div>
+          <div class="card-tags"><span class="tag tag-purple">badge</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Badges de base --&gt;
+&lt;span class="badge bg-primary"&gt;Primary&lt;/span&gt;
+&lt;span class="badge bg-success"&gt;Success&lt;/span&gt;
+&lt;span class="badge bg-danger"&gt;Danger&lt;/span&gt;
+&lt;span class="badge bg-warning text-dark"&gt;Warning&lt;/span&gt;
+&lt;span class="badge bg-secondary"&gt;Secondary&lt;/span&gt;
+
+&lt;!-- Badge pill (arrondi) --&gt;
+&lt;span class="badge bg-primary rounded-pill"&gt;42&lt;/span&gt;
+&lt;span class="badge bg-success rounded-pill"&gt;Nouveau&lt;/span&gt;
+
+&lt;!-- Badge positionné sur un bouton (notifications) --&gt;
+&lt;button class="btn btn-primary position-relative"&gt;
+  Messages
+  &lt;span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"&gt;
+    9+
+    &lt;span class="visually-hidden"&gt;messages non lus&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABLES -->
+    <section class="section" id="tables">
+      <div class="section-title">Tables</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Classes pour les tableaux</div>
+          <div class="card-tags"><span class="tag tag-blue">table</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Table de base --&gt;
+&lt;table class="table"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;Nom&lt;/th&gt;&lt;th&gt;Statut&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;Alice&lt;/td&gt;&lt;td&gt;Actif&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;Bob&lt;/td&gt;&lt;td&gt;Inactif&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;!-- Modificateurs de table --&gt;
+&lt;table class="table table-striped"&gt;...&lt;/table&gt;   &lt;!-- lignes alternées --&gt;
+&lt;table class="table table-hover"&gt;...&lt;/table&gt;    &lt;!-- survol mis en valeur --&gt;
+&lt;table class="table table-bordered"&gt;...&lt;/table&gt; &lt;!-- bordures sur toutes les cellules --&gt;
+&lt;table class="table table-borderless"&gt;...&lt;/table&gt; &lt;!-- sans bordures --&gt;
+&lt;table class="table table-sm"&gt;...&lt;/table&gt;       &lt;!-- compact --&gt;
+&lt;table class="table table-dark"&gt;...&lt;/table&gt;     &lt;!-- fond sombre --&gt;
+
+&lt;!-- Combinaisons --&gt;
+&lt;table class="table table-striped table-hover table-bordered"&gt;...&lt;/table&gt;
+
+&lt;!-- Colorer des lignes --&gt;
+&lt;tr class="table-success"&gt;...&lt;/tr&gt;
+&lt;tr class="table-danger"&gt;...&lt;/tr&gt;
+&lt;tr class="table-warning"&gt;...&lt;/tr&gt;
+
+&lt;!-- Table responsive (scroll horizontal sur mobile) --&gt;
+&lt;div class="table-responsive"&gt;
+  &lt;table class="table table-striped"&gt;
+    &lt;thead class="table-dark"&gt;
+      &lt;tr&gt;&lt;th&gt;Col 1&lt;/th&gt;&lt;th&gt;Col 2&lt;/th&gt;&lt;th&gt;Col 3&lt;/th&gt;&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;&lt;td&gt;Donnée&lt;/td&gt;&lt;td&gt;Donnée&lt;/td&gt;&lt;td&gt;Donnée&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL -->
+    <section class="section" id="modal">
+      <div class="section-title">Modal</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fenêtre modale complète</div>
+          <div class="card-tags"><span class="tag tag-blue">modal</span><span class="tag tag-purple">JS</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les modales Bootstrap nécessitent le JS Bundle. Ouvrez-les avec <code>data-bs-toggle="modal"</code> ou via JavaScript.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Bouton déclencheur --&gt;
+&lt;button class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#maModal"&gt;
+  Ouvrir la modale
+&lt;/button&gt;
+
+&lt;!-- Structure de la modale --&gt;
+&lt;div class="modal fade" id="maModal" tabindex="-1"
+  aria-labelledby="maModalLabel" aria-hidden="true"&gt;
+  &lt;div class="modal-dialog modal-dialog-centered modal-lg"&gt;
+    &lt;!-- modal-sm / modal-lg / modal-xl --&gt;
+    &lt;div class="modal-content"&gt;
+
+      &lt;!-- Header --&gt;
+      &lt;div class="modal-header"&gt;
+        &lt;h5 class="modal-title" id="maModalLabel"&gt;Titre de la modale&lt;/h5&gt;
+        &lt;button type="button" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Fermer"&gt;&lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Body --&gt;
+      &lt;div class="modal-body"&gt;
+        &lt;p&gt;Contenu de la modale. Formulaires, textes, images, etc.&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Footer --&gt;
+      &lt;div class="modal-footer"&gt;
+        &lt;button type="button" class="btn btn-secondary"
+          data-bs-dismiss="modal"&gt;Annuler&lt;/button&gt;
+        &lt;button type="button" class="btn btn-primary"&gt;Confirmer&lt;/button&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JavaScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// Ouvrir une modale via JavaScript
+const el = document.getElementById('maModal');
+const modal = new bootstrap.Modal(el);
+modal.show();
+
+// Fermer
+modal.hide();
+
+// Écouter les événements
+el.addEventListener('show.bs.modal', () => {
+  console.log('Modale en cours d\'ouverture');
+});
+el.addEventListener('hidden.bs.modal', () => {
+  console.log('Modale fermée');
+});</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAROUSEL -->
+    <section class="section" id="carousel">
+      <div class="section-title">Carousel</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Carrousel d'images</div>
+          <div class="card-tags"><span class="tag tag-blue">carousel</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;div id="monCarousel" class="carousel slide" data-bs-ride="carousel"&gt;
+
+  &lt;!-- Indicateurs (points) --&gt;
+  &lt;div class="carousel-indicators"&gt;
+    &lt;button type="button" data-bs-target="#monCarousel" data-bs-slide-to="0"
+      class="active" aria-current="true" aria-label="Slide 1"&gt;&lt;/button&gt;
+    &lt;button type="button" data-bs-target="#monCarousel" data-bs-slide-to="1"
+      aria-label="Slide 2"&gt;&lt;/button&gt;
+    &lt;button type="button" data-bs-target="#monCarousel" data-bs-slide-to="2"
+      aria-label="Slide 3"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Slides --&gt;
+  &lt;div class="carousel-inner"&gt;
+    &lt;div class="carousel-item active"&gt;
+      &lt;img src="slide1.jpg" class="d-block w-100" alt="Slide 1" /&gt;
+      &lt;div class="carousel-caption d-none d-md-block"&gt;
+        &lt;h5&gt;Titre du slide 1&lt;/h5&gt;
+        &lt;p&gt;Description du premier slide.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="carousel-item"&gt;
+      &lt;img src="slide2.jpg" class="d-block w-100" alt="Slide 2" /&gt;
+    &lt;/div&gt;
+    &lt;div class="carousel-item"&gt;
+      &lt;img src="slide3.jpg" class="d-block w-100" alt="Slide 3" /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Flèches de navigation --&gt;
+  &lt;button class="carousel-control-prev" type="button"
+    data-bs-target="#monCarousel" data-bs-slide="prev"&gt;
+    &lt;span class="carousel-control-prev-icon" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;span class="visually-hidden"&gt;Précédent&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class="carousel-control-next" type="button"
+    data-bs-target="#monCarousel" data-bs-slide="next"&gt;
+    &lt;span class="carousel-control-next-icon" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;span class="visually-hidden"&gt;Suivant&lt;/span&gt;
+  &lt;/button&gt;
+
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UTILITAIRES -->
+    <section class="section" id="utilities">
+      <div class="section-title">Utilitaires divers</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Arrondis, ombres, bordures</div>
+          <div class="card-tags"><span class="tag tag-blue">rounded</span><span class="tag tag-purple">shadow</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Arrondis --&gt;
+&lt;img class="rounded" src="img.jpg" /&gt;         &lt;!-- border-radius: 0.375rem --&gt;
+&lt;img class="rounded-circle" src="img.jpg" /&gt;  &lt;!-- cercle --&gt;
+&lt;span class="rounded-pill"&gt;Badge&lt;/span&gt;       &lt;!-- pilule --&gt;
+&lt;div class="rounded-0"&gt;Sans arrondi&lt;/div&gt;
+&lt;div class="rounded-1"&gt;Petit arrondi&lt;/div&gt;
+&lt;div class="rounded-3"&gt;Grand arrondi&lt;/div&gt;
+
+&lt;!-- Ombres --&gt;
+&lt;div class="shadow-sm"&gt;Ombre légère&lt;/div&gt;
+&lt;div class="shadow"&gt;Ombre normale&lt;/div&gt;
+&lt;div class="shadow-lg"&gt;Ombre prononcée&lt;/div&gt;
+&lt;div class="shadow-none"&gt;Sans ombre&lt;/div&gt;
+
+&lt;!-- Bordures --&gt;
+&lt;div class="border"&gt;Toutes les bordures&lt;/div&gt;
+&lt;div class="border border-primary"&gt;Bordure colorée&lt;/div&gt;
+&lt;div class="border-top"&gt;Bordure top seulement&lt;/div&gt;
+&lt;div class="border-0"&gt;Sans bordure&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Visibilité, overflow, position</div>
+          <div class="card-tags"><span class="tag tag-green">display</span><span class="tag tag-blue">position</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Affichage / Masquage --&gt;
+&lt;div class="d-none"&gt;Caché (display: none)&lt;/div&gt;
+&lt;div class="d-block"&gt;Visible (display: block)&lt;/div&gt;
+&lt;div class="d-none d-md-block"&gt;Caché mobile, visible desktop&lt;/div&gt;
+&lt;div class="d-md-none"&gt;Visible mobile seulement&lt;/div&gt;
+&lt;span class="visually-hidden"&gt;Pour lecteurs d'écran uniquement&lt;/span&gt;
+
+&lt;!-- Position --&gt;
+&lt;div class="position-relative"&gt;
+  &lt;span class="position-absolute top-0 start-0"&gt;Coin haut-gauche&lt;/span&gt;
+  &lt;span class="position-absolute top-0 end-0"&gt;Coin haut-droite&lt;/span&gt;
+  &lt;span class="position-absolute top-50 start-50 translate-middle"&gt;Centre&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Overflow --&gt;
+&lt;div class="overflow-hidden"&gt;...&lt;/div&gt;
+&lt;div class="overflow-auto"&gt;...&lt;/div&gt;
+&lt;div class="overflow-scroll"&gt;...&lt;/div&gt;
+
+&lt;!-- Opacité --&gt;
+&lt;div class="opacity-75"&gt;75% d'opacité&lt;/div&gt;
+&lt;div class="opacity-50"&gt;50% d'opacité&lt;/div&gt;
+&lt;div class="opacity-25"&gt;25% d'opacité&lt;/div&gt;
+
+&lt;!-- Fond avec opacité --&gt;
+&lt;div class="bg-primary bg-opacity-50"&gt;Fond bleu à 50%&lt;/div&gt;
+
+&lt;!-- Text utilities --&gt;
+&lt;a class="text-decoration-none" href="#"&gt;Lien sans soulignement&lt;/a&gt;
+
+&lt;!-- z-index --&gt;
+&lt;div class="z-0"&gt;z-index: 0&lt;/div&gt;
+&lt;div class="z-1"&gt;z-index: 1&lt;/div&gt;
+&lt;div class="z-2"&gt;z-index: 2&lt;/div&gt;
+&lt;div class="z-3"&gt;z-index: 3&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+  </main>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

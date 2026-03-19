@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — Angular</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li class="active"><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une directive, service, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Angular</div>
+    <ul class="sidebar-nav">
+      <li><a href="#setup"><span class="icon">⚙️</span>Installation &amp; CLI</a></li>
+      <li><a href="#structure"><span class="icon">🏗️</span>Structure du projet</a></li>
+      <li><a href="#composants"><span class="icon">🧩</span>Composants</a></li>
+      <li><a href="#binding"><span class="icon">🎨</span>Templates &amp; Binding</a></li>
+      <li><a href="#directives"><span class="icon">📋</span>Directives</a></li>
+      <li><a href="#services"><span class="icon">🔧</span>Services &amp; DI</a></li>
+      <li><a href="#http"><span class="icon">🌍</span>HttpClient</a></li>
+      <li><a href="#routing"><span class="icon">🗺️</span>Routing</a></li>
+      <li><a href="#pipes"><span class="icon">🔄</span>Pipes</a></li>
+      <li><a href="#forms-template"><span class="icon">📝</span>Formulaires Template</a></li>
+      <li><a href="#forms-reactive"><span class="icon">📝</span>Formulaires Réactifs</a></li>
+      <li><a href="#lifecycle"><span class="icon">♻️</span>Lifecycle Hooks</a></li>
+      <li><a href="#modules"><span class="icon">🧩</span>Modules</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <h1>Angular <span class="badge" style="background:rgba(221,27,22,0.15);color:#dd1b16;">v17+</span></h1>
+      <p>Commandes CLI, composants, directives, services, routing, formulaires et toute la puissance d'Angular.</p>
+    </div>
+
+    <!-- INSTALLATION & CLI -->
+    <section class="section" id="setup">
+      <div class="section-title">Installation &amp; CLI</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Angular CLI — commandes de base</div>
+          <div class="card-tags"><span class="tag tag-green">npm</span><span class="tag tag-blue">CLI</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Angular CLI est l'outil officiel pour créer, développer, tester et builder des applications Angular.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Installer Angular CLI globalement
+npm install -g @angular/cli
+
+# Créer un nouveau projet
+ng new mon-projet
+ng new mon-projet --routing --style=css   # avec routing et CSS
+cd mon-projet
+
+# Lancer le serveur de développement
+ng serve
+ng serve --open                           # ouvre le navigateur
+ng serve --port 4200
+
+# Build
+ng build
+ng build --configuration production       # build de prod (optimisé)
+
+# Tests
+ng test                                   # tests unitaires (Karma)
+ng e2e                                    # tests end-to-end
+
+# Lint
+ng lint</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">ng generate — Générer des fichiers</div>
+          <div class="card-tags"><span class="tag tag-purple">generate</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">La commande <code>ng generate</code> (alias <code>ng g</code>) permet de créer rapidement tous les types de fichiers Angular.</p>
+          <table class="attr-table">
+            <thead>
+              <tr><th>Commande</th><th>Alias</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>ng generate component nom</code></td><td><code>ng g c nom</code></td><td class="desc">Créer un composant</td></tr>
+              <tr><td><code>ng generate service nom</code></td><td><code>ng g s nom</code></td><td class="desc">Créer un service</td></tr>
+              <tr><td><code>ng generate module nom</code></td><td><code>ng g m nom</code></td><td class="desc">Créer un module</td></tr>
+              <tr><td><code>ng generate pipe nom</code></td><td><code>ng g p nom</code></td><td class="desc">Créer un pipe</td></tr>
+              <tr><td><code>ng generate directive nom</code></td><td><code>ng g d nom</code></td><td class="desc">Créer une directive</td></tr>
+              <tr><td><code>ng generate guard nom</code></td><td><code>ng g g nom</code></td><td class="desc">Créer un guard</td></tr>
+              <tr><td><code>ng generate interface nom</code></td><td><code>ng g i nom</code></td><td class="desc">Créer une interface</td></tr>
+              <tr><td><code>ng generate enum nom</code></td><td><code>ng g e nom</code></td><td class="desc">Créer un enum</td></tr>
+              <tr><td><code>ng generate class nom</code></td><td><code>ng g cl nom</code></td><td class="desc">Créer une classe</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block" style="margin-top:1rem;">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">ng g c user/user-list         # dans un sous-dossier
+ng g c user-card --inline-template --inline-style  # tout dans le .ts
+ng g c nav --skip-tests       # sans spec.ts
+ng g s auth --skip-tests
+ng g m features/blog --routing  # module avec routing</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRUCTURE DU PROJET -->
+    <section class="section" id="structure">
+      <div class="section-title">Structure du projet</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Arborescence d'un projet Angular</div>
+          <div class="card-tags"><span class="tag tag-blue">architecture</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un projet Angular suit une structure conventionnelle. Le dossier <code>src/app/</code> contient toute la logique applicative.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">mon-projet/
+├── src/
+│   ├── app/
+│   │   ├── app.component.ts      # Composant racine
+│   │   ├── app.component.html
+│   │   ├── app.component.css
+│   │   ├── app.module.ts         # Module principal
+│   │   ├── app-routing.module.ts # Routes
+│   │   ├── components/           # Composants réutilisables
+│   │   ├── services/             # Services
+│   │   ├── models/               # Interfaces/types
+│   │   └── guards/               # Route guards
+│   ├── assets/
+│   ├── environments/
+│   │   ├── environment.ts        # Dev
+│   │   └── environment.prod.ts   # Prod
+│   ├── index.html
+│   └── styles.css                # Styles globaux
+├── angular.json
+├── tsconfig.json
+└── package.json</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPOSANTS -->
+    <section class="section" id="composants">
+      <div class="section-title">Composants</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer un composant avec @Input et @Output</div>
+          <div class="card-tags"><span class="tag tag-blue">@Component</span><span class="tag tag-purple">@Input/@Output</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un composant Angular est une classe TypeScript décorée avec <code>@Component</code>. <code>@Input()</code> reçoit des données du parent, <code>@Output()</code> émet des événements vers le parent.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">// user-card.component.ts
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { User } from '../models/user.model';
+
+@Component({
+  selector: 'app-user-card',
+  templateUrl: './user-card.component.html',
+  styleUrls: ['./user-card.component.css'],
+  // Standalone (Angular 14+)
+  // standalone: true,
+  // imports: [CommonModule],
+})
+export class UserCardComponent implements OnInit {
+  @Input() user!: User;             // Données reçues du parent
+  @Input() showActions = true;
+  @Output() deleted = new EventEmitter&lt;number&gt;();  // Émet vers le parent
+
+  titre: string = '';
+
+  ngOnInit(): void {
+    this.titre = `Profil de ${this.user.nom}`;
+  }
+
+  onDelete(): void {
+    this.deleted.emit(this.user.id);
+  }
+}</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:1rem;">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- user-card.component.html --&gt;
+&lt;div class="card"&gt;
+  &lt;h2&gt;{{ titre }}&lt;/h2&gt;
+  &lt;p&gt;{{ user.nom }} — {{ user.email }}&lt;/p&gt;
+  &lt;button *ngIf="showActions" (click)="onDelete()"&gt;Supprimer&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:1rem;">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">// Interface User
+// models/user.model.ts
+export interface User {
+  id: number;
+  nom: string;
+  email: string;
+  role: 'admin' | 'user';
+  actif: boolean;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEMPLATES & DATA BINDING -->
+    <section class="section" id="binding">
+      <div class="section-title">Templates &amp; Data Binding</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Les 4 types de binding</div>
+          <div class="card-tags"><span class="tag tag-blue">interpolation</span><span class="tag tag-green">event</span><span class="tag tag-purple">two-way</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Angular propose quatre types de data binding : interpolation <code>{{ }}</code>, property binding <code>[]</code>, event binding <code>()</code> et two-way binding <code>[()]</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Interpolation {{ }} --&gt;
+&lt;h1&gt;{{ titre }}&lt;/h1&gt;
+&lt;p&gt;{{ user.nom | uppercase }}&lt;/p&gt;
+&lt;p&gt;{{ 2 + 2 }}&lt;/p&gt;
+&lt;p&gt;{{ isLoading ? 'Chargement...' : 'Prêt' }}&lt;/p&gt;
+
+&lt;!-- Property binding [ ] --&gt;
+&lt;img [src]="user.avatar" [alt]="user.nom" /&gt;
+&lt;button [disabled]="isLoading"&gt;Envoyer&lt;/button&gt;
+&lt;div [class.active]="isActive"&gt;&lt;/div&gt;
+&lt;div [class]="{'active': isActive, 'error': hasError}"&gt;&lt;/div&gt;
+&lt;div [ngClass]="{'active': isActive, 'bold': isBold}"&gt;&lt;/div&gt;
+&lt;div [style.color]="textColor"&gt;&lt;/div&gt;
+&lt;div [ngStyle]="{'font-size': fontSize + 'px'}"&gt;&lt;/div&gt;
+
+&lt;!-- Event binding ( ) --&gt;
+&lt;button (click)="onClick()"&gt;Cliquer&lt;/button&gt;
+&lt;button (click)="onClick($event)"&gt;Avec event&lt;/button&gt;
+&lt;input (keyup.enter)="onEnter()"&gt;
+&lt;input (input)="onInput($event)"&gt;
+&lt;form (ngSubmit)="onSubmit()"&gt;
+
+&lt;!-- Two-way binding [( )] — nécessite FormsModule --&gt;
+&lt;input [(ngModel)]="nom" /&gt;
+&lt;!-- Équivalent à : --&gt;
+&lt;input [value]="nom" (input)="nom = $event.target.value" /&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECTIVES -->
+    <section class="section" id="directives">
+      <div class="section-title">Directives</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Directives structurelles</div>
+          <div class="card-tags"><span class="tag tag-blue">*ngIf</span><span class="tag tag-green">*ngFor</span><span class="tag tag-purple">*ngSwitch</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les directives structurelles modifient le DOM en ajoutant ou supprimant des éléments. Elles sont préfixées par <code>*</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- *ngIf --&gt;
+&lt;div *ngIf="user"&gt;{{ user.nom }}&lt;/div&gt;
+&lt;div *ngIf="isLoading; else content"&gt;
+  &lt;app-spinner&gt;&lt;/app-spinner&gt;
+&lt;/div&gt;
+&lt;ng-template #content&gt;
+  &lt;app-user-list [users]="users"&gt;&lt;/app-user-list&gt;
+&lt;/ng-template&gt;
+
+&lt;!-- *ngFor --&gt;
+&lt;ul&gt;
+  &lt;li *ngFor="let user of users; let i = index; trackBy: trackById"&gt;
+    {{ i + 1 }}. {{ user.nom }}
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- trackBy (optimisation) --&gt;
+&lt;!-- dans le composant : --&gt;
+&lt;!-- trackById(index: number, user: User) { return user.id; } --&gt;
+
+&lt;!-- *ngSwitch --&gt;
+&lt;div [ngSwitch]="statut"&gt;
+  &lt;p *ngSwitchCase="'loading'"&gt;Chargement...&lt;/p&gt;
+  &lt;p *ngSwitchCase="'error'"&gt;Erreur&lt;/p&gt;
+  &lt;p *ngSwitchCase="'success'"&gt;Succès !&lt;/p&gt;
+  &lt;p *ngSwitchDefault&gt;Inconnu&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- ng-container (sans élément DOM) --&gt;
+&lt;ng-container *ngIf="user"&gt;
+  &lt;h2&gt;{{ user.nom }}&lt;/h2&gt;
+  &lt;p&gt;{{ user.email }}&lt;/p&gt;
+&lt;/ng-container&gt;
+
+&lt;!-- ng-content (projection de contenu) --&gt;
+&lt;!-- Dans le composant card : --&gt;
+&lt;div class="card"&gt;
+  &lt;ng-content select="[card-header]"&gt;&lt;/ng-content&gt;
+  &lt;ng-content&gt;&lt;/ng-content&gt;
+&lt;/div&gt;
+&lt;!-- Utilisation : --&gt;
+&lt;app-card&gt;
+  &lt;h2 card-header&gt;Titre&lt;/h2&gt;
+  &lt;p&gt;Contenu projeté&lt;/p&gt;
+&lt;/app-card&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES & DI -->
+    <section class="section" id="services">
+      <div class="section-title">Services &amp; Injection de dépendances</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer et injecter un service</div>
+          <div class="card-tags"><span class="tag tag-blue">@Injectable</span><span class="tag tag-green">singleton</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les services Angular sont des classes singleton injectables. <code>providedIn: 'root'</code> les rend disponibles dans toute l'application sans les déclarer dans un module.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">// user.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { User } from '../models/user.model';
+
+@Injectable({
+  providedIn: 'root',  // singleton disponible dans toute l'app
+})
+export class UserService {
+  private apiUrl = 'https://api.exemple.fr';
+
+  constructor(private http: HttpClient) {}
+
+  getAll(): Observable&lt;User[]&gt; {
+    return this.http.get&lt;User[]&gt;(`${this.apiUrl}/users`);
+  }
+
+  getById(id: number): Observable&lt;User&gt; {
+    return this.http.get&lt;User&gt;(`${this.apiUrl}/users/${id}`);
+  }
+
+  create(user: Partial&lt;User&gt;): Observable&lt;User&gt; {
+    return this.http.post&lt;User&gt;(`${this.apiUrl}/users`, user);
+  }
+
+  update(id: number, user: Partial&lt;User&gt;): Observable&lt;User&gt; {
+    return this.http.put&lt;User&gt;(`${this.apiUrl}/users/${id}`, user);
+  }
+
+  delete(id: number): Observable&lt;void&gt; {
+    return this.http.delete&lt;void&gt;(`${this.apiUrl}/users/${id}`);
+  }
+}
+
+// Injection dans un composant
+@Component({ ... })
+export class UsersComponent implements OnInit {
+  users: User[] = [];
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.userService.getAll().subscribe({
+      next: (users) =&gt; this.users = users,
+      error: (err) =&gt; console.error(err),
+    });
+  }
+
+  deleteUser(id: number): void {
+    this.userService.delete(id).subscribe(() =&gt; {
+      this.users = this.users.filter(u =&gt; u.id !== id);
+    });
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HTTPCLIENT -->
+    <section class="section" id="http">
+      <div class="section-title">HttpClient</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Requêtes HTTP et opérateurs RxJS</div>
+          <div class="card-tags"><span class="tag tag-blue">HTTP</span><span class="tag tag-purple">RxJS</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>HttpClient</code> retourne des <code>Observable</code>. Les opérateurs RxJS comme <code>map</code>, <code>tap</code> et <code>catchError</code> permettent de transformer et gérer les flux de données.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
+
+// GET avec paramètres
+getUsers(page: number, limit: number): Observable&lt;User[]&gt; {
+  const params = new HttpParams()
+    .set('page', page)
+    .set('limit', limit);
+  return this.http.get&lt;User[]&gt;('/api/users', { params });
+}
+
+// POST avec headers
+createUser(user: Partial&lt;User&gt;): Observable&lt;User&gt; {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${this.authToken}`,
+  });
+  return this.http.post&lt;User&gt;('/api/users', user, { headers });
+}
+
+// Opérateurs RxJS essentiels
+getUsers(): Observable&lt;User[]&gt; {
+  return this.http.get&lt;User[]&gt;('/api/users').pipe(
+    map(users =&gt; users.filter(u =&gt; u.actif)),    // transformer
+    tap(users =&gt; console.log('Reçu:', users)),   // effet de bord
+    catchError(err =&gt; {                           // gestion d'erreur
+      console.error('Erreur API:', err);
+      return throwError(() =&gt; err);
+    }),
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROUTING -->
+    <section class="section" id="routing">
+      <div class="section-title">Routing</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Configuration des routes</div>
+          <div class="card-tags"><span class="tag tag-blue">Routes</span><span class="tag tag-green">lazy loading</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le routeur Angular associe des chemins URL à des composants. Le lazy loading permet de charger les modules à la demande pour optimiser les performances.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">// app-routing.module.ts
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
+
+const routes: Routes = [
+  { path: '',          component: HomeComponent },
+  { path: 'users',     component: UsersComponent },
+  { path: 'users/:id', component: UserDetailComponent },
+  { path: 'admin',     component: AdminComponent, canActivate: [AuthGuard] },
+
+  // Lazy loading
+  {
+    path: 'blog',
+    loadChildren: () =&gt; import('./blog/blog.module').then(m =&gt; m.BlogModule),
+  },
+
+  { path: '**', component: NotFoundComponent }, // 404
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:1rem;">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Navigation --&gt;
+&lt;nav&gt;
+  &lt;a routerLink="/"&gt;Accueil&lt;/a&gt;
+  &lt;a routerLink="/users" routerLinkActive="active"&gt;Utilisateurs&lt;/a&gt;
+  &lt;a [routerLink]="['/users', user.id]"&gt;{{ user.nom }}&lt;/a&gt;
+&lt;/nav&gt;
+
+&lt;!-- Vue principale --&gt;
+&lt;router-outlet&gt;&lt;/router-outlet&gt;</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:1rem;">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">// Récupérer les paramètres de route
+import { ActivatedRoute, Router } from '@angular/router';
+
+@Component({ ... })
+export class UserDetailComponent implements OnInit {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
+
+  ngOnInit(): void {
+    // Paramètre de route (:id)
+    const id = this.route.snapshot.paramMap.get('id');
+
+    // Observable (si l'id peut changer sans rechargement)
+    this.route.params.subscribe(params =&gt; {
+      this.loadUser(params['id']);
+    });
+
+    // Query params (?page=2)
+    const page = this.route.snapshot.queryParamMap.get('page');
+  }
+
+  goBack(): void {
+    this.router.navigate(['/users']);
+  }
+
+  goToUser(id: number): void {
+    this.router.navigate(['/users', id], { queryParams: { tab: 'profil' } });
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PIPES -->
+    <section class="section" id="pipes">
+      <div class="section-title">Pipes</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Pipes intégrés</div>
+          <div class="card-tags"><span class="tag tag-blue">date</span><span class="tag tag-green">currency</span><span class="tag tag-purple">async</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les pipes transforment les données dans les templates. Le pipe <code>async</code> souscrit automatiquement aux Observables et gère le désabonnement.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;!-- Pipes intégrés --&gt;
+{{ nom | uppercase }}           &lt;!-- ALICE --&gt;
+{{ nom | lowercase }}           &lt;!-- alice --&gt;
+{{ nom | titlecase }}           &lt;!-- Alice Dupont --&gt;
+{{ texte | slice:0:50 }}        &lt;!-- 50 premiers caractères --&gt;
+{{ texte | slice:0:50 }}...
+
+{{ prix | currency:'EUR':'symbol':'1.2-2' }}  &lt;!-- 29,99 € --&gt;
+{{ prix | currency:'USD' }}                   &lt;!-- $29.99 --&gt;
+{{ nombre | number:'1.0-2' }}                 &lt;!-- 1 234.56 --&gt;
+{{ tauxTva | percent:'1.1-1' }}              &lt;!-- 20.0% --&gt;
+
+{{ date | date:'dd/MM/yyyy' }}               &lt;!-- 15/03/2024 --&gt;
+{{ date | date:'fullDate' }}                 &lt;!-- vendredi 15 mars 2024 --&gt;
+{{ date | date:'medium' }}                   &lt;!-- 15 mars 2024, 14:30:00 --&gt;
+{{ date | date:'shortTime' }}               &lt;!-- 14:30 --&gt;
+
+{{ objet | json }}              &lt;!-- pour déboguer --&gt;
+{{ liste | keyvalue }}          &lt;!-- itérer sur un objet --&gt;
+{{ observable$ | async }}       &lt;!-- souscription automatique --&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Pipe personnalisé</div>
+          <div class="card-tags"><span class="tag tag-purple">@Pipe</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Créez vos propres pipes avec <code>ng g p nom</code>. Un pipe implémente <code>PipeTransform</code> et définit la méthode <code>transform()</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">// Pipe personnalisé
+// ng g p truncate
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'truncate' })
+export class TruncatePipe implements PipeTransform {
+  transform(value: string, limit = 100, suffix = '...'): string {
+    if (value.length &lt;= limit) return value;
+    return value.substring(0, limit) + suffix;
+  }
+}
+// Usage : {{ texte | truncate:50:'…' }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULAIRES TEMPLATE-DRIVEN -->
+    <section class="section" id="forms-template">
+      <div class="section-title">Formulaires Template-driven</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Formulaires pilotés par le template</div>
+          <div class="card-tags"><span class="tag tag-blue">FormsModule</span><span class="tag tag-green">ngModel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les formulaires template-driven utilisent <code>ngModel</code> pour le two-way binding. La logique de validation est définie directement dans le template HTML.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">// Nécessite FormsModule dans app.module.ts
+// imports: [FormsModule]
+
+@Component({ ... })
+export class LoginComponent {
+  form = { email: '', password: '' };
+  loading = false;
+
+  onSubmit(ngForm: NgForm): void {
+    if (ngForm.invalid) return;
+    console.log(this.form);
+  }
+}</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:1rem;">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)"&gt;
+
+  &lt;label for="email"&gt;Email&lt;/label&gt;
+  &lt;input
+    id="email"
+    type="email"
+    name="email"
+    [(ngModel)]="form.email"
+    required
+    email
+    #emailRef="ngModel"
+  /&gt;
+  &lt;span *ngIf="emailRef.invalid &amp;&amp; emailRef.touched"&gt;Email invalide&lt;/span&gt;
+
+  &lt;label for="password"&gt;Mot de passe&lt;/label&gt;
+  &lt;input
+    id="password"
+    type="password"
+    name="password"
+    [(ngModel)]="form.password"
+    required
+    minlength="8"
+    #pwdRef="ngModel"
+  /&gt;
+  &lt;span *ngIf="pwdRef.errors?.['minlength'] &amp;&amp; pwdRef.touched"&gt;
+    8 caractères minimum
+  &lt;/span&gt;
+
+  &lt;button type="submit" [disabled]="loginForm.invalid || loading"&gt;
+    Connexion
+  &lt;/button&gt;
+&lt;/form&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULAIRES RÉACTIFS -->
+    <section class="section" id="forms-reactive">
+      <div class="section-title">Formulaires Réactifs</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Reactive Forms avec FormBuilder</div>
+          <div class="card-tags"><span class="tag tag-blue">ReactiveFormsModule</span><span class="tag tag-purple">Validators</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les formulaires réactifs définissent la structure et la validation dans la classe TypeScript. Ils sont plus puissants et testables que les formulaires template-driven.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">// Nécessite ReactiveFormsModule dans app.module.ts
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+
+@Component({ ... })
+export class RegisterComponent implements OnInit {
+  form!: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      nom:      ['', [Validators.required, Validators.minLength(2)]],
+      email:    ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirm:  ['', Validators.required],
+    }, { validators: this.passwordMatch });
+  }
+
+  // Validateur personnalisé
+  passwordMatch(control: AbstractControl) {
+    const pass = control.get('password')?.value;
+    const conf = control.get('confirm')?.value;
+    return pass === conf ? null : { mismatch: true };
+  }
+
+  get nom()   { return this.form.get('nom'); }
+  get email() { return this.form.get('email'); }
+
+  onSubmit(): void {
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    console.log(this.form.value);
+  }
+}</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:1rem;">
+            <div class="code-block-header"><span class="lang-label">HTML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-html">&lt;form [formGroup]="form" (ngSubmit)="onSubmit()"&gt;
+
+  &lt;label&gt;Nom&lt;/label&gt;
+  &lt;input formControlName="nom" /&gt;
+  &lt;div *ngIf="nom?.invalid &amp;&amp; nom?.touched"&gt;
+    &lt;span *ngIf="nom?.errors?.['required']"&gt;Nom requis&lt;/span&gt;
+    &lt;span *ngIf="nom?.errors?.['minlength']"&gt;2 caractères minimum&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;label&gt;Email&lt;/label&gt;
+  &lt;input formControlName="email" type="email" /&gt;
+  &lt;span *ngIf="email?.invalid &amp;&amp; email?.touched"&gt;Email invalide&lt;/span&gt;
+
+  &lt;button type="submit" [disabled]="form.invalid"&gt;S'inscrire&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIFECYCLE HOOKS -->
+    <section class="section" id="lifecycle">
+      <div class="section-title">Lifecycle Hooks</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Cycle de vie d'un composant</div>
+          <div class="card-tags"><span class="tag tag-blue">OnInit</span><span class="tag tag-green">OnDestroy</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Angular appelle des méthodes spéciales à chaque étape du cycle de vie d'un composant. Il est crucial de se désabonner dans <code>ngOnDestroy</code> pour éviter les fuites mémoire.</p>
+          <table class="attr-table">
+            <thead>
+              <tr><th>Hook</th><th>Moment d'appel</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>ngOnChanges</code></td><td class="desc">Avant ngOnInit, puis à chaque changement d'@Input</td></tr>
+              <tr><td><code>ngOnInit</code></td><td class="desc">Une fois après le premier ngOnChanges</td></tr>
+              <tr><td><code>ngDoCheck</code></td><td class="desc">Après chaque vérification de changement</td></tr>
+              <tr><td><code>ngAfterContentInit</code></td><td class="desc">Après l'insertion du contenu (ng-content)</td></tr>
+              <tr><td><code>ngAfterContentChecked</code></td><td class="desc">Après chaque vérification du contenu</td></tr>
+              <tr><td><code>ngAfterViewInit</code></td><td class="desc">Après l'initialisation de la vue du composant</td></tr>
+              <tr><td><code>ngAfterViewChecked</code></td><td class="desc">Après chaque vérification de la vue</td></tr>
+              <tr><td><code>ngOnDestroy</code></td><td class="desc">Juste avant la destruction du composant</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block" style="margin-top:1rem;">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">import { Component, OnInit, OnChanges, OnDestroy, Input, SimpleChanges } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+@Component({ ... })
+export class ExempleComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() userId!: number;
+  private subscription!: Subscription;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userId']) {
+      console.log('userId changé:', changes['userId'].currentValue);
+      this.loadUser();
+    }
+  }
+
+  ngOnInit(): void {
+    this.subscription = this.userService.getAll()
+      .subscribe(users =&gt; this.users = users);
+  }
+
+  ngOnDestroy(): void {
+    // TOUJOURS se désabonner pour éviter les memory leaks
+    this.subscription?.unsubscribe();
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="section" id="modules">
+      <div class="section-title">Modules</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">NgModule — organiser l'application</div>
+          <div class="card-tags"><span class="tag tag-blue">@NgModule</span><span class="tag tag-purple">declarations</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les modules Angular regroupent des composants, directives et pipes liés. Chaque déclaration (composant, directive, pipe) doit appartenir à exactement un module.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TypeScript</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-typescript">// app.module.ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [    // Composants, directives, pipes de CE module
+    AppComponent,
+    UserCardComponent,
+    UserListComponent,
+    TruncatePipe,
+  ],
+  imports: [         // Modules dont CE module dépend
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+  ],
+  providers: [       // Services (préférer providedIn: 'root')
+    UserService,
+  ],
+  bootstrap: [AppComponent],  // Composant racine (app.module.ts seulement)
+})
+export class AppModule {}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+  </main>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

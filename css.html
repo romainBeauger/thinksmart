@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — CSS</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li class="active"><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+  </ul>
+</nav>
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une propriété, sélecteur, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">CSS</div>
+    <ul class="sidebar-nav">
+      <li><a href="#selecteurs"><span class="icon">🎯</span>Sélecteurs</a></li>
+      <li><a href="#box-model"><span class="icon">📦</span>Box Model</a></li>
+      <li><a href="#display"><span class="icon">🖥️</span>Display &amp; Position</a></li>
+      <li><a href="#flexbox"><span class="icon">↔️</span>Flexbox</a></li>
+      <li><a href="#grid"><span class="icon">▦</span>Grid</a></li>
+      <li><a href="#typo"><span class="icon">🔤</span>Typographie</a></li>
+      <li><a href="#couleurs"><span class="icon">🎨</span>Couleurs &amp; Fonds</a></li>
+      <li><a href="#bordures"><span class="icon">⬜</span>Bordures &amp; Ombres</a></li>
+      <li><a href="#transitions"><span class="icon">✨</span>Transitions &amp; Animations</a></li>
+      <li><a href="#transforms"><span class="icon">🔄</span>Transformations</a></li>
+      <li><a href="#variables"><span class="icon">🔧</span>Variables CSS</a></li>
+      <li><a href="#media"><span class="icon">📱</span>Media Queries</a></li>
+      <li><a href="#pseudo"><span class="icon">🔘</span>Pseudo-classes &amp; éléments</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <h1>CSS <span class="badge" style="background:rgba(38,77,228,0.2);color:#6680ff;">Cascading Style Sheets</span></h1>
+      <p>Sélecteurs, Box Model, Flexbox, Grid, animations et tout ce qu'il faut pour styliser vos pages.</p>
+    </div>
+
+    <!-- SÉLECTEURS -->
+    <section class="section" id="selecteurs">
+      <div class="section-title">Sélecteurs</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Sélecteurs de base</div></div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Sélecteur</th><th>Exemple</th><th>Cible</th></tr></thead>
+            <tbody>
+              <tr><td><code>*</code></td><td><code>* { box-sizing: border-box; }</code></td><td class="desc">Tous les éléments</td></tr>
+              <tr><td><code>élément</code></td><td><code>p { color: red; }</code></td><td class="desc">Tous les &lt;p&gt;</td></tr>
+              <tr><td><code>.classe</code></td><td><code>.btn { padding: 8px; }</code></td><td class="desc">Éléments avec class="btn"</td></tr>
+              <tr><td><code>#id</code></td><td><code>#header { height: 60px; }</code></td><td class="desc">Élément avec id="header"</td></tr>
+              <tr><td><code>el1, el2</code></td><td><code>h1, h2 { font-weight: 700; }</code></td><td class="desc">h1 ET h2 (liste)</td></tr>
+              <tr><td><code>el1 el2</code></td><td><code>nav a { color: white; }</code></td><td class="desc">Tous les &lt;a&gt; descendants de &lt;nav&gt;</td></tr>
+              <tr><td><code>el1 &gt; el2</code></td><td><code>ul &gt; li { list-style: none; }</code></td><td class="desc">Enfants directs uniquement</td></tr>
+              <tr><td><code>el1 + el2</code></td><td><code>h2 + p { margin-top: 0; }</code></td><td class="desc">Frère adjacent immédiat</td></tr>
+              <tr><td><code>el1 ~ el2</code></td><td><code>h2 ~ p { color: gray; }</code></td><td class="desc">Tous les frères suivants</td></tr>
+              <tr><td><code>[attr]</code></td><td><code>[required] { border: red; }</code></td><td class="desc">Éléments avec cet attribut</td></tr>
+              <tr><td><code>[attr="val"]</code></td><td><code>[type="email"] { … }</code></td><td class="desc">Attribut égal à val</td></tr>
+              <tr><td><code>[attr^="val"]</code></td><td><code>[href^="https"] { … }</code></td><td class="desc">Attribut commence par val</td></tr>
+              <tr><td><code>[attr$="val"]</code></td><td><code>[href$=".pdf"] { … }</code></td><td class="desc">Attribut finit par val</td></tr>
+              <tr><td><code>[attr*="val"]</code></td><td><code>[class*="btn"] { … }</code></td><td class="desc">Attribut contient val</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Spécificité CSS</div><div class="card-tags"><span class="tag tag-yellow">Important</span></div></div>
+        <div class="card-body">
+          <p class="card-desc">La spécificité détermine quelle règle s'applique en cas de conflit. Score calculé en <strong>(inline, id, classes, éléments)</strong>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">/* Spécificité : (0,0,0,1) */
+p { color: black; }
+
+/* Spécificité : (0,0,1,0) */
+.texte { color: blue; }
+
+/* Spécificité : (0,1,0,0) */
+#titre { color: green; }
+
+/* Spécificité : (1,0,0,0) — style inline */
+&lt;p style="color: red;"&gt;
+
+/* !important — écrase tout (à éviter) */
+p { color: purple !important; }</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOX MODEL -->
+    <section class="section" id="box-model">
+      <div class="section-title">Box Model</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Margin, Padding, Border, Box-sizing</div></div>
+        <div class="card-body">
+          <p class="card-desc">Chaque élément HTML est une boîte : <strong>content → padding → border → margin</strong>. Avec <code>box-sizing: border-box</code>, width et height incluent padding et border.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">/* Reset universel (bonne pratique) */
+*, *::before, *::after { box-sizing: border-box; }
+
+.box {
+  width: 300px;
+  height: 150px;
+
+  /* Padding : intérieur (top right bottom left) */
+  padding: 20px;               /* tous côtés */
+  padding: 10px 20px;          /* vertical horizontal */
+  padding: 10px 20px 15px 5px; /* top right bottom left */
+  padding-top: 10px;
+
+  /* Margin : extérieur */
+  margin: 0 auto;              /* centrage horizontal */
+  margin: 20px;
+  margin-top: 10px;
+  margin: 0 0 0 auto;          /* pousse à droite */
+
+  /* Border */
+  border: 2px solid #333;
+  border-radius: 8px;          /* coins arrondis */
+  border-radius: 50%;          /* cercle */
+  border-top: 3px dashed red;
+  border: none;
+
+  /* Outline (n'affecte pas le box model) */
+  outline: 2px solid blue;
+  outline-offset: 4px;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Width, Height &amp; Overflow</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">.element {
+  /* Dimensions */
+  width: 300px;
+  width: 50%;
+  width: 100vw;           /* viewport width */
+  min-width: 200px;
+  max-width: 1200px;
+
+  height: 200px;
+  height: 100vh;          /* viewport height */
+  min-height: 100vh;
+  max-height: 400px;
+
+  /* Overflow */
+  overflow: visible;      /* défaut */
+  overflow: hidden;       /* coupe le contenu */
+  overflow: scroll;       /* scrollbar toujours visible */
+  overflow: auto;         /* scrollbar si nécessaire */
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  /* Texte qui déborde */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* "Texte trop long..." */
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISPLAY & POSITION -->
+    <section class="section" id="display">
+      <div class="section-title">Display &amp; Position</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Propriété <code>display</code></div></div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Valeur</th><th>Comportement</th></tr></thead>
+            <tbody>
+              <tr><td><code>block</code></td><td class="desc">Prend toute la largeur, saute à la ligne (div, p, h1…)</td></tr>
+              <tr><td><code>inline</code></td><td class="desc">Coule dans le texte, width/height ignorées (span, a…)</td></tr>
+              <tr><td><code>inline-block</code></td><td class="desc">Inline MAIS accepte width/height</td></tr>
+              <tr><td><code>flex</code></td><td class="desc">Active Flexbox sur le conteneur</td></tr>
+              <tr><td><code>inline-flex</code></td><td class="desc">Flex mais se comporte comme inline</td></tr>
+              <tr><td><code>grid</code></td><td class="desc">Active CSS Grid sur le conteneur</td></tr>
+              <tr><td><code>none</code></td><td class="desc">Cache l'élément (pas de place réservée)</td></tr>
+              <tr><td><code>contents</code></td><td class="desc">L'élément disparaît, ses enfants restent</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Propriété <code>position</code></div></div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Valeur</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>static</code></td><td class="desc">Défaut — flux normal, top/left ignorées</td></tr>
+              <tr><td><code>relative</code></td><td class="desc">Décalé par rapport à sa position normale, garde sa place</td></tr>
+              <tr><td><code>absolute</code></td><td class="desc">Positionné par rapport au parent positionné le plus proche</td></tr>
+              <tr><td><code>fixed</code></td><td class="desc">Positionné par rapport au viewport, reste fixe au scroll</td></tr>
+              <tr><td><code>sticky</code></td><td class="desc">Relatif jusqu'au scroll, puis fixe (navbar sticky)</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">/* Centrage absolu classique */
+.parent { position: relative; }
+.enfant {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Navbar fixe */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+}
+
+/* Sidebar sticky */
+.sidebar {
+  position: sticky;
+  top: 80px; /* colle à 80px du haut au scroll */
+}
+
+/* z-index (ne fonctionne qu'avec position != static) */
+.modal    { position: fixed; z-index: 1000; }
+.overlay  { position: fixed; z-index: 999; }
+.dropdown { position: absolute; z-index: 50; }</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLEXBOX -->
+    <section class="section" id="flexbox">
+      <div class="section-title">Flexbox</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Propriétés du conteneur Flex</div><div class="card-tags"><span class="tag tag-blue">Container</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">.container {
+  display: flex;               /* Active Flexbox */
+
+  /* Direction */
+  flex-direction: row;         /* → défaut */
+  flex-direction: row-reverse; /* ← */
+  flex-direction: column;      /* ↓ */
+  flex-direction: column-reverse; /* ↑ */
+
+  /* Retour à la ligne */
+  flex-wrap: nowrap;           /* défaut — pas de retour */
+  flex-wrap: wrap;             /* retour à la ligne */
+  flex-wrap: wrap-reverse;
+
+  /* Raccourci direction + wrap */
+  flex-flow: row wrap;
+
+  /* Alignement axe principal (horizontal si row) */
+  justify-content: flex-start;    /* défaut */
+  justify-content: flex-end;
+  justify-content: center;
+  justify-content: space-between; /* espace entre les items */
+  justify-content: space-around;  /* espace autour */
+  justify-content: space-evenly;  /* espace égal partout */
+
+  /* Alignement axe secondaire (vertical si row) */
+  align-items: stretch;        /* défaut — s'étire */
+  align-items: flex-start;
+  align-items: flex-end;
+  align-items: center;
+  align-items: baseline;
+
+  /* Alignement des lignes (si flex-wrap: wrap) */
+  align-content: flex-start;
+  align-content: center;
+  align-content: space-between;
+
+  /* Espacement entre items */
+  gap: 16px;                   /* row-gap + column-gap */
+  gap: 10px 20px;              /* row column */
+  row-gap: 10px;
+  column-gap: 20px;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Propriétés des items Flex</div><div class="card-tags"><span class="tag tag-purple">Items</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">.item {
+  /* Taille de base avant distribution de l'espace */
+  flex-basis: auto;            /* défaut */
+  flex-basis: 200px;
+  flex-basis: 33.33%;
+
+  /* Facteur de croissance (prend l'espace disponible) */
+  flex-grow: 0;                /* défaut — ne grandit pas */
+  flex-grow: 1;                /* grandit proportionnellement */
+
+  /* Facteur de rétrécissement */
+  flex-shrink: 1;              /* défaut — peut rétrécir */
+  flex-shrink: 0;              /* ne rétrécit pas */
+
+  /* Raccourci : grow shrink basis */
+  flex: 0 1 auto;              /* défaut */
+  flex: 1;                     /* flex: 1 1 0 */
+  flex: auto;                  /* flex: 1 1 auto */
+  flex: none;                  /* flex: 0 0 auto */
+
+  /* Alignement individuel (écrase align-items) */
+  align-self: auto;
+  align-self: flex-start;
+  align-self: center;
+  align-self: flex-end;
+  align-self: stretch;
+
+  /* Ordre d'affichage */
+  order: 0;                    /* défaut */
+  order: -1;                   /* passe en premier */
+  order: 2;                    /* passe en 3ème */
+}
+
+/* ===== PATTERNS COURANTS ===== */
+
+/* Centrage parfait */
+.center { display: flex; justify-content: center; align-items: center; }
+
+/* Barre de navigation */
+.navbar { display: flex; align-items: center; justify-content: space-between; }
+
+/* Colonnes égales */
+.cols > * { flex: 1; }
+
+/* Sidebar + content */
+.layout { display: flex; }
+.sidebar { flex: 0 0 250px; }
+.content { flex: 1; }
+
+/* Coller le footer en bas */
+body { display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1; }</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="section" id="grid">
+      <div class="section-title">CSS Grid</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Propriétés du conteneur Grid</div><div class="card-tags"><span class="tag tag-blue">Container</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">.grid {
+  display: grid;
+
+  /* Définir les colonnes */
+  grid-template-columns: 200px 1fr 1fr;      /* fixe + fractions */
+  grid-template-columns: repeat(3, 1fr);     /* 3 colonnes égales */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* responsive */
+  grid-template-columns: auto 1fr auto;
+
+  /* Définir les lignes */
+  grid-template-rows: 60px 1fr 80px;
+  grid-template-rows: repeat(3, 100px);
+
+  /* Espacement */
+  gap: 16px;
+  row-gap: 20px;
+  column-gap: 16px;
+
+  /* Alignement horizontal des items dans leur cellule */
+  justify-items: start | end | center | stretch;
+
+  /* Alignement vertical des items dans leur cellule */
+  align-items: start | end | center | stretch;
+
+  /* Alignement de la grille dans le conteneur */
+  justify-content: start | end | center | space-between | space-around;
+  align-content: start | end | center | space-between;
+
+  /* Zones nommées */
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Propriétés des items Grid + Layout complet</div><div class="card-tags"><span class="tag tag-purple">Items</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">/* Placement par lignes */
+.item {
+  grid-column: 1 / 3;          /* de la ligne 1 à 3 (2 colonnes) */
+  grid-column: 1 / -1;         /* toute la largeur */
+  grid-column: span 2;         /* occupe 2 colonnes */
+
+  grid-row: 1 / 3;
+  grid-row: span 2;
+
+  /* Alignement individuel */
+  justify-self: start | end | center | stretch;
+  align-self: start | end | center | stretch;
+
+  /* Placement par nom de zone */
+  grid-area: header;
+}
+
+/* ===== LAYOUT COMPLET AVEC ZONES ===== */
+.page {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 60px 1fr 50px;
+  grid-template-areas:
+    "header  header"
+    "sidebar main"
+    "footer  footer";
+  min-height: 100vh;
+  gap: 0;
+}
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main    { grid-area: main; }
+.footer  { grid-area: footer; }
+
+/* ===== GRILLE RESPONSIVE SANS MEDIA QUERY ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+/* Les cartes s'adaptent automatiquement : 1, 2, 3 colonnes selon la place */</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TYPOGRAPHIE -->
+    <section class="section" id="typo">
+      <div class="section-title">Typographie</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Propriétés de texte</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">body {
+  /* Police */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Georgia', Times, serif;
+  font-family: 'SFMono-Regular', Consolas, monospace;
+
+  /* Taille */
+  font-size: 16px;             /* base recommandée */
+  font-size: 1rem;             /* relatif à la racine */
+  font-size: 1.2em;            /* relatif au parent */
+  font-size: clamp(14px, 2vw, 18px); /* responsive */
+
+  /* Graisse */
+  font-weight: 400;            /* normal */
+  font-weight: 700;            /* bold */
+  font-weight: 300;            /* light */
+
+  /* Style */
+  font-style: normal | italic | oblique;
+
+  /* Interlignage */
+  line-height: 1.6;            /* sans unité = recommandé */
+  line-height: 24px;
+
+  /* Espacement */
+  letter-spacing: 0.5px;       /* entre les lettres */
+  word-spacing: 2px;           /* entre les mots */
+
+  /* Alignement */
+  text-align: left | center | right | justify;
+
+  /* Décoration */
+  text-decoration: none;
+  text-decoration: underline;
+  text-decoration: line-through;
+  text-decoration: underline wavy red;
+
+  /* Transformation */
+  text-transform: uppercase | lowercase | capitalize | none;
+
+  /* Indentation */
+  text-indent: 2em;
+
+  /* Ombre de texte */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 0 10px rgba(88,166,255,0.6); /* glow effect */
+
+  /* Variables CSS pour typo responsive */
+  --fs-sm: clamp(0.8rem, 0.17vw + 0.76rem, 0.89rem);
+  --fs-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
+  --fs-lg: clamp(1.2rem, 0.61vw + 1.1rem, 1.58rem);
+  --fs-xl: clamp(1.56rem, 1vw + 1.31rem, 2.11rem);
+  --fs-2xl: clamp(1.95rem, 1.56vw + 1.56rem, 2.81rem);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COULEURS & FONDS -->
+    <section class="section" id="couleurs">
+      <div class="section-title">Couleurs &amp; Fonds</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Formats de couleurs</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">.element {
+  /* Nommées */
+  color: red; color: transparent; color: currentColor;
+
+  /* Hexadécimal */
+  color: #ff0000;        /* rouge */
+  color: #f00;           /* raccourci */
+  color: #ff000080;      /* avec transparence (8 chiffres) */
+
+  /* RGB / RGBA */
+  color: rgb(255, 0, 0);
+  color: rgba(255, 0, 0, 0.5);
+  color: rgb(255 0 0 / 50%);  /* syntaxe moderne */
+
+  /* HSL / HSLA (hue, saturation, lightness) */
+  color: hsl(0, 100%, 50%);          /* rouge */
+  color: hsl(200, 80%, 60%);         /* bleu */
+  color: hsla(200, 80%, 60%, 0.8);
+  color: hsl(200 80% 60% / 80%);     /* syntaxe moderne */
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Propriété <code>background</code></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">.element {
+  /* Couleur */
+  background-color: #1c2128;
+
+  /* Image */
+  background-image: url('image.jpg');
+  background-size: cover;          /* couvre tout (peut rogner) */
+  background-size: contain;        /* tout visible (peut laisser de la place) */
+  background-size: 100% auto;
+  background-position: center;
+  background-position: top right;
+  background-repeat: no-repeat | repeat | repeat-x | repeat-y;
+  background-attachment: fixed;    /* parallax simple */
+
+  /* Raccourci */
+  background: url('bg.jpg') center/cover no-repeat #1c2128;
+
+  /* Dégradés */
+  background: linear-gradient(to right, #1a1a2e, #16213e);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: radial-gradient(circle at center, #58a6ff, #0d1117);
+  background: conic-gradient(red 0deg, yellow 120deg, green 240deg);
+
+  /* Plusieurs couches */
+  background:
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url('photo.jpg') center/cover;
+
+  /* Clip du texte (effet dégradé sur texte) */
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BORDURES & OMBRES -->
+    <section class="section" id="bordures">
+      <div class="section-title">Bordures &amp; Ombres</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Border, Border-radius, Box-shadow</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">.card {
+  /* Border */
+  border: 1px solid #30363d;
+  border-top: 2px solid #58a6ff;
+  border-left: none;
+  border-style: solid | dashed | dotted | double | none;
+
+  /* Border-radius */
+  border-radius: 8px;           /* tous les coins */
+  border-radius: 8px 0 8px 0;  /* top-left, top-right, bottom-right, bottom-left */
+  border-radius: 50%;           /* cercle (élément carré) */
+  border-radius: 20px 5px;      /* top-left+bottom-right, top-right+bottom-left */
+  border-top-left-radius: 16px;
+
+  /* Box-shadow : offset-x offset-y blur spread color */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+
+  /* Ombre interne */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+
+  /* Plusieurs ombres */
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.12),
+    0 1px 2px rgba(0,0,0,0.24);
+
+  /* Effet de glow */
+  box-shadow: 0 0 15px rgba(88, 166, 255, 0.4);
+
+  /* Pas d'ombre */
+  box-shadow: none;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSITIONS & ANIMATIONS -->
+    <section class="section" id="transitions">
+      <div class="section-title">Transitions &amp; Animations</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Transitions</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">.btn {
+  background: #58a6ff;
+  transition: background 0.3s ease;
+
+  /* Syntaxe complète : propriété durée timing délai */
+  transition: background 0.3s ease 0s;
+  transition: all 0.2s ease;
+
+  /* Plusieurs transitions */
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+.btn:hover {
+  background: #79c0ff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(88,166,255,0.4);
+}
+
+/* Timing functions */
+.elem {
+  transition-timing-function: ease;         /* défaut */
+  transition-timing-function: ease-in;      /* commence lentement */
+  transition-timing-function: ease-out;     /* finit lentement */
+  transition-timing-function: ease-in-out;  /* les deux */
+  transition-timing-function: linear;       /* vitesse constante */
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-timing-function: steps(5, end); /* par étapes */
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Animations avec <code>@keyframes</code></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">/* Définir l'animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.05); }
+}
+
+@keyframes spinner {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Appliquer l'animation */
+.element {
+  animation: fadeIn 0.5s ease forwards;
+
+  /* Propriétés détaillées */
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+  animation-delay: 0.2s;
+  animation-iteration-count: 1;       /* infinite = infini */
+  animation-direction: normal;        /* reverse | alternate | alternate-reverse */
+  animation-fill-mode: forwards;      /* garde l'état final */
+  animation-play-state: running;      /* paused = met en pause */
+}
+
+/* Loader rotatif */
+.loader {
+  width: 30px; height: 30px;
+  border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: #58a6ff;
+  border-radius: 50%;
+  animation: spinner 0.8s linear infinite;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSFORMATIONS -->
+    <section class="section" id="transforms">
+      <div class="section-title">Transformations</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Propriété <code>transform</code></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">.element {
+  /* Translation (déplacement) */
+  transform: translateX(50px);
+  transform: translateY(-20px);
+  transform: translate(50px, -20px);  /* x, y */
+  transform: translateZ(100px);       /* 3D */
+
+  /* Mise à l'échelle */
+  transform: scale(1.2);              /* 120% */
+  transform: scale(1.5, 0.8);        /* x, y */
+  transform: scaleX(2);
+  transform: scaleY(0.5);
+
+  /* Rotation */
+  transform: rotate(45deg);
+  transform: rotateX(180deg);         /* 3D */
+  transform: rotateY(45deg);          /* 3D */
+
+  /* Inclinaison */
+  transform: skewX(20deg);
+  transform: skewY(10deg);
+  transform: skew(20deg, 10deg);
+
+  /* Combinaison */
+  transform: translateY(-4px) scale(1.02) rotate(3deg);
+
+  /* Point d'origine de la transformation */
+  transform-origin: center center;    /* défaut */
+  transform-origin: top left;
+  transform-origin: 50% 100%;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VARIABLES CSS -->
+    <section class="section" id="variables">
+      <div class="section-title">Variables CSS (Custom Properties)</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Déclarer et utiliser des variables</div><div class="card-tags"><span class="tag tag-green">Moderne</span></div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">/* Déclaration globale sur :root */
+:root {
+  --color-primary: #58a6ff;
+  --color-bg: #0d1117;
+  --color-text: #e6edf3;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 32px;
+  --border-radius: 8px;
+  --font-size-base: 16px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* Utilisation avec var() */
+.btn {
+  background: var(--color-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
+}
+
+/* Valeur de fallback */
+.element {
+  color: var(--color-accent, #ff6b6b); /* #ff6b6b si --color-accent n'existe pas */
+}
+
+/* Thème sombre/clair */
+:root { --bg: #ffffff; --text: #000000; }
+[data-theme="dark"] { --bg: #0d1117; --text: #e6edf3; }
+
+body { background: var(--bg); color: var(--text); }
+
+/* Modifier via JS */
+/* document.documentElement.style.setProperty('--color-primary', '#ff6b6b'); */
+
+/* Variables locales */
+.card {
+  --card-padding: 20px;
+  padding: var(--card-padding);
+}
+.card.compact { --card-padding: 10px; }</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEDIA QUERIES -->
+    <section class="section" id="media">
+      <div class="section-title">Media Queries &amp; Responsive</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Breakpoints &amp; Media Queries</div><div class="card-tags"><span class="tag tag-blue">Mobile First</span></div></div>
+        <div class="card-body">
+          <p class="card-desc">Approche <strong>Mobile First</strong> : écrire le CSS de base pour mobile, puis surcharger avec des media queries pour les écrans plus grands.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">/* === MOBILE FIRST === */
+
+/* Base : mobile (< 576px) */
+.container { padding: 16px; }
+.grid { grid-template-columns: 1fr; }
+
+/* Petit (≥ 576px) */
+@media (min-width: 576px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Moyen (≥ 768px) — tablette */
+@media (min-width: 768px) {
+  .container { padding: 24px; }
+  .grid { grid-template-columns: repeat(3, 1fr); }
+  .sidebar { display: block; }
+}
+
+/* Large (≥ 1024px) — desktop */
+@media (min-width: 1024px) {
+  .container { max-width: 1200px; margin: 0 auto; }
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Très large (≥ 1280px) */
+@media (min-width: 1280px) { ... }
+
+/* === AUTRES CONDITIONS === */
+
+/* Orientation */
+@media (orientation: portrait)  { ... }
+@media (orientation: landscape) { ... }
+
+/* Préférence de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Thème sombre système */
+@media (prefers-color-scheme: dark)  { :root { --bg: #0d1117; } }
+@media (prefers-color-scheme: light) { :root { --bg: #ffffff; } }
+
+/* Impression */
+@media print {
+  .sidebar, .navbar { display: none; }
+  body { font-size: 12pt; color: black; }
+}
+
+/* Combinaison */
+@media (min-width: 768px) and (max-width: 1023px) { ... }</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PSEUDO-CLASSES & ÉLÉMENTS -->
+    <section class="section" id="pseudo">
+      <div class="section-title">Pseudo-classes &amp; Pseudo-éléments</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Pseudo-classes</div></div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Pseudo-classe</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>:hover</code></td><td class="desc">Survol de la souris</td></tr>
+              <tr><td><code>:focus</code></td><td class="desc">Élément en focus (clavier/clic)</td></tr>
+              <tr><td><code>:focus-visible</code></td><td class="desc">Focus visible uniquement au clavier</td></tr>
+              <tr><td><code>:active</code></td><td class="desc">Pendant le clic</td></tr>
+              <tr><td><code>:visited</code></td><td class="desc">Lien déjà visité</td></tr>
+              <tr><td><code>:checked</code></td><td class="desc">Checkbox/radio cochée</td></tr>
+              <tr><td><code>:disabled</code></td><td class="desc">Input désactivé</td></tr>
+              <tr><td><code>:required</code></td><td class="desc">Input requis</td></tr>
+              <tr><td><code>:valid / :invalid</code></td><td class="desc">Validation de formulaire</td></tr>
+              <tr><td><code>:nth-child(n)</code></td><td class="desc">Nème enfant</td></tr>
+              <tr><td><code>:nth-child(odd/even)</code></td><td class="desc">Impair / pair</td></tr>
+              <tr><td><code>:first-child</code></td><td class="desc">Premier enfant</td></tr>
+              <tr><td><code>:last-child</code></td><td class="desc">Dernier enfant</td></tr>
+              <tr><td><code>:not(sel)</code></td><td class="desc">Tout sauf ce sélecteur</td></tr>
+              <tr><td><code>:is(sel1, sel2)</code></td><td class="desc">Raccourci pour listes de sélecteurs</td></tr>
+              <tr><td><code>:has(sel)</code></td><td class="desc">Parent contenant le sélecteur</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">CSS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-css">/* Zebra striping */
+tr:nth-child(even) { background: rgba(255,255,255,0.03); }
+
+/* Styles de formulaire */
+input:focus { border-color: #58a6ff; box-shadow: 0 0 0 3px rgba(88,166,255,0.2); }
+input:invalid:not(:placeholder-shown) { border-color: #f85149; }
+input:valid  { border-color: #3fb950; }
+
+/* Sélectionner tous sauf le dernier */
+li:not(:last-child) { border-bottom: 1px solid #30363d; }
+
+/* Parent ayant une image */
+.card:has(img) { padding: 0; }
+
+/* ===== PSEUDO-ÉLÉMENTS ===== */
+
+/* Avant/Après un élément */
+.btn::before { content: "→ "; }
+.btn::after  { content: ""; display: block; width: 0; height: 2px; background: #58a6ff; transition: width 0.3s; }
+.btn:hover::after { width: 100%; }
+
+/* Première lettre / première ligne */
+p::first-letter { font-size: 2em; float: left; margin-right: 4px; }
+p::first-line   { font-weight: bold; }
+
+/* Sélection de texte */
+::selection { background: #58a6ff; color: white; }
+
+/* Placeholder */
+::placeholder { color: #7d8590; font-style: italic; }
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+  </main>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>
