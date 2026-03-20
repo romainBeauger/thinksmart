@@ -1266,6 +1266,31 @@ public function new(Request $request): Response
     {{ form_widget(form.sauvegarder) }}
 {{ form_end(form) }}</code></pre>
           </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">YAML — Thème Bootstrap</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># config/packages/twig.yaml
+twig:
+    form_themes: ['bootstrap_5_layout.html.twig']</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">YAML — Thème Tailwind</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># config/packages/twig.yaml
+# Nécessite : composer require symfonycasts/tailwind-bundle
+twig:
+    form_themes: ['tailwind_2_layout.html.twig']</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">Twig — Bouton personnalisé (sans SubmitType)</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-twig">{# Ne pas ajouter de SubmitType dans le FormType :
+   laisser le bouton directement dans le template pour plus de flexibilité #}
+
+{{ form_start(courseForm) }}
+
+    {{ form_widget(courseForm) }}
+    &lt;button class="btn btn-primary"&gt;Ajouter&lt;/button&gt;
+
+{{ form_end(courseForm) }}</code></pre>
+          </div>
         </div>
       </div>
     </section>
