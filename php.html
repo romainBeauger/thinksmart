@@ -1159,6 +1159,30 @@ class ArticleController extends AbstractController
         <div class="card-header"><div class="card-title">Form Type, rendu Twig, validation</div></div>
         <div class="card-body">
           <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Installer le composant Form et le Validator
+composer require symfony/form
+composer require symfony/validator
+
+# Installer les thèmes de formulaire Bootstrap (optionnel)
+composer require twig/extra-bundle
+
+# Générer un FormType lié à une entité
+symfony console make:form ArticleType Article
+
+# Générer un FormType sans entité
+symfony console make:form ContactType
+
+# Lister tous les types de champs disponibles
+symfony console debug:form
+
+# Afficher les détails d'un type de champ spécifique
+symfony console debug:form TextType
+
+# Vider le cache après modification de config/packages/twig.yaml (thème form)
+symfony console cache:clear</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
             <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
             <pre><code class="language-php">&lt;?php
 
