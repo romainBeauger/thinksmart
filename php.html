@@ -1293,6 +1293,163 @@ twig:
           </div>
         </div>
       </div>
+      <div class="card" style="margin-top:16px;">
+        <div class="card-header"><div class="card-title">Contraintes de validation</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP — Contraintes de base</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">use Symfony\Component\Validator\Constraints as Assert;
+
+$builder
+    // Champ obligatoire non vide
+    -&gt;add('titre', TextType::class, [
+        'constraints' =&gt; [new Assert\NotBlank(message: 'Le titre est obligatoire.')],
+    ])
+
+    // Longueur min / max
+    -&gt;add('slug', TextType::class, [
+        'constraints' =&gt; [new Assert\Length(min: 3, max: 100)],
+    ])
+
+    // Email valide
+    -&gt;add('email', EmailType::class, [
+        'constraints' =&gt; [new Assert\Email(message: 'Email invalide.')],
+    ])
+
+    // Nombre entre deux valeurs
+    -&gt;add('prix', NumberType::class, [
+        'constraints' =&gt; [new Assert\Range(min: 0, max: 9999)],
+    ])
+
+    // Valeur positive (&gt; 0)
+    -&gt;add('quantite', IntegerType::class, [
+        'constraints' =&gt; [new Assert\Positive()],
+    ])
+
+    // Valeur positive ou zéro (&gt;= 0)
+    -&gt;add('stock', IntegerType::class, [
+        'constraints' =&gt; [new Assert\PositiveOrZero()],
+    ])
+
+    // URL valide
+    -&gt;add('site', UrlType::class, [
+        'constraints' =&gt; [new Assert\Url()],
+    ])
+
+    // Regex personnalisée
+    -&gt;add('code', TextType::class, [
+        'constraints' =&gt; [new Assert\Regex(pattern: '/^[A-Z]{3}\d{3}$/', message: 'Format attendu : ABC123')],
+    ])
+
+    // Choix parmi une liste
+    -&gt;add('statut', ChoiceType::class, [
+        'choices'     =&gt; ['Actif' =&gt; 'actif', 'Inactif' =&gt; 'inactif'],
+        'constraints' =&gt; [new Assert\Choice(choices: ['actif', 'inactif'])],
+    ])
+
+    // Date dans le passé
+    -&gt;add('dateNaissance', DateType::class, [
+        'constraints' =&gt; [new Assert\LessThanOrEqual('today')],
+    ])
+
+    // Date dans le futur
+    -&gt;add('dateExpiration', DateType::class, [
+        'constraints' =&gt; [new Assert\GreaterThan('today')],
+    ])
+
+    // Fichier uploadé (image, taille max)
+    -&gt;add('photo', FileType::class, [
+        'constraints' =&gt; [
+            new Assert\File(
+                maxSize: '2M',
+                mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+                mimeTypesMessage: 'Format accepté : JPG, PNG, WEBP'
+            ),
+        ],
+    ])
+
+    // Plusieurs contraintes sur un même champ
+    -&gt;add('motDePasse', PasswordType::class, [
+        'constraints' =&gt; [
+            new Assert\NotBlank(),
+            new Assert\Length(min: 8, minMessage: '8 caractères minimum.'),
+        ],
+    ]);</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">PHP — Contraintes sur l'entité (annotations)</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">// src/Entity/Article.php
+// Les contraintes peuvent aussi être posées directement sur l'entité
+// Symfony les lira automatiquement lors de la validation du formulaire
+
+use Symfony\Component\Validator\Constraints as Assert;
+
+class Article
+{
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 150)]
+    private string $titre;
+
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 10)]
+    private string $contenu;
+
+    #[Assert\Email]
+    private ?string $email = null;
+
+    #[Assert\Positive]
+    private int $prix;
+
+    #[Assert\Valid]  // valide les contraintes d'un objet imbriqué
+    private ?Auteur $auteur = null;
+}</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">PHP — Contrainte personnalisée (Callback)</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
+$builder->add('username', TextType::class, [
+    'constraints' =&gt; [
+        new Assert\Callback(function (mixed $value, ExecutionContextInterface $context): void {
+            if (str_contains($value, 'admin')) {
+                $context->buildViolation('Le nom "admin" est interdit.')
+                    -&gt;atPath('username')
+                    -&gt;addViolation();
+            }
+        }),
+    ],
+]);</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">Twig — Affichage des erreurs</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-twig">{{ form_start(form) }}
+
+    {# Toutes les erreurs globales du formulaire #}
+    {{ form_errors(form) }}
+
+    {# Erreur champ par champ (incluse automatiquement dans form_row) #}
+    {{ form_row(form.titre) }}
+
+    {# Affichage manuel label + widget + erreur #}
+    &lt;div class="mb-3"&gt;
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {% if form.email.vars.errors|length %}
+            &lt;div class="text-danger"&gt;
+                {% for error in form.email.vars.errors %}
+                    &lt;p&gt;{{ error.message }}&lt;/p&gt;
+                {% endfor %}
+            &lt;/div&gt;
+        {% endif %}
+    &lt;/div&gt;
+
+    &lt;button class="btn btn-primary"&gt;Enregistrer&lt;/button&gt;
+
+{{ form_end(form) }}</code></pre>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- SÉCURITÉ -->
