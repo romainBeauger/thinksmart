@@ -991,11 +991,21 @@ class WishFixtures extends Fixture
           </div>
 
           <!-- Étape 3 : Exécution -->
-          <p style="font-weight:600;margin:14px 0 6px;">3. Exécuter les fixtures</p>
+          <p style="font-weight:600;margin:14px 0 6px;">3. Créer et exécuter les fixtures</p>
           <div class="code-block">
             <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
-            <pre><code class="language-bash"># Charge les fixtures (vide la BDD et insère les données fictives)
-symfony console doctrine:fixtures:load</code></pre>
+            <pre><code class="language-bash">
+
+                # Créer le fichier de fixtures
+                symfony console make:fixture
+
+                 The class name of the fixtures to create (e.g. AppFixtures):
+                 > WishFixtures
+
+                # Charge les fixtures (vide la BDD et insère les données fictives)
+                symfony console doctrine:fixtures:load
+
+            </code></pre>
           </div>
 
           <!-- Méthodes Faker utiles -->
