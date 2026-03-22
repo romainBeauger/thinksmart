@@ -96,7 +96,8 @@ a:hover { color: var(--accent-hover); }
 .lang-badge.git  { background: #f05032; }
 .lang-badge.sql  { background: #336791; }
 .lang-badge.php  { background: #777bb4; }
-.lang-badge.node { background: #68a063; }
+.lang-badge.node   { background: #68a063; }
+.lang-badge.merise { background: #0891b2; }
 
 /* ===== SEARCH BAR ===== */
 .search-bar {

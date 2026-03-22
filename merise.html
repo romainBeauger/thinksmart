@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — Modélisation BDD</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon/favicon-16x16.png" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+    <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+    <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+    <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+    <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+    <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+    <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+    <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+    <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+    <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+    <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+    <li class="active"><a href="merise.html"><span class="lang-badge merise"></span>Modélisation BDD</a></li>
+  </ul>
+</nav>
+
+<!-- ===== SEARCH BAR ===== -->
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <label for="searchInput"></label><input type="search" id="searchInput" placeholder="Rechercher un concept, modèle, règle…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Modélisation BDD</div>
+    <ul class="sidebar-nav">
+      <li><a href="#intro"><span class="icon">📚</span>Introduction</a></li>
+      <li><a href="#entites"><span class="icon">🔷</span>Entités &amp; Attributs</a></li>
+      <li><a href="#cardinalites"><span class="icon">🔗</span>Associations &amp; Cardinalités</a></li>
+      <li><a href="#mcd"><span class="icon">🗺️</span>MCD</a></li>
+      <li><a href="#mld"><span class="icon">📐</span>MLD</a></li>
+      <li><a href="#mpd"><span class="icon">🏗️</span>MPD</a></li>
+      <li><a href="#regles"><span class="icon">🔄</span>Règles de passage</a></li>
+      <li><a href="#normalisation"><span class="icon">✅</span>Normalisation</a></li>
+      <li><a href="#uml"><span class="icon">🧩</span>UML — Diagramme de classes</a></li>
+      <li><a href="#exemple"><span class="icon">💡</span>Exemple complet</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <div class="page-header">
+      <h1>Modélisation BDD <span class="badge" style="background:rgba(8,145,178,0.15);color:#0891b2;">MERISE &amp; UML</span></h1>
+      <p>Concevoir une base de données de A à Z : MCD, MLD, MPD, cardinalités, normalisation et diagrammes UML.</p>
+    </div>
+
+    <!-- ==================== INTRODUCTION ==================== -->
+    <section class="section" id="intro">
+      <div class="section-title">Introduction</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">La démarche de modélisation</div>
+          <div class="card-tags"><span class="tag tag-blue">Méthode</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Modéliser une base de données se fait en trois étapes progressives : du plus abstrait (conceptuel) au plus concret (physique). La méthode <strong>MERISE</strong> est la référence francophone.</p>
+          <table class="attr-table">
+            <thead><tr><th>Niveau</th><th>Modèle</th><th>Objectif</th><th>Résultat</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><span class="tag tag-purple">Conceptuel</span></td>
+                <td><code>MCD</code></td>
+                <td class="desc">Représenter le besoin métier, indépendant de la technologie</td>
+                <td class="desc">Entités, associations, cardinalités</td>
+              </tr>
+              <tr>
+                <td><span class="tag tag-blue">Logique</span></td>
+                <td><code>MLD</code></td>
+                <td class="desc">Traduire le MCD en tables relationnelles</td>
+                <td class="desc">Tables, clés primaires, clés étrangères</td>
+              </tr>
+              <tr>
+                <td><span class="tag tag-green">Physique</span></td>
+                <td><code>MPD</code></td>
+                <td class="desc">Implémenter en SQL sur un SGBD précis</td>
+                <td class="desc">Instructions <code>CREATE TABLE</code> avec types réels</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Pipeline de conception</div>
+          <div class="card-tags"><span class="tag tag-blue">Vue d'ensemble</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Chaque niveau se transforme en appliquant des règles précises.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">MERISE</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  Analyse du besoin
+         │
+         ▼
+  ┌─────────────────────────────────────────┐
+  │  MCD — Modèle Conceptuel de Données     │  ← Entités, associations, cardinalités
+  │  "Quoi ?" — vision métier               │
+  └────────────────────┬────────────────────┘
+                       │  Application des règles de passage
+                       ▼
+  ┌─────────────────────────────────────────┐
+  │  MLD — Modèle Logique de Données        │  ← Tables, PK, FK (notation relationnelle)
+  │  "Comment ?" — vision relationnelle     │
+  └────────────────────┬────────────────────┘
+                       │  Choix du SGBD + types de données
+                       ▼
+  ┌─────────────────────────────────────────┐
+  │  MPD — Modèle Physique de Données       │  ← CREATE TABLE, INDEX, contraintes SQL
+  │  "Avec quoi ?" — vision technique       │
+  └─────────────────────────────────────────┘</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== ENTITÉS & ATTRIBUTS ==================== -->
+    <section class="section" id="entites">
+      <div class="section-title">Entités &amp; Attributs</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">L'entité</div>
+          <div class="card-tags"><span class="tag tag-purple">MCD</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Une <strong>entité</strong> représente un objet réel ou abstrait du domaine métier, identifiable de façon unique. Elle regroupe des objets partageant les mêmes caractéristiques.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SCHÉMA</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  ┌──────────────────────┐
+  │       CLIENT         │  ← Nom de l'entité (toujours au singulier, en majuscules)
+  ├──────────────────────┤
+  │ #id_client           │  ← Identifiant (clé primaire) — noté avec #
+  │  nom                 │  ← Attribut simple
+  │  prenom              │
+  │  email               │
+  │  telephone           │
+  └──────────────────────┘</code></pre>
+          </div>
+          <p class="card-desc" style="margin-top:12px;">Une <strong>occurrence</strong> est une instance de l'entité (ex : le client Jean Dupont).</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Types d'attributs</div>
+          <div class="card-tags"><span class="tag tag-purple">MCD</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Type</th><th>Description</th><th>Exemple</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>#identifiant</code></td>
+                <td class="desc">Attribut unique qui identifie chaque occurrence. Devient la clé primaire.</td>
+                <td class="desc"><code>#id_client</code></td>
+              </tr>
+              <tr>
+                <td><code>simple</code></td>
+                <td class="desc">Valeur atomique, indivisible</td>
+                <td class="desc"><code>nom</code>, <code>email</code></td>
+              </tr>
+              <tr>
+                <td><code>composé</code></td>
+                <td class="desc">Peut être décomposé en sous-attributs (à éviter en BDD relationnelle)</td>
+                <td class="desc"><code>adresse</code> → rue, ville, CP</td>
+              </tr>
+              <tr>
+                <td><code>calculé</code></td>
+                <td class="desc">Dérivé d'autres attributs, non stocké directement</td>
+                <td class="desc"><code>age</code> (calculé depuis date_naissance)</td>
+              </tr>
+              <tr>
+                <td><code>multivalué</code></td>
+                <td class="desc">Peut avoir plusieurs valeurs — à transformer en entité séparée</td>
+                <td class="desc"><code>telephones</code> (multiple)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== ASSOCIATIONS & CARDINALITÉS ==================== -->
+    <section class="section" id="cardinalites">
+      <div class="section-title">Associations &amp; Cardinalités</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">L'association</div>
+          <div class="card-tags"><span class="tag tag-purple">MCD</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Une <strong>association</strong> représente un lien entre deux ou plusieurs entités. Elle peut porter des attributs propres (données propres à la relation).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SCHÉMA</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  ┌──────────┐                              ┌───────────┐
+  │  CLIENT  │                              │ COMMANDE  │
+  └────┬─────┘                              └─────┬─────┘
+       │  1,n                              1,1   │
+       └──────────────── PASSER ───────────────────┘
+                        (association)
+
+  ┌──────────┐                              ┌───────────┐
+  │ COMMANDE │                              │  PRODUIT  │
+  └────┬─────┘                              └─────┬─────┘
+       │  1,n    quantite, prix_unitaire    0,n   │
+       └────────────── CONTENIR ─────────────────┘
+                     (avec attributs)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Les cardinalités — notation MERISE</div>
+          <div class="card-tags"><span class="tag tag-purple">MCD</span><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">La cardinalité se lit du côté de l'entité concernée : <strong>"Une occurrence de cette entité participe à combien d'associations ?"</strong><br>Format : <code>(min, max)</code> — min toujours 0 ou 1, max toujours 1 ou n.</p>
+          <table class="attr-table">
+            <thead><tr><th>Cardinalité</th><th>Lecture</th><th>Exemple concret</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>(0,1)</code></td>
+                <td class="desc">Zéro ou une fois</td>
+                <td class="desc">Un employé peut avoir 0 ou 1 bureau attribué</td>
+              </tr>
+              <tr>
+                <td><code>(1,1)</code></td>
+                <td class="desc">Exactement une fois (obligatoire)</td>
+                <td class="desc">Une commande est passée par exactement 1 client</td>
+              </tr>
+              <tr>
+                <td><code>(0,n)</code></td>
+                <td class="desc">Zéro ou plusieurs fois</td>
+                <td class="desc">Un client peut avoir 0 ou plusieurs commandes</td>
+              </tr>
+              <tr>
+                <td><code>(1,n)</code></td>
+                <td class="desc">Une ou plusieurs fois (obligatoire)</td>
+                <td class="desc">Une commande contient au moins 1 produit</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Types de relations selon les cardinalités</div>
+          <div class="card-tags"><span class="tag tag-blue">Logique</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Type</th><th>Cardinalités côté A / côté B</th><th>Traduction MLD</th><th>Exemple</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>1:1</strong></td>
+                <td class="desc"><code>(1,1)</code> — <code>(0,1)</code> ou <code>(1,1)</code></td>
+                <td class="desc">FK dans l'une des deux tables</td>
+                <td class="desc">Personne ↔ Passeport</td>
+              </tr>
+              <tr>
+                <td><strong>1:N</strong></td>
+                <td class="desc"><code>(1,n)</code> ou <code>(0,n)</code> — <code>(1,1)</code> ou <code>(0,1)</code></td>
+                <td class="desc">FK du côté « 1 » dans la table « N »</td>
+                <td class="desc">Client ↔ Commandes</td>
+              </tr>
+              <tr>
+                <td><strong>N:N</strong></td>
+                <td class="desc"><code>(0,n)</code> ou <code>(1,n)</code> — <code>(0,n)</code> ou <code>(1,n)</code></td>
+                <td class="desc">Table de jonction avec deux FK</td>
+                <td class="desc">Commande ↔ Produits</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== MCD ==================== -->
+    <section class="section" id="mcd">
+      <div class="section-title">MCD — Modèle Conceptuel de Données</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Qu'est-ce que le MCD ?</div>
+          <div class="card-tags"><span class="tag tag-purple">Conceptuel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le MCD décrit le domaine métier de façon <strong>indépendante</strong> de toute technologie. Il répond à la question <em>"Qu'est-ce qu'on gère ?"</em> sans se préoccuper du SGBD.</p>
+          <p class="card-desc">Il est composé :</p>
+          <p class="card-desc">
+            — <strong>Entités</strong> : rectangles avec identifiant et attributs<br>
+            — <strong>Associations</strong> : nommées par un verbe à l'infinitif<br>
+            — <strong>Cardinalités</strong> : notées sur chaque patte de l'association
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Exemple MCD — Application e-commerce</div>
+          <div class="card-tags"><span class="tag tag-purple">MCD</span><span class="tag tag-yellow">Exemple</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Schéma complet avec entités, associations et cardinalités pour un système de commandes en ligne.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">MCD</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  ┌──────────────────────┐          ┌──────────────────────┐
+  │       CLIENT         │          │      CATEGORIE       │
+  ├──────────────────────┤          ├──────────────────────┤
+  │ #id_client           │          │ #id_categorie        │
+  │  nom                 │          │  libelle             │
+  │  prenom              │          │  description         │
+  │  email               │          └──────────┬───────────┘
+  │  telephone           │                     │ 1,n
+  │  adresse             │               APPARTENIR
+  └──────────┬───────────┘                     │ 1,1
+             │ 1,n                   ┌──────────┴───────────┐
+           PASSER                    │       PRODUIT        │
+             │ 1,1                   ├──────────────────────┤
+  ┌──────────┴───────────┐           │ #id_produit          │
+  │       COMMANDE       │           │  designation         │
+  ├──────────────────────┤           │  prix_unitaire       │
+  │ #id_commande         │           │  stock               │
+  │  date_commande       │           └──────────┬───────────┘
+  │  statut              │                      │ 0,n
+  │  adresse_livraison   │                 CONTENIR
+  └──────────┬───────────┘           (quantite, remise)
+             │ 1,n                          │ 1,n
+             └──────────────────────────────┘</code></pre>
+          </div>
+          <p class="card-desc" style="margin-top:12px;"><strong>Lecture :</strong> Un client passe 1 ou plusieurs commandes (1,n). Une commande est passée par exactement 1 client (1,1). Une commande contient 1 ou plusieurs produits (1,n). Un produit peut être dans 0 ou plusieurs commandes (0,n) — l'association CONTENIR porte les attributs <code>quantite</code> et <code>remise</code>.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Règles de construction du MCD</div>
+          <div class="card-tags"><span class="tag tag-purple">Méthode</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Règle</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Identifiant unique</td><td class="desc">Chaque entité doit avoir un identifiant qui distingue chaque occurrence</td></tr>
+              <tr><td>Pas de doublon</td><td class="desc">Un attribut ne doit apparaître que dans une seule entité ou association</td></tr>
+              <tr><td>Cardinalités obligatoires</td><td class="desc">Chaque patte d'association doit porter une cardinalité (min, max)</td></tr>
+              <tr><td>Verbe d'action</td><td class="desc">Le nom de l'association doit être un verbe à l'infinitif actif ou passif</td></tr>
+              <tr><td>Attributs de relation</td><td class="desc">Les attributs propres à une relation N:N se placent sur l'association</td></tr>
+              <tr><td>Pas de redondance</td><td class="desc">Deux associations ne doivent pas exprimer le même lien sémantique</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== MLD ==================== -->
+    <section class="section" id="mld">
+      <div class="section-title">MLD — Modèle Logique de Données</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Qu'est-ce que le MLD ?</div>
+          <div class="card-tags"><span class="tag tag-blue">Logique</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le MLD traduit le MCD en un modèle <strong>relationnel</strong> — des tables avec des colonnes. Il est indépendant du SGBD mais suit le modèle relationnel. La notation standard est :</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">NOTATION MLD</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  NOM_TABLE (clé_primaire, attribut1, attribut2, #clé_etrangere)
+
+  Conventions :
+  • Clé primaire     : soulignée ou en MAJUSCULES
+  • Clé étrangère    : précédée de # ou suffixe _id, en italique
+  • Clé primaire composée : les deux colonnes soulignées</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Exemple MLD — Application e-commerce</div>
+          <div class="card-tags"><span class="tag tag-blue">MLD</span><span class="tag tag-yellow">Exemple</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Traduction du MCD précédent en modèle logique. Les clés primaires sont <strong>soulignées</strong>, les clés étrangères sont préfixées de <code>#</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">MLD</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  CLIENT (id_client, nom, prenom, email, telephone, adresse)
+  ‾‾‾‾‾‾‾‾‾‾‾‾
+
+  CATEGORIE (id_categorie, libelle, description)
+  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+
+  PRODUIT (id_produit, designation, prix_unitaire, stock, #id_categorie)
+  ‾‾‾‾‾‾‾‾‾‾‾‾
+    └─ #id_categorie référence CATEGORIE(id_categorie)
+
+  COMMANDE (id_commande, date_commande, statut, adresse_livraison, #id_client)
+  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+    └─ #id_client référence CLIENT(id_client)
+
+  LIGNE_COMMANDE (id_commande, id_produit, quantite, remise)
+  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+    PK composée : (id_commande, id_produit)
+    └─ #id_commande référence COMMANDE(id_commande)
+    └─ #id_produit  référence PRODUIT(id_produit)</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== MPD ==================== -->
+    <section class="section" id="mpd">
+      <div class="section-title">MPD — Modèle Physique de Données</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Qu'est-ce que le MPD ?</div>
+          <div class="card-tags"><span class="tag tag-green">Physique</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le MPD est la traduction du MLD en <strong>instructions SQL</strong> concrètes, adaptées à un SGBD précis (MySQL, PostgreSQL, SQLite…). On y précise les types de données, les contraintes, les index.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Exemple MPD — Application e-commerce</div>
+          <div class="card-tags"><span class="tag tag-green">MPD</span><span class="tag tag-yellow">Exemple</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Implémentation SQL complète du MLD précédent sous MySQL.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">-- Table CLIENT
+CREATE TABLE client (
+  id_client     INT          PRIMARY KEY AUTO_INCREMENT,
+  nom           VARCHAR(100) NOT NULL,
+  prenom        VARCHAR(100) NOT NULL,
+  email         VARCHAR(255) NOT NULL UNIQUE,
+  telephone     VARCHAR(20),
+  adresse       TEXT
+);
+
+-- Table CATEGORIE
+CREATE TABLE categorie (
+  id_categorie  INT          PRIMARY KEY AUTO_INCREMENT,
+  libelle       VARCHAR(100) NOT NULL UNIQUE,
+  description   TEXT
+);
+
+-- Table PRODUIT (FK vers categorie)
+CREATE TABLE produit (
+  id_produit    INT            PRIMARY KEY AUTO_INCREMENT,
+  designation   VARCHAR(255)   NOT NULL,
+  prix_unitaire DECIMAL(10,2)  NOT NULL CHECK (prix_unitaire >= 0),
+  stock         INT            NOT NULL DEFAULT 0 CHECK (stock >= 0),
+  id_categorie  INT            NOT NULL,
+  FOREIGN KEY (id_categorie) REFERENCES categorie(id_categorie)
+    ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- Table COMMANDE (FK vers client)
+CREATE TABLE commande (
+  id_commande        INT         PRIMARY KEY AUTO_INCREMENT,
+  date_commande      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  statut             ENUM('en_attente','validee','expediee','livree','annulee')
+                                 NOT NULL DEFAULT 'en_attente',
+  adresse_livraison  TEXT        NOT NULL,
+  id_client          INT         NOT NULL,
+  FOREIGN KEY (id_client) REFERENCES client(id_client)
+    ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- Table LIGNE_COMMANDE (table de jonction N:N avec attributs)
+CREATE TABLE ligne_commande (
+  id_commande    INT           NOT NULL,
+  id_produit     INT           NOT NULL,
+  quantite       INT           NOT NULL CHECK (quantite > 0),
+  remise         DECIMAL(5,2)  NOT NULL DEFAULT 0.00,
+  PRIMARY KEY (id_commande, id_produit),
+  FOREIGN KEY (id_commande) REFERENCES commande(id_commande)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (id_produit) REFERENCES produit(id_produit)
+    ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- Index pour les colonnes fréquemment filtrées
+CREATE INDEX idx_produit_categorie ON produit(id_categorie);
+CREATE INDEX idx_commande_client   ON commande(id_client);
+CREATE INDEX idx_commande_statut   ON commande(statut);</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== RÈGLES DE PASSAGE ==================== -->
+    <section class="section" id="regles">
+      <div class="section-title">Règles de passage</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">MCD → MLD : règles de transformation</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Ces règles s'appliquent mécaniquement pour passer du MCD au MLD.</p>
+          <table class="attr-table">
+            <thead><tr><th>Situation dans le MCD</th><th>Résultat dans le MLD</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Entité</strong></td>
+                <td class="desc">→ Une table avec l'identifiant comme clé primaire</td>
+              </tr>
+              <tr>
+                <td><strong>Relation 1:N</strong><br><code>(1,1) ── assoc ── (0,n)</code></td>
+                <td class="desc">→ La clé primaire du côté « 1 » migre comme clé étrangère dans la table côté « N »</td>
+              </tr>
+              <tr>
+                <td><strong>Relation 1:1</strong><br><code>(1,1) ── assoc ── (0,1)</code></td>
+                <td class="desc">→ FK dans la table la plus faible (côté 0,1) ; ou fusion des deux tables si relation totale</td>
+              </tr>
+              <tr>
+                <td><strong>Relation N:N</strong><br><code>(1,n) ── assoc ── (0,n)</code></td>
+                <td class="desc">→ Une nouvelle table de jonction avec les deux clés primaires (PK composée) + les attributs de l'association</td>
+              </tr>
+              <tr>
+                <td><strong>Association ternaire</strong><br>(3 entités reliées)</td>
+                <td class="desc">→ Table de jonction avec les 3 clés primaires des entités + attributs de l'association</td>
+              </tr>
+              <tr>
+                <td><strong>Attribut de l'association</strong><br>(sur relation N:N)</td>
+                <td class="desc">→ Colonne dans la table de jonction</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">MLD → MPD : règles de traduction SQL</div>
+          <div class="card-tags"><span class="tag tag-green">Physique</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Élément MLD</th><th>Traduction SQL (MySQL / PostgreSQL)</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Table</td>
+                <td class="desc"><code>CREATE TABLE nom_table (...)</code></td>
+              </tr>
+              <tr>
+                <td>Clé primaire simple</td>
+                <td class="desc"><code>id INT PRIMARY KEY AUTO_INCREMENT</code> (MySQL) / <code>SERIAL PRIMARY KEY</code> (PostgreSQL)</td>
+              </tr>
+              <tr>
+                <td>Clé primaire composée</td>
+                <td class="desc"><code>PRIMARY KEY (col1, col2)</code> en fin de table</td>
+              </tr>
+              <tr>
+                <td>Clé étrangère</td>
+                <td class="desc"><code>FOREIGN KEY (col) REFERENCES autre_table(pk) ON DELETE ... ON UPDATE ...</code></td>
+              </tr>
+              <tr>
+                <td>Contrainte NOT NULL</td>
+                <td class="desc">Attribut obligatoire : <code>NOT NULL</code></td>
+              </tr>
+              <tr>
+                <td>Contrainte UNIQUE</td>
+                <td class="desc">Attribut unique : <code>UNIQUE</code></td>
+              </tr>
+              <tr>
+                <td>Valeur par défaut</td>
+                <td class="desc"><code>DEFAULT valeur</code></td>
+              </tr>
+              <tr>
+                <td>Contrainte métier</td>
+                <td class="desc"><code>CHECK (condition)</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Comportements ON DELETE / ON UPDATE</div>
+          <div class="card-tags"><span class="tag tag-red">Intégrité référentielle</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Option</th><th>Comportement</th><th>Usage typique</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>RESTRICT</code></td>
+                <td class="desc">Interdit la suppression/modification si des lignes liées existent</td>
+                <td class="desc">Protection des données critiques</td>
+              </tr>
+              <tr>
+                <td><code>CASCADE</code></td>
+                <td class="desc">Propage la suppression/modification aux lignes liées</td>
+                <td class="desc">Tables de jonction, données dépendantes</td>
+              </tr>
+              <tr>
+                <td><code>SET NULL</code></td>
+                <td class="desc">Met la FK à NULL dans les lignes liées</td>
+                <td class="desc">Relation optionnelle (la FK doit être nullable)</td>
+              </tr>
+              <tr>
+                <td><code>SET DEFAULT</code></td>
+                <td class="desc">Remet la FK à sa valeur DEFAULT dans les lignes liées</td>
+                <td class="desc">Rare, peu supporté</td>
+              </tr>
+              <tr>
+                <td><code>NO ACTION</code></td>
+                <td class="desc">Identique à RESTRICT (vérification différée possible)</td>
+                <td class="desc">Standard SQL, comportement par défaut</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== NORMALISATION ==================== -->
+    <section class="section" id="normalisation">
+      <div class="section-title">Normalisation</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Pourquoi normaliser ?</div>
+          <div class="card-tags"><span class="tag tag-blue">Qualité</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">La normalisation élimine les <strong>redondances</strong> et les <strong>anomalies</strong> de mise à jour dans une base de données. Elle s'applique progressivement via les formes normales.</p>
+          <table class="attr-table">
+            <thead><tr><th>Anomalie</th><th>Problème</th></tr></thead>
+            <tbody>
+              <tr><td><code>Insertion</code></td><td class="desc">Impossible d'insérer une donnée sans en insérer une autre (ex: ajouter un produit sans commande)</td></tr>
+              <tr><td><code>Mise à jour</code></td><td class="desc">La même info est stockée à plusieurs endroits : une seule modif ne suffit pas</td></tr>
+              <tr><td><code>Suppression</code></td><td class="desc">Supprimer une ligne entraîne la perte d'autres informations</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">1NF — Première Forme Normale</div>
+          <div class="card-tags"><span class="tag tag-purple">1NF</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><strong>Règle :</strong> Tous les attributs doivent être <strong>atomiques</strong> (indivisibles) et il ne doit pas y avoir de groupes répétitifs.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">AVANT — Violation 1NF</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  COMMANDE (id_commande, client, produits)
+  ┌─────────────┬──────────────┬─────────────────────────────────┐
+  │ id_commande │ client       │ produits                        │
+  ├─────────────┼──────────────┼─────────────────────────────────┤
+  │ 1           │ Jean Dupont  │ "Stylo x2, Cahier x1, Règle x3" │  ← non atomique !
+  │ 2           │ Marie Martin │ "Livre x1"                      │
+  └─────────────┴──────────────┴─────────────────────────────────┘</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">APRÈS — Conforme 1NF</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  COMMANDE (id_commande, id_client)
+  LIGNE_COMMANDE (id_commande, id_produit, quantite)
+
+  ┌─────────────┬────────────┐   ┌─────────────┬────────────┬──────────┐
+  │ id_commande │ id_client  │   │ id_commande │ id_produit │ quantite │
+  ├─────────────┼────────────┤   ├─────────────┼────────────┼──────────┤
+  │ 1           │ 1          │   │ 1           │ 101        │ 2        │
+  │ 2           │ 2          │   │ 1           │ 102        │ 1        │
+  └─────────────┴────────────┘   │ 1           │ 103        │ 3        │
+                                 │ 2           │ 104        │ 1        │
+                                 └─────────────┴────────────┴──────────┘</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">2NF — Deuxième Forme Normale</div>
+          <div class="card-tags"><span class="tag tag-blue">2NF</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><strong>Règle :</strong> Être en 1NF ET tous les attributs non-clés doivent dépendre de <strong>la totalité de la clé primaire</strong> (pas d'une partie seulement). S'applique principalement aux PK composées.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">AVANT — Violation 2NF</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  LIGNE_COMMANDE (id_commande, id_produit, quantite, nom_produit, prix_produit)
+  PK = (id_commande, id_produit)
+
+  Problème :
+  • quantite    → dépend de (id_commande + id_produit) ✓
+  • nom_produit → dépend uniquement de id_produit       ✗ dépendance partielle !</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">APRÈS — Conforme 2NF</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  LIGNE_COMMANDE (id_commande, id_produit, quantite)
+                  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+  PRODUIT (id_produit, nom_produit, prix_produit, ...)
+           ‾‾‾‾‾‾‾‾‾‾
+
+  nom_produit et prix_produit ont été déplacés dans leur propre entité PRODUIT.</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">3NF — Troisième Forme Normale</div>
+          <div class="card-tags"><span class="tag tag-green">3NF</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><strong>Règle :</strong> Être en 2NF ET aucun attribut non-clé ne doit dépendre d'un autre attribut non-clé (<strong>pas de dépendance transitive</strong>).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">AVANT — Violation 3NF</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  EMPLOYE (id_employe, nom, id_departement, nom_departement, localisation)
+  PK = id_employe
+
+  Problème :
+  • id_departement  → dépend de id_employe           ✓
+  • nom_departement → dépend de id_departement        ✗ dépendance transitive !
+  • localisation    → dépend de id_departement        ✗ dépendance transitive !</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">APRÈS — Conforme 3NF</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  EMPLOYE (id_employe, nom, id_departement)
+           ‾‾‾‾‾‾‾‾‾‾
+
+  DEPARTEMENT (id_departement, nom_departement, localisation)
+               ‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+
+  Les infos du département sont isolées dans leur propre table.</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Récapitulatif des formes normales</div>
+          <div class="card-tags"><span class="tag tag-orange">Résumé</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Forme</th><th>Condition supplémentaire</th><th>Problème éliminé</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>1NF</code></td>
+                <td class="desc">Attributs atomiques, pas de répétitions</td>
+                <td class="desc">Valeurs multiples dans une cellule</td>
+              </tr>
+              <tr>
+                <td><code>2NF</code></td>
+                <td class="desc">1NF + pas de dépendance partielle à la PK</td>
+                <td class="desc">Redondance sur PK composée</td>
+              </tr>
+              <tr>
+                <td><code>3NF</code></td>
+                <td class="desc">2NF + pas de dépendance transitive</td>
+                <td class="desc">Redondance entre colonnes non-clés</td>
+              </tr>
+              <tr>
+                <td><code>BCNF</code></td>
+                <td class="desc">3NF + tout déterminant est une super-clé</td>
+                <td class="desc">Anomalies résiduelles (cas rare)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="card-desc" style="margin-top:12px;">En pratique, <strong>atteindre la 3NF</strong> suffit pour la grande majorité des projets. Un bon MCD bien conçu produit un MLD déjà en 3NF.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== UML ==================== -->
+    <section class="section" id="uml">
+      <div class="section-title">UML — Diagramme de classes</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Modéliser avec UML</div>
+          <div class="card-tags"><span class="tag tag-blue">UML</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le <strong>diagramme de classes UML</strong> est une alternative à MERISE pour modéliser une base de données. Il est plus répandu dans les contextes orientés objet (Java, C#, PHP…). Les classes UML se transforment en tables de la même façon que les entités MERISE.</p>
+          <table class="attr-table">
+            <thead><tr><th>MERISE</th><th>UML</th></tr></thead>
+            <tbody>
+              <tr><td>Entité</td><td class="desc">Classe</td></tr>
+              <tr><td>Attribut</td><td class="desc">Attribut de classe (avec type)</td></tr>
+              <tr><td>Identifiant <code>#</code></td><td class="desc">Attribut marqué <code>«PK»</code> ou souligné</td></tr>
+              <tr><td>Association</td><td class="desc">Association / Agrégation / Composition</td></tr>
+              <tr><td>Cardinalités (0,n) / (1,1)</td><td class="desc">Multiplicités <code>*</code> / <code>1</code> — notées aux extrémités du lien</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Notation UML — Multiplicités</div>
+          <div class="card-tags"><span class="tag tag-blue">UML</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>UML</th><th>MERISE équivalent</th><th>Signification</th></tr></thead>
+            <tbody>
+              <tr><td><code>1</code></td><td class="desc"><code>(1,1)</code></td><td class="desc">Exactement un</td></tr>
+              <tr><td><code>0..1</code></td><td class="desc"><code>(0,1)</code></td><td class="desc">Zéro ou un</td></tr>
+              <tr><td><code>*</code> ou <code>0..*</code></td><td class="desc"><code>(0,n)</code></td><td class="desc">Zéro ou plusieurs</td></tr>
+              <tr><td><code>1..*</code></td><td class="desc"><code>(1,n)</code></td><td class="desc">Un ou plusieurs</td></tr>
+              <tr><td><code>2..5</code></td><td class="desc">—</td><td class="desc">Entre 2 et 5 (UML plus précis)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Exemple diagramme de classes UML</div>
+          <div class="card-tags"><span class="tag tag-blue">UML</span><span class="tag tag-yellow">Exemple</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">UML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  ┌────────────────────────┐         ┌────────────────────────┐
+  │        Client          │         │       Commande         │
+  ├────────────────────────┤         ├────────────────────────┤
+  │ «PK» id : int          │1      * │ «PK» id : int          │
+  │ nom : string           ├─────────┤ dateCommande : date    │
+  │ prenom : string        │         │ statut : string        │
+  │ email : string         │         │ montantTotal : decimal │
+  │ telephone : string     │         └───────────┬────────────┘
+  └────────────────────────┘                     │ *
+                                             (contient)
+                                                 │ 1..*
+  ┌────────────────────────┐         ┌───────────┴────────────┐
+  │       Categorie        │         │        Produit         │
+  ├────────────────────────┤         ├────────────────────────┤
+  │ «PK» id : int          │1      * │ «PK» id : int          │
+  │ libelle : string       ├─────────┤ designation : string   │
+  │ description : string   │         │ prixUnitaire : decimal │
+  └────────────────────────┘         │ stock : int            │
+                                     └────────────────────────┘
+
+  Relation Commande ↔ Produit (N:N) :
+  → Classe d'association LigneCommande { quantite, remise }</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Types de liens UML</div>
+          <div class="card-tags"><span class="tag tag-blue">UML</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Type de lien</th><th>Notation</th><th>Signification BDD</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Association</strong></td>
+                <td class="desc"><code>A ────── B</code></td>
+                <td class="desc">Relation simple → FK ou table de jonction</td>
+              </tr>
+              <tr>
+                <td><strong>Agrégation</strong></td>
+                <td class="desc"><code>A ◇────── B</code></td>
+                <td class="desc">B fait partie de A mais peut exister seul → FK nullable</td>
+              </tr>
+              <tr>
+                <td><strong>Composition</strong></td>
+                <td class="desc"><code>A ◆────── B</code></td>
+                <td class="desc">B ne peut exister sans A → FK NOT NULL + ON DELETE CASCADE</td>
+              </tr>
+              <tr>
+                <td><strong>Héritage</strong></td>
+                <td class="desc"><code>A ────▷ B</code></td>
+                <td class="desc">3 stratégies : table unique, une table par classe, une table par classe concrète</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== EXEMPLE COMPLET ==================== -->
+    <section class="section" id="exemple">
+      <div class="section-title">Exemple complet</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Cas pratique — Système de bibliothèque</div>
+          <div class="card-tags"><span class="tag tag-yellow">Exemple complet</span><span class="tag tag-orange">MCD→MLD→MPD</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><strong>Besoin :</strong> Gérer les emprunts d'une bibliothèque. Un adhérent peut emprunter plusieurs livres. Un livre peut être emprunté plusieurs fois mais par un seul adhérent à la fois. Un livre appartient à une ou plusieurs catégories.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Étape 1 — MCD</div>
+          <div class="card-tags"><span class="tag tag-purple">MCD</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">MCD</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  ┌─────────────────────┐          ┌─────────────────────┐
+  │      ADHERENT       │          │      CATEGORIE      │
+  ├─────────────────────┤          ├─────────────────────┤
+  │ #id_adherent        │          │ #id_categorie       │
+  │  nom                │          │  libelle            │
+  │  prenom             │          └──────────┬──────────┘
+  │  email              │                     │ 0,n
+  │  date_inscription   │               CLASSIFIER
+  └──────────┬──────────┘                     │ 1,n
+             │ 0,n                   ┌─────────┴──────────┐
+           EMPRUNTER                 │        LIVRE        │
+        (date_emprunt,               ├─────────────────────┤
+         date_retour_prevue,         │ #isbn               │
+         date_retour_reelle)         │  titre              │
+             │ 0,1                   │  auteur             │
+  ┌──────────┴──────────┐            │  annee_publication  │
+  │       EXEMPLAIRE    │            │  disponible         │
+  ├─────────────────────┤            └──────────┬──────────┘
+  │ #id_exemplaire      │ 1,n  AVOIR  1,1        │
+  │  etat               ├───────────────────────┘
+  └─────────────────────┘</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Étape 2 — MLD</div>
+          <div class="card-tags"><span class="tag tag-blue">MLD</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">MLD</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-text">  ADHERENT (id_adherent, nom, prenom, email, date_inscription)
+  ‾‾‾‾‾‾‾‾‾‾‾‾‾
+
+  CATEGORIE (id_categorie, libelle)
+  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+
+  LIVRE (isbn, titre, auteur, annee_publication, disponible)
+  ‾‾‾‾‾‾‾‾
+
+  LIVRE_CATEGORIE (isbn, id_categorie)         ← table de jonction N:N
+  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+    └─ #isbn          référence LIVRE(isbn)
+    └─ #id_categorie  référence CATEGORIE(id_categorie)
+
+  EXEMPLAIRE (id_exemplaire, etat, #isbn)
+  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+    └─ #isbn référence LIVRE(isbn)
+
+  EMPRUNT (id_exemplaire, id_adherent, date_emprunt,
+  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+           date_retour_prevue, date_retour_reelle)
+    PK composée : (id_exemplaire, id_adherent, date_emprunt)
+    └─ #id_exemplaire référence EXEMPLAIRE(id_exemplaire)
+    └─ #id_adherent   référence ADHERENT(id_adherent)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Étape 3 — MPD (SQL)</div>
+          <div class="card-tags"><span class="tag tag-green">MPD</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">SQL</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-sql">CREATE TABLE adherent (
+  id_adherent      INT          PRIMARY KEY AUTO_INCREMENT,
+  nom              VARCHAR(100) NOT NULL,
+  prenom           VARCHAR(100) NOT NULL,
+  email            VARCHAR(255) NOT NULL UNIQUE,
+  date_inscription DATE         NOT NULL DEFAULT (CURRENT_DATE)
+);
+
+CREATE TABLE categorie (
+  id_categorie  INT          PRIMARY KEY AUTO_INCREMENT,
+  libelle       VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE livre (
+  isbn               CHAR(13)     PRIMARY KEY,
+  titre              VARCHAR(255) NOT NULL,
+  auteur             VARCHAR(255) NOT NULL,
+  annee_publication  YEAR,
+  disponible         TINYINT(1)   NOT NULL DEFAULT 1
+);
+
+CREATE TABLE livre_categorie (
+  isbn           CHAR(13) NOT NULL,
+  id_categorie   INT      NOT NULL,
+  PRIMARY KEY (isbn, id_categorie),
+  FOREIGN KEY (isbn)          REFERENCES livre(isbn)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (id_categorie)  REFERENCES categorie(id_categorie)
+    ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE exemplaire (
+  id_exemplaire  INT         PRIMARY KEY AUTO_INCREMENT,
+  etat           ENUM('bon','use','abime') NOT NULL DEFAULT 'bon',
+  isbn           CHAR(13)    NOT NULL,
+  FOREIGN KEY (isbn) REFERENCES livre(isbn)
+    ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE emprunt (
+  id_exemplaire       INT  NOT NULL,
+  id_adherent         INT  NOT NULL,
+  date_emprunt        DATE NOT NULL,
+  date_retour_prevue  DATE NOT NULL,
+  date_retour_reelle  DATE,
+  PRIMARY KEY (id_exemplaire, id_adherent, date_emprunt),
+  FOREIGN KEY (id_exemplaire) REFERENCES exemplaire(id_exemplaire)
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+  FOREIGN KEY (id_adherent)   REFERENCES adherent(id_adherent)
+    ON DELETE RESTRICT ON UPDATE CASCADE
+);</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

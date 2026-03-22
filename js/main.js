@@ -115,6 +115,7 @@ const LANGUAGES = [
   { name: 'SQL',                href: 'sql.html',       badge: 'sql' },
   { name: 'PHP/Symfony',        href: 'php.html',       badge: 'php' },
   { name: 'Node/Express/Mongo', href: 'node.html',      badge: 'node' },
+  { name: 'Modélisation BDD',  href: 'merise.html',    badge: 'merise' },
 ];
 
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
