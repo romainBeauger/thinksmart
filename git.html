@@ -36,7 +36,7 @@
 <div class="search-bar">
   <div class="search-wrapper">
     <span class="search-icon">&#128269;</span>
-    <input type="search" id="searchInput" placeholder="Rechercher une commande, option, exemple…" autocomplete="off" />
+      <label for="searchInput"></label><input type="search" id="searchInput" placeholder="Rechercher une commande, option, exemple…" autocomplete="off" />
     <span class="search-count" id="searchCount"></span>
   </div>
 </div>
@@ -450,7 +450,13 @@ git pull --rebase origin main     # fetch + rebase (historique plus propre)</cod
             <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
             <pre><code class="language-bash">git stash                         # Mise de côté des modifications
 git stash push -m "message"       # Avec message descriptif
+git stash -u                      # Inclure les fichiers non suivis (untracked)
+git stash -a                      # Inclure aussi les fichiers ignorés (.gitignore)
+git stash -p                      # Mode interactif : choisir les hunks à mettre de côté
 git stash list                    # Lister les stashs
+git stash show                    # Afficher le résumé du dernier stash
+git stash show -p                 # Afficher le diff complet du dernier stash
+git stash show stash@{1}          # Afficher le résumé d'un stash spécifique
 git stash pop                     # Appliquer le dernier stash et le supprimer
 git stash apply stash@{2}         # Appliquer un stash spécifique
 git stash drop stash@{0}          # Supprimer un stash
