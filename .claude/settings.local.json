@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find C:UsersRomainDocumentsDymathinksmart -type f \\\\\\(-name *auth* -o -name *login* -o -name *security* -o -name *user* \\\\\\))"
+    ]
+  }
+}

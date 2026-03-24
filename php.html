@@ -31,7 +31,7 @@
 <div class="search-bar">
   <div class="search-wrapper">
     <span class="search-icon">&#128269;</span>
-    <input type="search" id="searchInput" placeholder="Rechercher une fonction, commande, exemple…" autocomplete="off" />
+      <label for="searchInput"></label><input type="search" id="searchInput" placeholder="Rechercher une fonction, commande, exemple…" autocomplete="off" />
     <span class="search-count" id="searchCount"></span>
   </div>
 </div>
@@ -1548,6 +1548,43 @@ class ArticleVoter extends Voter
     }
 }
 // Usage : $this-&gt;denyAccessUnlessGranted('EDIT', $article);</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Commandes Symfony Console — Sécurité</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Créer l'entité User (UserInterface + PasswordAuthenticatedUserInterface)
+symfony console make:user
+# → Nom de la classe ? (User)
+# → Stocker en BDD ? (yes)
+# → Propriété unique d'identification ? (email)
+# → Hasher le mot de passe ? (yes)
+
+# Générer un formulaire de login (LoginFormAuthenticator)
+symfony console make:security:form-login
+# → Génère : src/Security/LoginFormAuthenticator.php
+# →          templates/security/login.html.twig
+# → Met à jour security.yaml automatiquement
+
+# Créer un authenticator personnalisé (ex : token API, OAuth…)
+symfony console make:security:custom
+# → Nom de l'authenticator ? (ex: ApiTokenAuthenticator)
+# → Génère : src/Security/ApiTokenAuthenticator.php
+
+# Créer un voter personnalisé (autorisation fine sur une ressource)
+symfony console make:voter
+# → Nom du voter ? (ex: ArticleVoter)
+# → Génère : src/Security/ArticleVoter.php
+
+# Hasher un mot de passe manuellement (debug / fixtures)
+symfony console security:hash-password
+
+# Vérifier la configuration de sécurité courante
+symfony console debug:security</code></pre>
           </div>
         </div>
       </div>
