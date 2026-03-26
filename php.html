@@ -53,6 +53,7 @@
       <li><a href="#repository"><span class="icon">🔍</span>Repository &amp; Requêtes</a></li>
       <li><a href="#forms"><span class="icon">📝</span>Formulaires Symfony</a></li>
       <li><a href="#security"><span class="icon">🔒</span>Sécurité &amp; Auth</a></li>
+      <li><a href="#reset-password"><span class="icon">🔑</span>Reset Password</a></li>
       <li><a href="#services"><span class="icon">🔧</span>Services &amp; DI</a></li>
     </ul>
   </aside>
@@ -1585,6 +1586,320 @@ symfony console security:hash-password
 
 # Vérifier la configuration de sécurité courante
 symfony console debug:security</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESET PASSWORD -->
+    <section class="section" id="reset-password">
+      <div class="section-title">Reset Password</div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Installation du bundle &amp; génération</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># 1. Installer le bundle reset-password
+composer require symfonycasts/reset-password-bundle
+
+# 2. Générer le contrôleur, formulaires, entité ResetPasswordRequest et templates
+symfony console make:reset-password
+# → Génère :
+#    src/Controller/ResetPasswordController.php
+#    src/Entity/ResetPasswordRequest.php
+#    src/Form/ChangePasswordFormType.php
+#    src/Form/ResetPasswordRequestFormType.php
+#    templates/reset_password/check_email.html.twig
+#    templates/reset_password/email.html.twig
+#    templates/reset_password/request.html.twig
+#    templates/reset_password/reset.html.twig
+#    → Met à jour config/packages/reset_password.yaml
+
+# 3. Migrer la BDD pour créer la table reset_password_request
+symfony console make:migration
+symfony console doctrine:migrations:migrate</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Configuration reset_password.yaml</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># config/packages/reset_password.yaml
+symfonycasts_reset_password:
+    request_password_repository: App\Repository\ResetPasswordRequestRepository
+    lifetime: 3600          # durée de validité du token en secondes (1h)
+    throttle_limit: 5       # nb max de demandes par utilisateur sur la fenêtre
+    enable_garbage_collection: true  # nettoyage auto des tokens expirés</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Entité ResetPasswordRequest</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+// src/Entity/ResetPasswordRequest.php (généré automatiquement)
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestTrait;
+
+#[ORM\Entity(repositoryClass: ResetPasswordRequestRepository::class)]
+class ResetPasswordRequest implements ResetPasswordRequestInterface
+{
+    use ResetPasswordRequestTrait;
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $user;
+
+    public function __construct(User $user, \DateTimeInterface $expiresAt, string $selector, string $hashedToken)
+    {
+        $this->user = $user;
+        $this->initialize($expiresAt, $selector, $hashedToken);
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Contrôleur ResetPasswordController — étapes clés</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+// src/Controller/ResetPasswordController.php
+namespace App\Controller;
+
+use App\Entity\User;
+use App\Form\ChangePasswordFormType;
+use App\Form\ResetPasswordRequestFormType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
+use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
+use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
+
+#[Route('/reset-password')]
+class ResetPasswordController extends AbstractController
+{
+    use ResetPasswordControllerTrait;  // fournit storeTokenInSession(), getTokenFromSession()…
+
+    public function __construct(
+        private ResetPasswordHelperInterface $resetPasswordHelper,
+        private EntityManagerInterface $entityManager,
+    ) {}
+
+    // ── ÉTAPE 1 : Formulaire de demande ──────────────────────────────────────
+    #[Route('', name: 'app_forgot_password_request')]
+    public function request(Request $request, MailerInterface $mailer): Response
+    {
+        $form = $this-&gt;createForm(ResetPasswordRequestFormType::class);
+        $form-&gt;handleRequest($request);
+
+        if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+            return $this-&gt;processSendingPasswordResetEmail(
+                $form-&gt;get('email')-&gt;getData(),
+                $mailer,
+            );
+        }
+
+        return $this-&gt;render('reset_password/request.html.twig', [
+            'requestForm' =&gt; $form,
+        ]);
+    }
+
+    // ── ÉTAPE 2 : Page "vérifiez vos emails" ────────────────────────────────
+    #[Route('/check-email', name: 'app_check_email')]
+    public function checkEmail(): Response
+    {
+        // Génère un faux token si l'utilisateur arrive ici directement
+        if (null === ($resetToken = $this-&gt;getTokenFromSession())) {
+            $resetToken = $this-&gt;resetPasswordHelper-&gt;generateFakeResetToken();
+        }
+
+        return $this-&gt;render('reset_password/check_email.html.twig', [
+            'resetToken' =&gt; $resetToken,
+        ]);
+    }
+
+    // ── ÉTAPE 3 : Formulaire de nouveau mot de passe ─────────────────────────
+    #[Route('/reset/{token}', name: 'app_reset_password')]
+    public function reset(
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher,
+        ?string $token = null,
+    ): Response {
+        if ($token) {
+            // Stocker le token en session pour éviter la fuite via Referer
+            $this-&gt;storeTokenInSession($token);
+            return $this-&gt;redirectToRoute('app_reset_password');
+        }
+
+        $token = $this-&gt;getTokenFromSession();
+        if (null === $token) {
+            throw $this-&gt;createNotFoundException('Aucun token de réinitialisation trouvé en session.');
+        }
+
+        try {
+            /** @var User $user */
+            $user = $this-&gt;resetPasswordHelper-&gt;validateTokenAndFetchUser($token);
+        } catch (ResetPasswordExceptionInterface $e) {
+            $this-&gt;addFlash('reset_password_error', sprintf(
+                '%s - %s', ResetPasswordExceptionInterface::MESSAGE_PROBLEM_VALIDATE, $e-&gt;getReason()
+            ));
+            return $this-&gt;redirectToRoute('app_forgot_password_request');
+        }
+
+        $form = $this-&gt;createForm(ChangePasswordFormType::class);
+        $form-&gt;handleRequest($request);
+
+        if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+            // Invalider tous les tokens de cet utilisateur
+            $this-&gt;resetPasswordHelper-&gt;removeResetRequest($token);
+
+            $hashedPassword = $passwordHasher-&gt;hashPassword(
+                $user,
+                $form-&gt;get('plainPassword')-&gt;getData()
+            );
+            $user-&gt;setPassword($hashedPassword);
+            $this-&gt;entityManager-&gt;flush();
+
+            $this-&gt;cleanSessionAfterReset();
+
+            return $this-&gt;redirectToRoute('app_login');
+        }
+
+        return $this-&gt;render('reset_password/reset.html.twig', [
+            'resetForm' =&gt; $form,
+        ]);
+    }
+
+    // ── Méthode privée : envoi de l'email ────────────────────────────────────
+    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): Response
+    {
+        $user = $this-&gt;entityManager-&gt;getRepository(User::class)-&gt;findOneBy(['email' =&gt; $emailFormData]);
+
+        if (!$user) {
+            // Ne pas révéler qu'aucun compte n'existe
+            return $this-&gt;redirectToRoute('app_check_email');
+        }
+
+        try {
+            $resetToken = $this-&gt;resetPasswordHelper-&gt;generateResetToken($user);
+        } catch (ResetPasswordExceptionInterface $e) {
+            return $this-&gt;redirectToRoute('app_check_email');
+        }
+
+        $email = (new TemplatedEmail())
+            -&gt;from('noreply@monsite.fr')
+            -&gt;to($user-&gt;getEmail())
+            -&gt;subject('Réinitialisation de votre mot de passe')
+            -&gt;htmlTemplate('reset_password/email.html.twig')
+            -&gt;context(['resetToken' =&gt; $resetToken]);
+
+        $mailer-&gt;send($email);
+
+        // Stocker le token en session pour la page check_email
+        $this-&gt;storeTokenInSession($resetToken);
+
+        return $this-&gt;redirectToRoute('app_check_email');
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Templates Twig essentiels</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TWIG</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-twig">{# templates/reset_password/request.html.twig #}
+{# Formulaire : saisie de l'adresse email #}
+&lt;h1&gt;Mot de passe oublié ?&lt;/h1&gt;
+{{ form_start(requestForm) }}
+    {{ form_row(requestForm.email, { label: 'Votre adresse email' }) }}
+    &lt;button type="submit"&gt;Envoyer le lien&lt;/button&gt;
+{{ form_end(requestForm) }}
+
+{# templates/reset_password/check_email.html.twig #}
+{# Message affiché après envoi du mail #}
+&lt;h1&gt;Vérifiez vos emails !&lt;/h1&gt;
+&lt;p&gt;
+  Un email a été envoyé avec un lien valable
+  {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+&lt;/p&gt;
+
+{# templates/reset_password/email.html.twig #}
+{# Corps de l'email envoyé à l'utilisateur #}
+&lt;p&gt;Bonjour,&lt;/p&gt;
+&lt;p&gt;
+  &lt;a href="{{ url('app_reset_password', {token: resetToken.token}) }}"&gt;
+    Réinitialiser mon mot de passe
+  &lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;Ce lien expire dans 1 heure.&lt;/p&gt;
+
+{# templates/reset_password/reset.html.twig #}
+{# Formulaire : saisie du nouveau mot de passe #}
+&lt;h1&gt;Choisissez un nouveau mot de passe&lt;/h1&gt;
+{{ form_start(resetForm) }}
+    {{ form_row(resetForm.plainPassword) }}
+    &lt;button type="submit"&gt;Valider&lt;/button&gt;
+{{ form_end(resetForm) }}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Flux complet — résumé des étapes</div></div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># ── Flux utilisateur ──────────────────────────────────────────────────────────
+# 1. L'utilisateur clique "Mot de passe oublié" → GET /reset-password
+# 2. Il saisit son email et soumet → POST /reset-password
+#    → Le contrôleur génère un ResetPasswordRequest en BDD
+#    → Un email avec un lien signé /reset-password/reset/{token} est envoyé
+#    → Redirect vers /reset-password/check-email
+# 3. L'utilisateur clique le lien dans l'email → GET /reset-password/reset/{token}
+#    → Le token est stocké en session, redirect sur /reset-password/reset (sans token dans l'URL)
+# 4. L'utilisateur saisit son nouveau mot de passe → POST /reset-password/reset
+#    → Le token est validé, le mot de passe hashé et sauvegardé
+#    → Le ResetPasswordRequest est supprimé de la BDD
+#    → Redirect vers /login
+
+# ── Points de sécurité importants ────────────────────────────────────────────
+# • Le token est stocké en session (pas dans l'URL) pour éviter la fuite via Referer
+# • Si l'email n'existe pas, on redirige quand même (anti-enumeration)
+# • Le token est à usage unique : il est supprimé après utilisation
+# • throttle_limit empêche le spam de demandes
+# • Les tokens expirés sont nettoyés automatiquement (garbage collection)</code></pre>
           </div>
         </div>
       </div>
