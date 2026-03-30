@@ -55,6 +55,7 @@
       <li><a href="#security"><span class="icon">🔒</span>Sécurité &amp; Auth</a></li>
       <li><a href="#reset-password"><span class="icon">🔑</span>Reset Password</a></li>
       <li><a href="#services"><span class="icon">🔧</span>Services &amp; DI</a></li>
+      <li><a href="#api-platform"><span class="icon">🌐</span>API Platform</a></li>
     </ul>
   </aside>
   <main class="content">
@@ -1961,6 +1962,718 @@ class RegisterController extends AbstractController
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- API PLATFORM -->
+    <section class="section" id="api-platform">
+      <div class="section-title">API Platform</div>
+
+      <!-- Installation -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Installation &amp; configuration</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">API Platform s'installe via Composer et expose automatiquement une API REST + documentation Swagger/OpenAPI à partir de vos entités Doctrine.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Installer API Platform dans un projet Symfony existant
+composer require api
+
+# Lancer le serveur de dev
+symfony server:start
+
+# L'interface Swagger est accessible à :
+# http://localhost:8000/api   (navigateur)
+# http://localhost:8000/api/docs.json  (spec OpenAPI JSON)</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># config/packages/api_platform.yaml
+api_platform:
+    title: 'Mon API'
+    version: '1.0.0'
+    formats:
+        jsonld:   ['application/ld+json']
+        json:     ['application/json']
+        html:     ['text/html']       # active l'interface Swagger
+    defaults:
+        pagination_items_per_page: 10
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization']</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Créer une ressource -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Déclarer une ressource avec <code>#[ApiResource]</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">L'attribut <code>#[ApiResource]</code> posé sur une entité Doctrine suffit pour générer toutes les routes CRUD (GET, POST, PUT, PATCH, DELETE).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+// src/Entity/Article.php
+namespace App\Entity;
+
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ApiResource]   // ← une seule ligne suffit pour exposer l'entité
+class Article
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
+    private string $titre = '';
+
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
+    private string $contenu = '';
+
+    #[ORM\Column]
+    private \DateTimeImmutable $createdAt;
+
+    public function __construct()
+    {
+        $this-&gt;createdAt = new \DateTimeImmutable();
+    }
+
+    // Getters / Setters...
+    public function getId(): ?int { return $this-&gt;id; }
+    public function getTitre(): string { return $this-&gt;titre; }
+    public function setTitre(string $titre): static { $this-&gt;titre = $titre; return $this; }
+    public function getContenu(): string { return $this-&gt;contenu; }
+    public function setContenu(string $contenu): static { $this-&gt;contenu = $contenu; return $this; }
+    public function getCreatedAt(): \DateTimeImmutable { return $this-&gt;createdAt; }
+}</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Créer l'entité avec le maker (sans #[ApiResource], on l'ajoute manuellement)
+php bin/console make:entity Article
+
+# Générer et exécuter la migration
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+
+# Routes générées automatiquement par API Platform :
+# GET    /api/articles          → liste paginée
+# POST   /api/articles          → créer un article
+# GET    /api/articles/{id}     → lire un article
+# PUT    /api/articles/{id}     → remplacer un article
+# PATCH  /api/articles/{id}     → modifier partiellement
+# DELETE /api/articles/{id}     → supprimer un article</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opérations personnalisées -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Choisir les opérations exposées</div>
+          <div class="card-tags"><span class="tag tag-purple">Avancé</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Par défaut toutes les opérations sont activées. On peut restreindre, renommer les routes ou ajouter des opérations personnalisées.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+
+// N'autoriser que lecture + création + modification partielle
+#[ApiResource(
+    operations: [
+        new GetCollection(),          // GET /api/articles
+        new Get(),                    // GET /api/articles/{id}
+        new Post(),                   // POST /api/articles
+        new Patch(),                  // PATCH /api/articles/{id}
+        // Delete et Put sont omis → routes inexistantes
+    ]
+)]
+// Personnaliser le chemin et le nom des routes
+#[ApiResource(
+    operations: [
+        new GetCollection(uriTemplate: '/articles'),          // /api/articles
+        new Get(uriTemplate: '/articles/{id}'),
+        new Post(uriTemplate: '/articles', routeName: 'api_article_create'),
+    ]
+)]
+class Article { /* ... */ }</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Groupes de sérialisation -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Groupes de sérialisation</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les groupes Symfony Serializer permettent de contrôler quelles propriétés sont exposées en lecture (normalization) et en écriture (denormalization).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+#[ApiResource(
+    normalizationContext:   ['groups' =&gt; ['article:read']],   // GET → ces champs
+    denormalizationContext: ['groups' =&gt; ['article:write']],  // POST/PUT → ces champs
+)]
+class Article
+{
+    #[Groups(['article:read'])]           // visible en lecture seulement
+    private ?int $id = null;
+
+    #[Groups(['article:read', 'article:write'])]  // lecture ET écriture
+    private string $titre = '';
+
+    #[Groups(['article:read', 'article:write'])]
+    private string $contenu = '';
+
+    #[Groups(['article:read'])]           // calculé, non modifiable
+    private \DateTimeImmutable $createdAt;
+}
+
+// Résultat JSON en GET /api/articles/1
+// {
+//   "id": 1,
+//   "titre": "Mon article",
+//   "contenu": "Contenu de l'article",
+//   "createdAt": "2024-01-15T10:00:00+00:00"
+// }
+
+// Corps attendu en POST /api/articles
+// {
+//   "titre": "Nouvel article",
+//   "contenu": "Contenu..."
+// }</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtres -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Filtres intégrés</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">API Platform fournit des filtres prêts à l'emploi : recherche textuelle, plage de valeurs, tri, existence d'une propriété…</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+
+#[ApiResource]
+// SearchFilter : ?titre=symfony  (partial = contient, exact, start, end, word_start)
+#[ApiFilter(SearchFilter::class, properties: [
+    'titre'    =&gt; 'partial',   // LIKE %symfony%
+    'categorie'=&gt; 'exact',     // = 'php'
+    'auteur.nom'=&gt; 'start',    // LIKE 'alice%'  (relation imbriquée)
+])]
+// RangeFilter : ?prix[gt]=10&amp;prix[lte]=50
+#[ApiFilter(RangeFilter::class, properties: ['prix'])]
+// OrderFilter : ?order[createdAt]=desc&amp;order[titre]=asc
+#[ApiFilter(OrderFilter::class, properties: ['titre', 'createdAt', 'prix'])]
+// BooleanFilter : ?publie=true
+#[ApiFilter(BooleanFilter::class, properties: ['publie'])]
+// DateFilter : ?createdAt[after]=2024-01-01
+#[ApiFilter(DateFilter::class, properties: ['createdAt'])]
+class Article { /* ... */ }
+
+// Exemples d'URL résultantes :
+// GET /api/articles?titre=symfony
+// GET /api/articles?titre=symfony&amp;order[createdAt]=desc&amp;page=2
+// GET /api/articles?prix[gt]=10&amp;prix[lte]=50&amp;publie=true</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Pagination</div>
+          <div class="card-tags"><span class="tag tag-green">Config</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">La pagination est activée par défaut. Elle peut être configurée globalement ou par ressource, et contrôlée via un paramètre d'URL.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+use ApiPlatform\Metadata\ApiResource;
+
+#[ApiResource(
+    paginationEnabled: true,
+    paginationItemsPerPage: 20,          // 20 items par page
+    paginationMaximumItemsPerPage: 100,  // max autorisé via ?itemsPerPage=
+    paginationClientItemsPerPage: true,  // le client peut choisir via ?itemsPerPage=30
+    paginationClientEnabled: true,       // le client peut désactiver via ?pagination=false
+)]
+class Article { /* ... */ }
+
+// Réponse JSON-LD d'une collection paginée :
+// {
+//   "@context": "/api/contexts/Article",
+//   "@id": "/api/articles",
+//   "@type": "hydra:Collection",
+//   "hydra:totalItems": 87,
+//   "hydra:member": [ {...}, {...}, ... ],
+//   "hydra:view": {
+//     "@id": "/api/articles?page=2",
+//     "hydra:first": "/api/articles?page=1",
+//     "hydra:last":  "/api/articles?page=9",
+//     "hydra:next":  "/api/articles?page=3"
+//   }
+// }</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Naviguer entre les pages
+curl http://localhost:8000/api/articles?page=2
+curl http://localhost:8000/api/articles?page=1&amp;itemsPerPage=5
+
+# Désactiver la pagination pour tout récupérer (si autorisé)
+curl http://localhost:8000/api/articles?pagination=false</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sécurité -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Sécurité des opérations</div>
+          <div class="card-tags"><span class="tag tag-red">Sécurité</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les accès se protègent avec l'attribut <code>security</code> (expression Symfony) ou <code>securityPostDenormalize</code> (après désérialisation).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+
+#[ApiResource(
+    operations: [
+        // Tout le monde peut lire
+        new GetCollection(),
+        new Get(),
+
+        // Seuls les utilisateurs connectés peuvent créer
+        new Post(
+            security: "is_granted('ROLE_USER')",
+            securityMessage: 'Vous devez être connecté pour créer un article.',
+        ),
+
+        // Seul le propriétaire ou un admin peut modifier
+        new Patch(
+            security: "is_granted('ROLE_ADMIN') or object.getAuteur() == user",
+            securityMessage: "Vous ne pouvez modifier que vos propres articles.",
+        ),
+
+        // Seul un admin peut supprimer
+        new Delete(
+            security: "is_granted('ROLE_ADMIN')",
+        ),
+    ]
+)]
+class Article
+{
+    #[ORM\ManyToOne]
+    private ?User $auteur = null;
+
+    public function getAuteur(): ?User { return $this-&gt;auteur; }
+}</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Requête sans token → 401 Unauthorized sur les routes protégées
+curl -X POST http://localhost:8000/api/articles \
+     -H "Content-Type: application/json" \
+     -d '{"titre":"Test","contenu":"..."}'
+
+# Requête avec JWT (si lexik/jwt-authentication-bundle est installé)
+curl -X POST http://localhost:8000/api/articles \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer &lt;votre_token_jwt&gt;" \
+     -d '{"titre":"Test","contenu":"..."}'</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Relations -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Relations entre ressources</div>
+          <div class="card-tags"><span class="tag tag-purple">Avancé</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">API Platform gère nativement les relations Doctrine. Une relation peut être exposée comme IRI (lien), comme objet imbriqué, ou les deux.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+// src/Entity/Commentaire.php
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+#[ORM\Entity]
+#[ApiResource(
+    normalizationContext:   ['groups' =&gt; ['commentaire:read']],
+    denormalizationContext: ['groups' =&gt; ['commentaire:write']],
+)]
+class Commentaire
+{
+    #[ORM\Id, ORM\GeneratedValue, ORM\Column]
+    #[Groups(['commentaire:read'])]
+    private ?int $id = null;
+
+    #[ORM\Column(type: 'text')]
+    #[Groups(['commentaire:read', 'commentaire:write'])]
+    private string $contenu = '';
+
+    // Relation vers Article : exposée comme IRI "/api/articles/3"
+    #[ORM\ManyToOne(targetEntity: Article::class)]
+    #[Groups(['commentaire:read', 'commentaire:write'])]
+    private ?Article $article = null;
+}
+
+// src/Entity/Article.php — exposer les commentaires imbriqués
+#[ApiResource(
+    normalizationContext: ['groups' =&gt; ['article:read']],
+)]
+class Article
+{
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'article')]
+    #[Groups(['article:read'])]   // retourne les IRI des commentaires
+    private Collection $commentaires;
+}</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Créer un commentaire lié à l'article #3 (on passe son IRI)
+curl -X POST http://localhost:8000/api/commentaires \
+     -H "Content-Type: application/json" \
+     -d '{
+       "contenu": "Super article !",
+       "article": "/api/articles/3"
+     }'
+
+# Réponse :
+# {
+#   "@id": "/api/commentaires/1",
+#   "id": 1,
+#   "contenu": "Super article !",
+#   "article": "/api/articles/3"   ← IRI, pas l'objet complet
+# }</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- State Processor -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">State Processor — logique métier sur écriture</div>
+          <div class="card-tags"><span class="tag tag-purple">Avancé</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un <em>State Processor</em> remplace l'enregistrement par défaut et permet d'exécuter de la logique métier avant ou après la persistance (envoi d'email, log, etc.).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+// src/State/ArticleProcessor.php
+namespace App\State;
+
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
+use App\Entity\Article;
+use App\Service\MailService;
+use Doctrine\ORM\EntityManagerInterface;
+
+class ArticleProcessor implements ProcessorInterface
+{
+    public function __construct(
+        private EntityManagerInterface $em,
+        private MailService $mailService,
+    ) {}
+
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Article
+    {
+        // $data est l'entité désérialisée et validée
+        /** @var Article $data */
+
+        // Logique métier : assigner l'auteur connecté
+        $data-&gt;setAuteur($context['security']['user'] ?? null);
+
+        // Persister
+        $this-&gt;em-&gt;persist($data);
+        $this-&gt;em-&gt;flush();
+
+        // Envoyer une notification
+        $this-&gt;mailService-&gt;sendWelcome('admin@site.fr', 'Nouvel article publié');
+
+        return $data;
+    }
+}
+
+// Rattacher le processor à l'opération POST de l'entité
+use ApiPlatform\Metadata\Post;
+
+#[ApiResource(
+    operations: [
+        new Post(processor: ArticleProcessor::class),
+    ]
+)]
+class Article { /* ... */ }</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Le service est auto-détecté grâce à l'autowiring Symfony
+# Aucune configuration supplémentaire dans services.yaml n'est nécessaire
+
+# Vérifier que le processor est bien enregistré
+php bin/console debug:container ArticleProcessor</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- State Provider -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">State Provider — source de données personnalisée</div>
+          <div class="card-tags"><span class="tag tag-purple">Avancé</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un <em>State Provider</em> permet d'alimenter une ressource depuis une source non-Doctrine (API externe, cache Redis, calcul à la volée…).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+// src/State/ArticleProvider.php
+namespace App\State;
+
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
+use App\Entity\Article;
+use App\Repository\ArticleRepository;
+
+class ArticleProvider implements ProviderInterface
+{
+    public function __construct(private ArticleRepository $repo) {}
+
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    {
+        // Pour un GET item : récupérer et enrichir
+        if (isset($uriVariables['id'])) {
+            $article = $this-&gt;repo-&gt;find($uriVariables['id']);
+            // Enrichissement personnalisé, ex: ajout d'un champ calculé
+            return $article;
+        }
+
+        // Pour une collection : filtrage personnalisé
+        return $this-&gt;repo-&gt;findPublished();
+    }
+}
+
+// Rattacher le provider
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+
+#[ApiResource(
+    operations: [
+        new GetCollection(provider: ArticleProvider::class),
+        new Get(provider: ArticleProvider::class),
+    ]
+)]
+class Article { /* ... */ }</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Validation & erreurs -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Validation &amp; format des erreurs</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les contraintes Symfony Validator sont automatiquement déclenchées. Les erreurs sont retournées en JSON selon la spécification <em>Hydra</em>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PHP</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-php">&lt;?php
+use Symfony\Component\Validator\Constraints as Assert;
+
+class Article
+{
+    #[Assert\NotBlank(message: 'Le titre est obligatoire.')]
+    #[Assert\Length(min: 3, max: 255, minMessage: 'Minimum {{ limit }} caractères.')]
+    private string $titre = '';
+
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 10)]
+    private string $contenu = '';
+
+    #[Assert\Url(message: 'URL invalide.')]
+    private ?string $imageUrl = null;
+}
+
+// Si la validation échoue, API Platform retourne HTTP 422 Unprocessable Entity :
+// {
+//   "@context": "/api/contexts/ConstraintViolationList",
+//   "@type": "ConstraintViolationList",
+//   "hydra:title": "An error occurred",
+//   "violations": [
+//     {
+//       "propertyPath": "titre",
+//       "message": "Le titre est obligatoire.",
+//       "code": "c1051bb4-d103-4f74-8988-acbcafc7fdc3"
+//     }
+//   ]
+// }</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Tester la validation avec des données invalides
+curl -X POST http://localhost:8000/api/articles \
+     -H "Content-Type: application/json" \
+     -d '{"titre":"","contenu":"x"}' \
+     -w "\nHTTP Status: %{http_code}\n"
+# → HTTP Status: 422 avec la liste des violations</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- JWT Authentication -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Authentification JWT avec LexikJWTBundle</div>
+          <div class="card-tags"><span class="tag tag-red">Sécurité</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le bundle <code>lexik/jwt-authentication-bundle</code> est la solution standard pour sécuriser une API Platform avec des tokens JWT.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># 1. Installer le bundle
+composer require lexik/jwt-authentication-bundle
+
+# 2. Générer les clés RSA
+php bin/console lexik:jwt:generate-keypair
+# → crée config/jwt/private.pem et config/jwt/public.pem
+
+# 3. Obtenir un token (POST /api/login_check)
+curl -X POST http://localhost:8000/api/login_check \
+     -H "Content-Type: application/json" \
+     -d '{"username":"admin@site.fr","password":"motdepasse"}'
+# Réponse : { "token": "eyJ0eX..." }
+
+# 4. Utiliser le token dans les requêtes suivantes
+curl http://localhost:8000/api/articles \
+     -H "Authorization: Bearer eyJ0eX..."</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># config/packages/security.yaml (extrait)
+security:
+    firewalls:
+        login:
+            pattern: ^/api/login_check
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                username_path: username
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+
+    access_control:
+        - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
+        - { path: ^/api/docs,        roles: PUBLIC_ACCESS }
+        - { path: ^/api,             roles: IS_AUTHENTICATED_FULLY }</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Commandes utiles -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Commandes &amp; outils de débogage</div>
+          <div class="card-tags"><span class="tag tag-green">CLI</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Commandes Symfony Console et outils <code>curl</code> / <code>jq</code> indispensables pour travailler avec API Platform au quotidien.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Lister toutes les routes exposées par API Platform
+php bin/console debug:router | grep api
+
+# Inspecter la configuration d'une ressource
+php bin/console debug:api-resource 'App\Entity\Article'
+
+# Vider le cache (indispensable après un changement d'attributs)
+php bin/console cache:clear
+
+# Tester l'API depuis le terminal avec curl + jq (pretty print)
+curl -s http://localhost:8000/api/articles | jq .
+
+# Créer un article (JSON)
+curl -X POST http://localhost:8000/api/articles \
+     -H "Content-Type: application/json" \
+     -d '{"titre":"Mon titre","contenu":"Mon contenu"}' | jq .
+
+# Modifier partiellement (PATCH)
+curl -X PATCH http://localhost:8000/api/articles/1 \
+     -H "Content-Type: application/merge-patch+json" \
+     -d '{"titre":"Titre modifié"}' | jq .
+
+# Supprimer
+curl -X DELETE http://localhost:8000/api/articles/1 -w "%{http_code}"
+# → 204 No Content
+
+# Filtrer et trier
+curl "http://localhost:8000/api/articles?titre=symfony&amp;order[createdAt]=desc&amp;page=1" | jq .
+
+# Afficher la spécification OpenAPI générée
+curl http://localhost:8000/api/docs.json | jq '.paths | keys'</code></pre>
+          </div>
+        </div>
+      </div>
+
     </section>
 
     <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
