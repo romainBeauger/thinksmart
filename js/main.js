@@ -120,6 +120,7 @@ const LANGUAGES = [
   { name: 'Bootstrap',          href: 'bootstrap.html', badge: 'bs' },
   { name: 'Tailwind',           href: 'tailwind.html',  badge: 'tw' },
   { name: 'React',              href: 'react.html',     badge: 'react' },
+  { name: 'Next.js',            href: 'nextjs.html',    badge: 'nextjs' },
   { name: 'Angular',            href: 'angular.html',   badge: 'angular' },
   { name: 'Git',                href: 'git.html',       badge: 'git' },
   { name: 'SQL',                href: 'sql.html',       badge: 'sql' },

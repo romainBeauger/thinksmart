@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — Next.js</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon/favicon-16x16.png" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  <div class="logo">Think<span>Smart</span></div>
+    <ul class="nav-langs">
+    <li class="nav-group">
+      <button class="nav-group-btn">Front-end <span class="nav-group-arrow">&#9660;</span></button>
+      <ul class="nav-dropdown">
+        <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+        <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+        <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+        <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+        <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+        <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+        <li><a href="nextjs.html"><span class="lang-badge nextjs"></span>Next.js</a></li>
+        <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+      </ul>
+    </li>
+    <li class="nav-group">
+      <button class="nav-group-btn">Back-end <span class="nav-group-arrow">&#9660;</span></button>
+      <ul class="nav-dropdown">
+        <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+        <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+        <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+        <li><a href="merise.html"><span class="lang-badge merise"></span>Modélisation BDD</a></li>
+      </ul>
+    </li>
+    <li class="nav-group">
+      <button class="nav-group-btn">DevOps <span class="nav-group-arrow">&#9660;</span></button>
+      <ul class="nav-dropdown">
+        <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+        <li><a href="docker.html"><span class="lang-badge docker"></span>Docker</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input type="search" id="searchInput" placeholder="Rechercher une page, composant, hook…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Next.js</div>
+    <ul class="sidebar-nav">
+      <li><a href="#setup"><span class="icon">⚙️</span>Installation &amp; Setup</a></li>
+      <li><a href="#structure"><span class="icon">📁</span>Structure du projet</a></li>
+      <li><a href="#routing"><span class="icon">🌍</span>Routing (App Router)</a></li>
+      <li><a href="#server-client"><span class="icon">🔀</span>Server vs Client Components</a></li>
+      <li><a href="#layouts"><span class="icon">🧩</span>Layouts &amp; Templates</a></li>
+      <li><a href="#navigation"><span class="icon">🔗</span>Navigation</a></li>
+      <li><a href="#data-fetching"><span class="icon">📡</span>Data Fetching</a></li>
+      <li><a href="#server-actions"><span class="icon">⚡</span>Server Actions</a></li>
+      <li><a href="#metadata"><span class="icon">🏷️</span>Metadata &amp; SEO</a></li>
+      <li><a href="#images"><span class="icon">🖼️</span>Image &amp; Font</a></li>
+      <li><a href="#env"><span class="icon">🔐</span>Variables d'environnement</a></li>
+      <li><a href="#deploy"><span class="icon">🚀</span>Déploiement</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <h1>Next.js <span class="badge" style="background:rgba(255,255,255,0.12);color:#e5e7eb;">v14 / App Router</span></h1>
+      <p>Routing, Server Components, Data Fetching, Server Actions et patterns essentiels pour construire des apps Next.js modernes.</p>
+    </div>
+
+    <!-- INSTALLATION & SETUP -->
+    <section class="section" id="setup">
+      <div class="section-title">Installation &amp; Setup</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer un projet Next.js</div>
+          <div class="card-tags"><span class="tag tag-green">npm</span><span class="tag tag-blue">create-next-app</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">La commande officielle <code>create-next-app</code> configure TypeScript, Tailwind, ESLint et l'App Router automatiquement.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Créer un projet (assistant interactif)
+npx create-next-app@latest mon-app
+cd mon-app
+
+# Scripts npm
+npm run dev      # serveur de développement (http://localhost:3000)
+npm run build    # build de production
+npm run start    # démarrer le build de production
+npm run lint     # vérification ESLint</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRUCTURE DU PROJET -->
+    <section class="section" id="structure">
+      <div class="section-title">Structure du projet</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Organisation des dossiers (App Router)</div>
+          <div class="card-tags"><span class="tag tag-blue">app/</span><span class="tag tag-purple">conventions</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Avec l'App Router, toutes les pages et layouts vivent dans le dossier <code>app/</code>. Le nom du fichier détermine son rôle.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Structure</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">mon-app/
+├── app/
+│   ├── layout.tsx        # Layout racine (obligatoire)
+│   ├── page.tsx          # Page d'accueil  →  /
+│   ├── globals.css
+│   ├── about/
+│   │   └── page.tsx      # Page about      →  /about
+│   ├── blog/
+│   │   ├── page.tsx      # Liste blog       →  /blog
+│   │   └── [slug]/
+│   │       └── page.tsx  # Article          →  /blog/:slug
+│   └── api/
+│       └── hello/
+│           └── route.ts  # Route API        →  /api/hello
+├── public/               # Fichiers statiques (images, fonts…)
+├── components/           # Composants réutilisables
+├── lib/                  # Fonctions utilitaires, configs
+└── next.config.js        # Configuration Next.js</code></pre>
+          </div>
+          <p class="card-desc" style="margin-top:12px;">Fichiers spéciaux reconnus par Next.js :</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Conventions</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">page.tsx        # UI d'une route, la rend accessible
+layout.tsx      # UI partagée autour des enfants (persist entre navigations)
+loading.tsx     # UI de chargement (Suspense automatique)
+error.tsx       # UI d'erreur (Error Boundary automatique)
+not-found.tsx   # UI 404
+template.tsx    # Comme layout mais re-monté à chaque navigation
+route.ts        # Route API (GET, POST, PUT, DELETE…)</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROUTING -->
+    <section class="section" id="routing">
+      <div class="section-title">Routing (App Router)</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Routes statiques, dynamiques et groupées</div>
+          <div class="card-tags"><span class="tag tag-blue">file-system</span><span class="tag tag-purple">dynamic</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le routing est basé sur le système de fichiers. Des conventions de nommage permettent de créer tous les types de routes.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Structure</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">app/
+├── page.tsx              →  /
+├── about/page.tsx        →  /about
+├── blog/[slug]/page.tsx  →  /blog/:slug      (segment dynamique)
+├── shop/[...slug]/page.tsx → /shop/a/b/c    (catch-all)
+├── (marketing)/          →  groupe (n'affecte pas l'URL)
+│   ├── about/page.tsx    →  /about
+│   └── pricing/page.tsx  →  /pricing
+└── _components/          →  dossier privé (ignoré par le router)</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Récupérer les params d'une route dynamique</div>
+          <div class="card-tags"><span class="tag tag-green">params</span><span class="tag tag-blue">searchParams</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les pages reçoivent <code>params</code> (segments dynamiques) et <code>searchParams</code> (query string) en props.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// app/blog/[slug]/page.tsx
+type Props = {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export default function BlogPost({ params, searchParams }: Props) {
+  const { slug } = params;           // ex: "mon-article"
+  const page = searchParams.page;   // ex: "2" si ?page=2
+
+  return &lt;h1&gt;Article : {slug}&lt;/h1&gt;;
+}
+
+// Générer des routes statiques au build (SSG)
+export async function generateStaticParams() {
+  const articles = await getArticles();
+  return articles.map(a =&gt; ({ slug: a.slug }));
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Route Handler (API)</div>
+          <div class="card-tags"><span class="tag tag-green">route.ts</span><span class="tag tag-blue">GET</span><span class="tag tag-purple">POST</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les fichiers <code>route.ts</code> remplacent les anciennes <code>pages/api/</code>. Chaque méthode HTTP est exportée séparément.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// app/api/users/route.ts
+import { NextRequest, NextResponse } from "next/server";
+
+export async function GET(request: NextRequest) {
+  const users = await fetchUsers();
+  return NextResponse.json(users);
+}
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const newUser = await createUser(body);
+  return NextResponse.json(newUser, { status: 201 });
+}
+
+// app/api/users/[id]/route.ts
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  await deleteUser(params.id);
+  return new NextResponse(null, { status: 204 });
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVER VS CLIENT COMPONENTS -->
+    <section class="section" id="server-client">
+      <div class="section-title">Server vs Client Components</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Server Components (par défaut)</div>
+          <div class="card-tags"><span class="tag tag-blue">RSC</span><span class="tag tag-green">async/await</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Tous les composants sont des <strong>Server Components</strong> par défaut. Ils s'exécutent uniquement côté serveur : pas de JavaScript envoyé au client, accès direct à la BDD.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// Server Component — pas besoin de "use server"
+// Peut être async, accès direct BDD, env vars privées
+async function UserList() {
+  // Fetch direct côté serveur (pas d'API nécessaire)
+  const users = await prisma.user.findMany();
+
+  return (
+    &lt;ul&gt;
+      {users.map(u =&gt; &lt;li key={u.id}&gt;{u.name}&lt;/li&gt;)}
+    &lt;/ul&gt;
+  );
+}
+
+// Limites des Server Components :
+// ✗ Pas de useState, useEffect, useContext
+// ✗ Pas d'event handlers (onClick, onChange…)
+// ✗ Pas d'accès aux APIs navigateur (window, localStorage…)</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Client Components</div>
+          <div class="card-tags"><span class="tag tag-purple">"use client"</span><span class="tag tag-blue">hooks</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Ajouter <code>"use client"</code> en tête de fichier pour activer les hooks React et les interactions navigateur. Utiliser uniquement quand nécessaire.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">"use client";
+
+import { useState } from "react";
+
+// Client Component — hooks et events disponibles
+export function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;
+      Clics : {count}
+    &lt;/button&gt;
+  );
+}
+
+// Règle d'or : pousser "use client" aussi bas que possible
+// dans l'arbre pour maximiser le rendu serveur
+//
+// ✓ Utiliser "use client" pour : états, events, localStorage,
+//   animations, composants tiers qui utilisent des hooks</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LAYOUTS & TEMPLATES -->
+    <section class="section" id="layouts">
+      <div class="section-title">Layouts &amp; Templates</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Layout racine et layouts imbriqués</div>
+          <div class="card-tags"><span class="tag tag-blue">layout.tsx</span><span class="tag tag-green">children</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le layout racine (<code>app/layout.tsx</code>) est obligatoire. Les layouts se nichent et persistent entre les navigations (pas de re-montage).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// app/layout.tsx — Layout racine (obligatoire, doit avoir &lt;html&gt; et &lt;body&gt;)
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    &lt;html lang="fr"&gt;
+      &lt;body&gt;
+        &lt;Header /&gt;
+        &lt;main&gt;{children}&lt;/main&gt;
+        &lt;Footer /&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  );
+}
+
+// app/dashboard/layout.tsx — Layout imbriqué pour /dashboard/*
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    &lt;div className="flex"&gt;
+      &lt;Sidebar /&gt;
+      &lt;section&gt;{children}&lt;/section&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Loading &amp; Error UI</div>
+          <div class="card-tags"><span class="tag tag-blue">loading.tsx</span><span class="tag tag-purple">error.tsx</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Next.js encapsule automatiquement dans <code>Suspense</code> et <code>ErrorBoundary</code> si ces fichiers existent dans le dossier de la route.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// app/blog/loading.tsx
+export default function Loading() {
+  return &lt;div className="spinner"&gt;Chargement…&lt;/div&gt;;
+}
+
+// app/blog/error.tsx — doit être un Client Component
+"use client";
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error &amp; { digest?: string };
+  reset: () =&gt; void;
+}) {
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Une erreur est survenue !&lt;/h2&gt;
+      &lt;p&gt;{error.message}&lt;/p&gt;
+      &lt;button onClick={reset}&gt;Réessayer&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// app/not-found.tsx
+export default function NotFound() {
+  return &lt;h2&gt;Page introuvable (404)&lt;/h2&gt;;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAVIGATION -->
+    <section class="section" id="navigation">
+      <div class="section-title">Navigation</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Link &amp; useRouter</div>
+          <div class="card-tags"><span class="tag tag-blue">&lt;Link&gt;</span><span class="tag tag-purple">useRouter</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>&lt;Link&gt;</code> est le composant de navigation principal. <code>useRouter</code> permet la navigation programmatique dans les Client Components.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">import Link from "next/link";
+
+// Lien simple
+&lt;Link href="/about"&gt;À propos&lt;/Link&gt;
+
+// Lien dynamique
+&lt;Link href={`/blog/${article.slug}`}&gt;{article.title}&lt;/Link&gt;
+
+// Lien avec objet URL
+&lt;Link href={{ pathname: "/blog", query: { page: 2 } }}&gt;
+  Page 2
+&lt;/Link&gt;
+
+// Remplacer l'historique (pas de retour arrière)
+&lt;Link href="/dashboard" replace&gt;Dashboard&lt;/Link&gt;
+
+// Préchargement désactivé
+&lt;Link href="/heavy-page" prefetch={false}&gt;Page lourde&lt;/Link&gt;</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">"use client";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+
+function NavButton() {
+  const router = useRouter();
+  const pathname = usePathname();       // "/blog/mon-article"
+  const searchParams = useSearchParams(); // URLSearchParams
+
+  return (
+    &lt;button onClick={() =&gt; router.push("/dashboard")}&gt;
+      Aller au dashboard
+    &lt;/button&gt;
+  );
+}
+
+// Méthodes router
+router.push("/page")      // naviguer (ajoute à l'historique)
+router.replace("/page")   // naviguer (remplace l'historique)
+router.back()             // page précédente
+router.forward()          // page suivante
+router.refresh()          // re-fetch les Server Components</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATA FETCHING -->
+    <section class="section" id="data-fetching">
+      <div class="section-title">Data Fetching</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">fetch &amp; cache dans les Server Components</div>
+          <div class="card-tags"><span class="tag tag-blue">fetch</span><span class="tag tag-green">cache</span><span class="tag tag-purple">revalidate</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Next.js étend l'API <code>fetch</code> native avec des options de cache. Par défaut les données sont mises en cache indéfiniment (SSG). On peut contrôler la revalidation.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// SSG — mis en cache indéfiniment (par défaut)
+const data = await fetch("https://api.example.com/posts");
+
+// ISR — revalider toutes les 60 secondes
+const data = await fetch("https://api.example.com/posts", {
+  next: { revalidate: 60 },
+});
+
+// SSR — toujours refetcher (pas de cache)
+const data = await fetch("https://api.example.com/posts", {
+  cache: "no-store",
+});
+
+// Revalidation par tag (on-demand)
+const data = await fetch("https://api.example.com/posts", {
+  next: { tags: ["posts"] },
+});
+// Puis dans une Server Action :
+import { revalidateTag } from "next/cache";
+revalidateTag("posts"); // invalide tout ce qui a le tag "posts"</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">generateStaticParams &amp; generateMetadata</div>
+          <div class="card-tags"><span class="tag tag-green">SSG</span><span class="tag tag-blue">dynamic</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Fonctions exportées depuis une page pour pré-générer des routes au moment du build.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// app/blog/[slug]/page.tsx
+
+// Pré-génère toutes les pages /blog/:slug au build
+export async function generateStaticParams() {
+  const articles = await getArticles();
+  return articles.map(a =&gt; ({ slug: a.slug }));
+}
+
+// Comportement pour les slugs non générés au build
+export const dynamicParams = true;  // génère à la demande (défaut)
+// export const dynamicParams = false; // retourne 404
+
+// Forcer le rendu dynamique pour toute la page
+export const dynamic = "force-dynamic";
+// ou forcer le cache statique
+export const dynamic = "force-static";</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVER ACTIONS -->
+    <section class="section" id="server-actions">
+      <div class="section-title">Server Actions</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Définir et appeler une Server Action</div>
+          <div class="card-tags"><span class="tag tag-blue">"use server"</span><span class="tag tag-purple">form</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les Server Actions sont des fonctions async qui s'exécutent côté serveur et peuvent être appelées depuis des formulaires ou du code client. Elles remplacent les requêtes API classiques pour les mutations.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// lib/actions.ts — fichier dédié aux actions
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+export async function createArticle(formData: FormData) {
+  const title = formData.get("title") as string;
+  const content = formData.get("content") as string;
+
+  // Valider, insérer en BDD…
+  await db.article.create({ data: { title, content } });
+
+  revalidatePath("/blog");   // invalide le cache de /blog
+  redirect("/blog");          // redirige après succès
+}
+
+export async function deleteArticle(id: string) {
+  await db.article.delete({ where: { id } });
+  revalidatePath("/blog");
+}</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// Utilisation dans un Server Component (form natif)
+import { createArticle } from "@/lib/actions";
+
+export default function NewArticlePage() {
+  return (
+    &lt;form action={createArticle}&gt;
+      &lt;input name="title" placeholder="Titre" /&gt;
+      &lt;textarea name="content" /&gt;
+      &lt;button type="submit"&gt;Créer&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// Utilisation dans un Client Component
+"use client";
+import { deleteArticle } from "@/lib/actions";
+
+function DeleteButton({ id }: { id: string }) {
+  return (
+    &lt;button onClick={() =&gt; deleteArticle(id)}&gt;
+      Supprimer
+    &lt;/button&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- METADATA & SEO -->
+    <section class="section" id="metadata">
+      <div class="section-title">Metadata &amp; SEO</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Metadata statique et dynamique</div>
+          <div class="card-tags"><span class="tag tag-blue">Metadata</span><span class="tag tag-green">generateMetadata</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Next.js gère le SEO via l'export d'un objet <code>metadata</code> (statique) ou de la fonction <code>generateMetadata</code> (dynamique) depuis n'importe quelle page ou layout.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">import type { Metadata } from "next";
+
+// Metadata statique
+export const metadata: Metadata = {
+  title: "Mon Site",
+  description: "Description de la page",
+  keywords: ["next.js", "react"],
+  openGraph: {
+    title: "Mon Site",
+    description: "Description OG",
+    images: ["/og-image.png"],
+  },
+};
+
+// Metadata dynamique (ex: page d'article)
+export async function generateMetadata(
+  { params }: { params: { slug: string } }
+): Promise&lt;Metadata&gt; {
+  const article = await getArticle(params.slug);
+
+  return {
+    title: article.title,
+    description: article.excerpt,
+    openGraph: {
+      title: article.title,
+      images: [article.coverImage],
+    },
+  };
+}
+
+// Template de titre (dans layout.tsx)
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Mon Site",  // "Article X | Mon Site"
+    default: "Mon Site",         // si aucune page ne définit title
+  },
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMAGE & FONT -->
+    <section class="section" id="images">
+      <div class="section-title">Image &amp; Font</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Composant Image optimisé</div>
+          <div class="card-tags"><span class="tag tag-blue">next/image</span><span class="tag tag-green">lazy loading</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le composant <code>Image</code> de Next.js optimise automatiquement les images : lazy loading, formats WebP/AVIF, redimensionnement à la demande.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">import Image from "next/image";
+
+// Image locale (width/height obligatoires ou fill)
+&lt;Image
+  src="/photos/chat.jpg"
+  alt="Un chat"
+  width={500}
+  height={300}
+  priority               // charger en priorité (LCP)
+/&gt;
+
+// Image distante (déclarer le domaine dans next.config.js)
+&lt;Image
+  src="https://example.com/photo.jpg"
+  alt="Photo distante"
+  width={800}
+  height={600}
+/&gt;
+
+// Image en mode fill (remplit son conteneur)
+&lt;div style={{ position: "relative", width: "100%", height: "400px" }}&gt;
+  &lt;Image src="/hero.jpg" alt="Hero" fill style={{ objectFit: "cover" }} /&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// next.config.js — autoriser les images distantes
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "example.com",
+      },
+    ],
+  },
+};
+module.exports = nextConfig;</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fonts optimisées (next/font)</div>
+          <div class="card-tags"><span class="tag tag-purple">next/font</span><span class="tag tag-blue">Google Fonts</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>next/font</code> charge les polices sans requête externe (auto-hébergement), élimine le layout shift et améliore les performances.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// app/layout.tsx
+import { Inter, Roboto_Mono } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const robotoMono = Roboto_Mono({
+  subsets: ["latin"],
+  variable: "--font-roboto-mono",
+});
+
+export default function RootLayout({ children }) {
+  return (
+    &lt;html lang="fr" className={`${inter.variable} ${robotoMono.variable}`}&gt;
+      &lt;body className={inter.className}&gt;{children}&lt;/body&gt;
+    &lt;/html&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VARIABLES D'ENVIRONNEMENT -->
+    <section class="section" id="env">
+      <div class="section-title">Variables d'environnement</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fichiers .env et exposition client</div>
+          <div class="card-tags"><span class="tag tag-blue">.env</span><span class="tag tag-purple">NEXT_PUBLIC_</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les variables sans préfixe restent <strong>côté serveur uniquement</strong>. Ajouter le préfixe <code>NEXT_PUBLIC_</code> pour les exposer côté client (incluses dans le bundle JS).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># .env.local (jamais commité — secrets)
+DATABASE_URL=postgresql://user:pass@localhost/mydb
+API_SECRET_KEY=super-secret
+
+# Variable accessible côté client (bundle JS)
+NEXT_PUBLIC_API_URL=https://api.example.com
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+
+# Fichiers de priorité (du plus prioritaire au moins prioritaire) :
+# .env.local > .env.development / .env.production > .env</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// Côté serveur (Server Component, route handler, Server Action)
+const dbUrl = process.env.DATABASE_URL;         // ✓
+const secret = process.env.API_SECRET_KEY;       // ✓
+
+// Côté client (Client Component)
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;  // ✓
+const secret = process.env.API_SECRET_KEY;        // ✗ undefined !</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DÉPLOIEMENT -->
+    <section class="section" id="deploy">
+      <div class="section-title">Déploiement</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Déployer sur Vercel</div>
+          <div class="card-tags"><span class="tag tag-blue">Vercel</span><span class="tag tag-green">CI/CD</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Vercel est la plateforme créée par les auteurs de Next.js. Le déploiement est automatique à chaque push sur GitHub.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Installer Vercel CLI
+npm install -g vercel
+
+# Déploiement depuis le terminal
+vercel          # déploiement de preview
+vercel --prod   # déploiement de production
+
+# Via GitHub : connecter le repo sur vercel.com
+# → chaque push sur main déclenche un déploiement automatique
+# → chaque PR crée un environnement de preview unique</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Build autonome (Docker / VPS)</div>
+          <div class="card-tags"><span class="tag tag-blue">build</span><span class="tag tag-purple">standalone</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Pour déployer sans Vercel, activer le mode <code>standalone</code> pour obtenir un build minimaliste sans <code>node_modules</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-javascript">// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: "standalone",
+};
+module.exports = nextConfig;</code></pre>
+          </div>
+          <div class="code-block" style="margin-top:12px;">
+            <div class="code-block-header"><span class="lang-label">Bash</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Build de production
+npm run build
+
+# Lancer le serveur standalone
+node .next/standalone/server.js
+
+# Variables d'environnement en production
+PORT=3000 HOSTNAME=0.0.0.0 node .next/standalone/server.js</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+  </main>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -5,7 +5,12 @@
       "Bash(find /c/Users/Romain/Documents/Dyma/thinksmart -not -path */.git/* -type d)",
       "Bash(grep:*)",
       "Bash(python3:*)",
-      "Bash(py --version)"
+      "Bash(py --version)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's|<li><a href=\"\"react\\\\.html\"\"><span class=\"\"lang-badge react\"\"></span>React</a></li>\\\\s*<li><a href=\"\"angular\\\\.html\"\">|<li><a href=\"\"react.html\"\"><span class=\"\"lang-badge react\"\"></span>React</a></li>\\\\n        <li><a href=\"\"nextjs.html\"\"><span class=\"\"lang-badge nextjs\"\"></span>Next.js</a></li>\\\\n        <li><a href=\"\"angular.html\"\">|g' \"$f\")",
+      "Bash(done)",
+      "Bash(node -e \":*)"
     ]
   }
 }
