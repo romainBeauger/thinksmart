@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(find C:UsersRomainDocumentsDymathinksmart -type f \\\\\\(-name *auth* -o -name *login* -o -name *security* -o -name *user* \\\\\\))",
-      "Bash(find /c/Users/Romain/Documents/Dyma/thinksmart -not -path */.git/* -type d)"
+      "Bash(find /c/Users/Romain/Documents/Dyma/thinksmart -not -path */.git/* -type d)",
+      "Bash(grep:*)",
+      "Bash(python3:*)",
+      "Bash(py --version)"
     ]
   }
 }

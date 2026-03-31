@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — Docker</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon/favicon-16x16.png" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="logo">Think<span>Smart</span></div>
+    <ul class="nav-langs">
+    <li class="nav-group">
+      <button class="nav-group-btn">Front-end <span class="nav-group-arrow">&#9660;</span></button>
+      <ul class="nav-dropdown">
+        <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+        <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+        <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+        <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+        <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+        <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+        <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+      </ul>
+    </li>
+    <li class="nav-group">
+      <button class="nav-group-btn">Back-end <span class="nav-group-arrow">&#9660;</span></button>
+      <ul class="nav-dropdown">
+        <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+        <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+        <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+        <li><a href="merise.html"><span class="lang-badge merise"></span>Modélisation BDD</a></li>
+      </ul>
+    </li>
+    <li class="nav-group">
+      <button class="nav-group-btn">DevOps <span class="nav-group-arrow">&#9660;</span></button>
+      <ul class="nav-dropdown">
+        <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+        <li><a href="docker.html"><span class="lang-badge docker"></span>Docker</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<!-- ===== SEARCH BAR ===== -->
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <label for="searchInput"></label><input type="search" id="searchInput" placeholder="Rechercher une commande, option, exemple…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Docker</div>
+    <ul class="sidebar-nav">
+      <li><a href="#concepts"><span class="icon">🧠</span>Concepts clés</a></li>
+      <li><a href="#images"><span class="icon">📦</span>Images</a></li>
+      <li><a href="#conteneurs"><span class="icon">🚢</span>Conteneurs</a></li>
+      <li><a href="#dockerfile"><span class="icon">📄</span>Dockerfile</a></li>
+      <li><a href="#volumes"><span class="icon">💾</span>Volumes</a></li>
+      <li><a href="#reseaux"><span class="icon">🌐</span>Réseaux</a></li>
+      <li><a href="#compose"><span class="icon">🎼</span>Docker Compose</a></li>
+      <li><a href="#registry"><span class="icon">🏛️</span>Registry &amp; Hub</a></li>
+      <li><a href="#nettoyage"><span class="icon">🧹</span>Nettoyage</a></li>
+      <li><a href="#bonnes-pratiques"><span class="icon">✅</span>Bonnes pratiques</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <div class="page-header">
+      <h1>Docker <span class="badge" style="background:rgba(36,150,237,0.15);color:#2496ed;">Conteneurisation</span></h1>
+      <p>Toutes les commandes Docker essentielles pour construire, déployer et orchestrer vos conteneurs.</p>
+    </div>
+
+    <!-- ==================== CONCEPTS CLÉS ==================== -->
+    <section class="section" id="concepts">
+      <div class="section-title">Concepts clés</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Architecture Docker</div>
+          <div class="card-tags"><span class="tag tag-blue">Théorie</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Docker repose sur une architecture client-serveur. Le <strong>daemon</strong> Docker tourne en arrière-plan et gère les objets Docker (images, conteneurs, volumes, réseaux). Le <strong>client</strong> Docker communique avec le daemon via une API REST.</p>
+          <table class="attr-table">
+            <thead><tr><th>Concept</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>Image</code></td><td class="desc">Modèle en lecture seule (template) contenant le système de fichiers et la configuration pour créer un conteneur. Construite depuis un Dockerfile.</td></tr>
+              <tr><td><code>Conteneur</code></td><td class="desc">Instance en cours d'exécution d'une image. Isolé du système hôte, possède son propre système de fichiers (couche en écriture au-dessus de l'image).</td></tr>
+              <tr><td><code>Dockerfile</code></td><td class="desc">Fichier texte décrivant les instructions pour construire une image, étape par étape.</td></tr>
+              <tr><td><code>Volume</code></td><td class="desc">Mécanisme de persistance des données géré par Docker. Survit à la suppression du conteneur.</td></tr>
+              <tr><td><code>Réseau</code></td><td class="desc">Couche d'isolation réseau permettant aux conteneurs de communiquer entre eux et avec l'extérieur.</td></tr>
+              <tr><td><code>Registry</code></td><td class="desc">Dépôt de stockage et de distribution d'images (ex: Docker Hub, GitHub Container Registry).</td></tr>
+              <tr><td><code>Docker Compose</code></td><td class="desc">Outil pour définir et gérer des applications multi-conteneurs via un fichier YAML.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Cycle de vie d'un conteneur</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un conteneur passe par plusieurs états : <strong>created</strong> (créé mais pas démarré), <strong>running</strong> (en cours d'exécution), <strong>paused</strong>, <strong>stopped</strong> (arrêté mais les données persistent), <strong>removed</strong> (supprimé).</p>
+          <table class="attr-table">
+            <thead><tr><th>État</th><th>Commande</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>created</code></td><td><code>docker create</code></td><td class="desc">Conteneur créé, non démarré</td></tr>
+              <tr><td><code>running</code></td><td><code>docker start / run</code></td><td class="desc">Processus en cours d'exécution</td></tr>
+              <tr><td><code>paused</code></td><td><code>docker pause</code></td><td class="desc">Processus suspendu (SIGSTOP)</td></tr>
+              <tr><td><code>stopped</code></td><td><code>docker stop</code></td><td class="desc">Processus arrêté (SIGTERM puis SIGKILL)</td></tr>
+              <tr><td><code>removed</code></td><td><code>docker rm</code></td><td class="desc">Conteneur supprimé définitivement</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== IMAGES ==================== -->
+    <section class="section" id="images">
+      <div class="section-title">Images</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Gérer les images <code>docker image</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les images sont des templates immuables stockés en couches (<em>layers</em>). Chaque instruction du Dockerfile crée une nouvelle couche, ce qui permet la mise en cache et le partage entre images.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">docker images                          # Lister les images locales
+docker image ls                        # Équivalent moderne
+docker image ls -a                     # Inclure les images intermédiaires
+docker pull nginx                      # Télécharger l'image officielle nginx (tag :latest)
+docker pull nginx:1.25-alpine          # Version spécifique avec tag
+docker image inspect nginx             # Détails complets d'une image (JSON)
+docker image history nginx             # Afficher les couches d'une image
+docker image rm nginx                  # Supprimer une image
+docker rmi nginx nginx:1.25-alpine     # Supprimer plusieurs images
+docker image prune                     # Supprimer les images orphelines (dangling)
+docker image prune -a                  # Supprimer toutes les images non utilisées</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Construire une image <code>docker build</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Construit une image à partir d'un Dockerfile. Le <strong>contexte de build</strong> (dernier argument) est le dossier envoyé au daemon Docker. Utilisez <code>.dockerignore</code> pour en exclure des fichiers.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">docker build .                         # Build depuis le dossier courant
+docker build -t mon-app:1.0 .          # Nommer et tagger l'image
+docker build -t mon-app:latest -f Dockerfile.prod .  # Dockerfile personnalisé
+docker build --no-cache -t mon-app .   # Forcer la reconstruction sans cache
+docker build --build-arg ENV=prod .    # Passer un argument de build
+
+# Exemple complet : build d'une app Node.js
+docker build -t mon-app-node:1.0 --build-arg NODE_ENV=production .</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Tagger et pousser une image</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un tag identifie une version d'une image. Le format complet est <code>registre/utilisateur/image:tag</code>. Sans registre, Docker Hub est utilisé par défaut.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">docker tag mon-app:1.0 monuser/mon-app:1.0     # Tagger pour Docker Hub
+docker tag mon-app:1.0 mon-app:latest           # Ajouter le tag latest
+docker push monuser/mon-app:1.0                 # Pousser vers Docker Hub
+docker push monuser/mon-app:latest
+
+# Avec GitHub Container Registry
+docker tag mon-app:1.0 ghcr.io/monuser/mon-app:1.0
+docker push ghcr.io/monuser/mon-app:1.0</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== CONTENEURS ==================== -->
+    <section class="section" id="conteneurs">
+      <div class="section-title">Conteneurs</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Créer et démarrer un conteneur <code>docker run</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>docker run</code> combine <code>docker create</code> + <code>docker start</code>. C'est la commande principale pour lancer un conteneur. Si l'image n'est pas présente localement, Docker la télécharge automatiquement.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">docker run nginx                        # Lancer nginx (foreground, bloque le terminal)
+docker run -d nginx                     # Mode détaché (arrière-plan)
+docker run -d --name mon-nginx nginx    # Nommer le conteneur
+docker run -d -p 8080:80 nginx         # Mapper port hôte:conteneur
+docker run -d -p 8080:80 -p 443:443 nginx  # Plusieurs ports
+docker run -it ubuntu bash              # Mode interactif avec terminal
+docker run --rm ubuntu echo "hello"    # Supprimer le conteneur après exécution
+docker run -d -e APP_ENV=prod nginx    # Définir une variable d'environnement
+docker run -d --env-file .env nginx    # Charger les variables depuis un fichier
+docker run -d -v /host/data:/app/data nginx  # Monter un dossier hôte (bind mount)
+docker run -d -v mon-volume:/app/data nginx  # Monter un volume nommé
+docker run -d --network mon-reseau nginx     # Connecter à un réseau
+docker run -d --restart unless-stopped nginx # Redémarrage automatique
+
+# Exemple complet : app Node.js
+docker run -d \
+  --name api-prod \
+  -p 3000:3000 \
+  -e NODE_ENV=production \
+  -e DB_URL=mongodb://mongo:27017/mydb \
+  --network app-network \
+  --restart unless-stopped \
+  mon-app-node:1.0</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Options de <code>docker run</code></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Option</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>-d</code></td><td class="desc">Mode détaché (arrière-plan)</td></tr>
+              <tr><td><code>-it</code></td><td class="desc">Mode interactif + pseudo-terminal (pour bash, sh)</td></tr>
+              <tr><td><code>--rm</code></td><td class="desc">Supprime le conteneur automatiquement à l'arrêt</td></tr>
+              <tr><td><code>--name</code></td><td class="desc">Donne un nom au conteneur (sinon généré aléatoirement)</td></tr>
+              <tr><td><code>-p hôte:conteneur</code></td><td class="desc">Mappe un port de l'hôte vers le conteneur</td></tr>
+              <tr><td><code>-P</code></td><td class="desc">Mappe automatiquement tous les ports EXPOSE</td></tr>
+              <tr><td><code>-e VAR=valeur</code></td><td class="desc">Définit une variable d'environnement</td></tr>
+              <tr><td><code>--env-file fichier</code></td><td class="desc">Charge les variables depuis un fichier</td></tr>
+              <tr><td><code>-v src:dst</code></td><td class="desc">Monte un volume ou un bind mount</td></tr>
+              <tr><td><code>--network</code></td><td class="desc">Connecte à un réseau Docker</td></tr>
+              <tr><td><code>--restart</code></td><td class="desc"><code>no</code> | <code>always</code> | <code>on-failure</code> | <code>unless-stopped</code></td></tr>
+              <tr><td><code>--memory</code></td><td class="desc">Limite la mémoire (ex: <code>--memory 512m</code>)</td></tr>
+              <tr><td><code>--cpus</code></td><td class="desc">Limite les CPU (ex: <code>--cpus 1.5</code>)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Gérer les conteneurs en cours d'exécution</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">docker ps                           # Lister les conteneurs en cours d'exécution
+docker ps -a                        # Tous les conteneurs (y compris arrêtés)
+docker ps -q                        # Seulement les IDs
+docker start mon-nginx              # Démarrer un conteneur arrêté
+docker stop mon-nginx               # Arrêter proprement (SIGTERM, puis SIGKILL)
+docker stop -t 5 mon-nginx          # Timeout avant SIGKILL (5 secondes)
+docker kill mon-nginx               # Arrêt forcé immédiat (SIGKILL)
+docker restart mon-nginx            # Redémarrer
+docker pause mon-nginx              # Suspendre les processus
+docker unpause mon-nginx            # Reprendre
+docker rm mon-nginx                 # Supprimer un conteneur arrêté
+docker rm -f mon-nginx              # Forcer la suppression (même si en cours)
+docker rm $(docker ps -aq)          # Supprimer tous les conteneurs arrêtés</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Interagir avec un conteneur</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Accédez aux logs, exécutez des commandes à l'intérieur d'un conteneur, ou copiez des fichiers entre l'hôte et le conteneur.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Logs
+docker logs mon-nginx               # Afficher les logs
+docker logs -f mon-nginx            # Suivre les logs en temps réel (follow)
+docker logs --tail 50 mon-nginx     # 50 dernières lignes
+docker logs --since 1h mon-nginx    # Logs de la dernière heure
+
+# Exécuter une commande dans un conteneur actif
+docker exec mon-nginx ls /etc/nginx
+docker exec -it mon-nginx bash      # Ouvrir un shell interactif
+docker exec -it mon-nginx sh        # Si bash n'est pas disponible (alpine)
+docker exec -e VAR=val mon-nginx env # Avec une variable d'environnement
+
+# Copier des fichiers
+docker cp mon-nginx:/etc/nginx/nginx.conf ./nginx.conf  # Conteneur → hôte
+docker cp ./mon-fichier.conf mon-nginx:/etc/nginx/      # Hôte → conteneur
+
+# Inspecter
+docker inspect mon-nginx            # Toutes les infos (JSON)
+docker inspect --format '{{.NetworkSettings.IPAddress}}' mon-nginx  # IP du conteneur
+docker stats                        # CPU, mémoire, réseau en temps réel
+docker stats mon-nginx              # Stats d'un seul conteneur
+docker top mon-nginx                # Processus en cours dans le conteneur
+docker port mon-nginx               # Mappings de ports</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== DOCKERFILE ==================== -->
+    <section class="section" id="dockerfile">
+      <div class="section-title">Dockerfile</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Instructions Dockerfile</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un Dockerfile est un script décrivant les étapes de construction d'une image. Chaque instruction crée une nouvelle couche dans l'image.</p>
+          <table class="attr-table">
+            <thead><tr><th>Instruction</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>FROM</code></td><td class="desc">Image de base (obligatoire, en premier). Ex: <code>FROM node:20-alpine</code></td></tr>
+              <tr><td><code>WORKDIR</code></td><td class="desc">Définit le répertoire de travail pour les instructions suivantes</td></tr>
+              <tr><td><code>COPY</code></td><td class="desc">Copie des fichiers du contexte de build vers l'image</td></tr>
+              <tr><td><code>ADD</code></td><td class="desc">Comme COPY mais supporte les URLs et l'extraction d'archives tar (préférer COPY)</td></tr>
+              <tr><td><code>RUN</code></td><td class="desc">Exécute une commande pendant la construction (crée une couche)</td></tr>
+              <tr><td><code>ENV</code></td><td class="desc">Définit une variable d'environnement persistante dans l'image</td></tr>
+              <tr><td><code>ARG</code></td><td class="desc">Variable disponible uniquement pendant le build (pas dans le conteneur final)</td></tr>
+              <tr><td><code>EXPOSE</code></td><td class="desc">Documente le port écouté (ne publie pas réellement le port)</td></tr>
+              <tr><td><code>CMD</code></td><td class="desc">Commande par défaut au démarrage du conteneur (peut être remplacée)</td></tr>
+              <tr><td><code>ENTRYPOINT</code></td><td class="desc">Point d'entrée du conteneur (difficile à remplacer, CMD devient des arguments)</td></tr>
+              <tr><td><code>VOLUME</code></td><td class="desc">Déclare un point de montage pour un volume</td></tr>
+              <tr><td><code>USER</code></td><td class="desc">Définit l'utilisateur pour les instructions suivantes et le conteneur</td></tr>
+              <tr><td><code>LABEL</code></td><td class="desc">Ajoute des métadonnées à l'image (auteur, version, description)</td></tr>
+              <tr><td><code>HEALTHCHECK</code></td><td class="desc">Définit une commande pour vérifier la santé du conteneur</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Dockerfile — Application Node.js</div>
+          <div class="card-tags"><span class="tag tag-green">Exemple</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Exemple complet pour une application Node.js avec les bonnes pratiques : utilisateur non-root, couches optimisées, image légère.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">DOCKERFILE</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-dockerfile"># Image de base légère
+FROM node:20-alpine
+
+# Métadonnées
+LABEL maintainer="dev@exemple.fr"
+LABEL version="1.0"
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier d'abord les fichiers de dépendances (optimise le cache)
+COPY package*.json ./
+
+# Installer les dépendances
+RUN npm ci --only=production
+
+# Copier le reste du code source
+COPY . .
+
+# Variable d'environnement
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Créer un utilisateur non-root pour la sécurité
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
+# Documenter le port
+EXPOSE 3000
+
+# Vérification de santé
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
+  CMD wget -qO- http://localhost:3000/health || exit 1
+
+# Commande de démarrage
+CMD ["node", "src/index.js"]</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Dockerfile — Multi-stage build</div>
+          <div class="card-tags"><span class="tag tag-green">Exemple</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les <strong>builds multi-étapes</strong> permettent de construire dans un environnement complet et de ne copier que le résultat final dans une image légère. Idéal pour les langages compilés (Go, Java) ou les frameworks frontend.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">DOCKERFILE</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-dockerfile"># ===== ÉTAPE 1 : Build =====
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build          # Génère le dossier dist/
+
+# ===== ÉTAPE 2 : Production =====
+FROM nginx:1.25-alpine AS production
+
+# Copier uniquement le résultat du build
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copier la configuration nginx personnalisée
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fichier .dockerignore</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Similaire à <code>.gitignore</code>, ce fichier exclut des fichiers et dossiers du contexte de build pour réduire la taille et éviter d'envoyer des données sensibles au daemon Docker.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TEXT</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-plaintext">node_modules/
+npm-debug.log
+.git/
+.gitignore
+.env
+.env.local
+*.md
+dist/
+coverage/
+.DS_Store
+*.log</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">CMD vs ENTRYPOINT</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Ces deux instructions définissent le comportement au démarrage du conteneur, mais de manière différente.</p>
+          <table class="attr-table">
+            <thead><tr><th>Instruction</th><th>Comportement</th><th>Remplacement</th></tr></thead>
+            <tbody>
+              <tr><td><code>CMD ["node","app.js"]</code></td><td class="desc">Commande par défaut</td><td class="desc"><code>docker run image python app.py</code> remplace complètement CMD</td></tr>
+              <tr><td><code>ENTRYPOINT ["node"]</code></td><td class="desc">Exécutable fixe</td><td class="desc"><code>docker run image app.js</code> — app.js est ajouté comme argument à node</td></tr>
+              <tr><td><code>ENTRYPOINT</code> + <code>CMD</code></td><td class="desc">Point d'entrée fixe avec arguments par défaut</td><td class="desc">CMD devient les arguments par défaut, remplaçables via docker run</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">DOCKERFILE</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-dockerfile"># Bonne pratique : ENTRYPOINT fixe l'exécutable, CMD les arguments par défaut
+ENTRYPOINT ["node"]
+CMD ["src/index.js"]
+
+# docker run mon-app             → node src/index.js
+# docker run mon-app src/cli.js  → node src/cli.js</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== VOLUMES ==================== -->
+    <section class="section" id="volumes">
+      <div class="section-title">Volumes</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Types de montages</div>
+          <div class="card-tags"><span class="tag tag-blue">Théorie</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Docker propose trois façons de persister et partager des données entre l'hôte et les conteneurs.</p>
+          <table class="attr-table">
+            <thead><tr><th>Type</th><th>Syntaxe</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Volume nommé</strong></td><td><code>-v mon-vol:/app/data</code></td><td class="desc">Géré par Docker, stocké dans <code>/var/lib/docker/volumes/</code>. Recommandé pour la production.</td></tr>
+              <tr><td><strong>Bind mount</strong></td><td><code>-v /host/path:/app/data</code></td><td class="desc">Lie un dossier de l'hôte. Utile en développement pour voir les modifications en temps réel.</td></tr>
+              <tr><td><strong>tmpfs</strong></td><td><code>--tmpfs /app/tmp</code></td><td class="desc">Stockage en mémoire RAM uniquement. Non persistant, pour les données sensibles temporaires.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Commandes de gestion des volumes</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">docker volume ls                       # Lister les volumes
+docker volume create mon-volume        # Créer un volume nommé
+docker volume inspect mon-volume       # Détails d'un volume (emplacement, etc.)
+docker volume rm mon-volume            # Supprimer un volume
+docker volume prune                    # Supprimer les volumes non utilisés
+
+# Utiliser un volume avec un conteneur
+docker run -d \
+  -v mon-volume:/var/lib/postgresql/data \
+  -e POSTGRES_PASSWORD=secret \
+  --name postgres-db \
+  postgres:16-alpine
+
+# Bind mount en développement (code source synchronisé)
+docker run -d \
+  -v $(pwd):/app \
+  -v /app/node_modules \
+  -p 3000:3000 \
+  mon-app-node:dev
+
+# Volume en lecture seule
+docker run -d -v mon-volume:/app/data:ro nginx</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== RÉSEAUX ==================== -->
+    <section class="section" id="reseaux">
+      <div class="section-title">Réseaux</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Types de réseaux Docker</div>
+          <div class="card-tags"><span class="tag tag-blue">Théorie</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Driver</th><th>Description</th><th>Usage</th></tr></thead>
+            <tbody>
+              <tr><td><code>bridge</code></td><td class="desc">Réseau privé isolé sur l'hôte. Les conteneurs se voient par nom (DNS interne).</td><td class="desc">Défaut pour les conteneurs standalone</td></tr>
+              <tr><td><code>host</code></td><td class="desc">Partage le réseau de l'hôte directement. Aucune isolation réseau.</td><td class="desc">Performance maximale (Linux uniquement)</td></tr>
+              <tr><td><code>none</code></td><td class="desc">Aucune interface réseau. Conteneur complètement isolé.</td><td class="desc">Sécurité maximale, batch jobs</td></tr>
+              <tr><td><code>overlay</code></td><td class="desc">Communication entre conteneurs sur plusieurs hôtes (Docker Swarm).</td><td class="desc">Orchestration multi-hôtes</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Commandes réseau</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Dans un réseau bridge personnalisé, les conteneurs peuvent se joindre par leur <strong>nom</strong> (DNS automatique). Ce n'est pas le cas dans le réseau bridge par défaut.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">docker network ls                              # Lister les réseaux
+docker network create app-network              # Créer un réseau bridge
+docker network create --driver bridge --subnet 172.20.0.0/16 app-network
+docker network inspect app-network             # Détails du réseau
+docker network rm app-network                  # Supprimer un réseau
+docker network prune                           # Supprimer les réseaux inutilisés
+
+# Connecter des conteneurs à un réseau
+docker run -d --name api --network app-network mon-api
+docker run -d --name db  --network app-network postgres:16-alpine
+
+# L'API peut maintenant joindre la DB via le nom "db" :
+# postgresql://db:5432/mydb
+
+# Connecter/déconnecter un conteneur existant
+docker network connect    app-network mon-nginx
+docker network disconnect app-network mon-nginx
+
+# Utiliser le réseau hôte (Linux)
+docker run -d --network host nginx</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== DOCKER COMPOSE ==================== -->
+    <section class="section" id="compose">
+      <div class="section-title">Docker Compose</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Structure d'un <code>docker-compose.yml</code></div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Docker Compose permet de définir et gérer des applications multi-conteneurs dans un fichier YAML. Tous les services partagent automatiquement un réseau et peuvent se joindre par leur nom de service.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml">services:
+
+  # Service API Node.js
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: production
+    image: mon-api:latest
+    container_name: mon-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_URL=mongodb://mongo:27017/mydb
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - .env
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Base de données MongoDB
+  mongo:
+    image: mongo:7-jammy
+    container_name: mon-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/init.js:ro
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Cache Redis
+  redis:
+    image: redis:7-alpine
+    container_name: mon-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+volumes:
+  mongo-data:
+  redis-data:
+
+networks:
+  app-network:
+    driver: bridge</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Commandes Docker Compose</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">docker compose up                      # Démarrer tous les services (foreground)
+docker compose up -d                   # Mode détaché (arrière-plan)
+docker compose up --build              # Rebuild les images avant de démarrer
+docker compose up -d --build           # Rebuild + démarrage en arrière-plan
+docker compose up api                  # Démarrer uniquement le service "api"
+
+docker compose down                    # Arrêter et supprimer les conteneurs + réseaux
+docker compose down -v                 # + supprimer les volumes
+docker compose down --rmi all          # + supprimer les images buildées
+
+docker compose stop                    # Arrêter les conteneurs (sans les supprimer)
+docker compose start                   # Redémarrer les conteneurs stoppés
+docker compose restart                 # Redémarrer tous les services
+docker compose restart api             # Redémarrer un service spécifique
+
+docker compose ps                      # État des services
+docker compose logs                    # Logs de tous les services
+docker compose logs -f api             # Suivre les logs du service "api"
+docker compose logs --tail 50 api
+
+docker compose exec api bash           # Shell dans le service "api"
+docker compose exec api node --version # Exécuter une commande
+
+docker compose build                   # Construire les images sans démarrer
+docker compose pull                    # Télécharger les dernières images
+docker compose config                  # Valider et afficher la config résolue
+docker compose top                     # Processus dans chaque service
+
+# Scaler un service (plusieurs instances)
+docker compose up -d --scale api=3</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Surcharge avec plusieurs fichiers Compose</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Il est courant d'avoir un fichier de base et des fichiers de surcharge selon l'environnement. Le fichier <code>docker-compose.override.yml</code> est automatiquement mergé avec <code>docker-compose.yml</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Utiliser plusieurs fichiers (mergés dans l'ordre)
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+# Fichiers courants
+# docker-compose.yml          → config de base
+# docker-compose.override.yml → dev (chargé auto)
+# docker-compose.prod.yml     → production</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># docker-compose.override.yml (développement)
+services:
+  api:
+    build:
+      target: development
+    volumes:
+      - .:/app                 # Code source synchronisé
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev        # Remplace CMD du Dockerfile</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== REGISTRY & HUB ==================== -->
+    <section class="section" id="registry">
+      <div class="section-title">Registry &amp; Hub</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Docker Hub et registries</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Docker Hub est le registry public par défaut. Vous pouvez aussi utiliser des registries privés (GitHub Container Registry, GitLab Registry, AWS ECR, etc.).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Authentification
+docker login                           # Docker Hub (interactif)
+docker login -u monuser                # Spécifier le nom d'utilisateur
+docker login ghcr.io                   # GitHub Container Registry
+docker logout                          # Se déconnecter
+
+# Chercher des images sur Docker Hub
+docker search nginx
+docker search --filter is-official=true nginx
+
+# Nommer et pousser une image
+docker tag mon-app:1.0 monuser/mon-app:1.0
+docker push monuser/mon-app:1.0
+docker push monuser/mon-app:latest
+
+# Télécharger une image spécifique
+docker pull monuser/mon-app:1.0
+
+# Sauvegarder/charger une image en fichier tar (sans registry)
+docker save -o mon-app.tar mon-app:1.0
+docker load -i mon-app.tar
+
+# Exporter/importer un conteneur (système de fichiers uniquement)
+docker export mon-conteneur -o snapshot.tar
+docker import snapshot.tar mon-app:snapshot</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== NETTOYAGE ==================== -->
+    <section class="section" id="nettoyage">
+      <div class="section-title">Nettoyage</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Libérer de l'espace disque</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Docker peut accumuler beaucoup de données inutilisées (images, conteneurs arrêtés, volumes orphelins, cache de build). Ces commandes permettent de récupérer de l'espace disque.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Nettoyage ciblé
+docker container prune           # Supprimer tous les conteneurs arrêtés
+docker image prune               # Supprimer les images dangling (sans tag)
+docker image prune -a            # Supprimer toutes les images non utilisées
+docker volume prune              # Supprimer les volumes non attachés
+docker network prune             # Supprimer les réseaux inutilisés
+docker builder prune             # Supprimer le cache de build
+
+# Nettoyage global (tout en une commande)
+docker system prune              # Conteneurs + réseaux + images dangling
+docker system prune -a           # + toutes les images non utilisées
+docker system prune -a --volumes # + volumes (ATTENTION : perte de données)
+
+# Inspecter l'espace utilisé
+docker system df                 # Résumé de l'espace disque Docker
+docker system df -v              # Détails par objet</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== BONNES PRATIQUES ==================== -->
+    <section class="section" id="bonnes-pratiques">
+      <div class="section-title">Bonnes pratiques</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Optimiser les images Docker</div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Une image optimisée est plus rapide à construire, à télécharger et plus sécurisée. Voici les principales règles à suivre.</p>
+          <table class="attr-table">
+            <thead><tr><th>Pratique</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Images de base légères</td><td class="desc">Préférer <code>alpine</code> ou <code>slim</code> (ex: <code>node:20-alpine</code>) plutôt que les images complètes</td></tr>
+              <tr><td>Minimiser les couches</td><td class="desc">Chaîner les commandes <code>RUN</code> avec <code>&amp;&amp;</code> pour n'en créer qu'une seule couche</td></tr>
+              <tr><td>Ordonner les instructions</td><td class="desc">Placer les instructions qui changent rarement en premier (ex: dépendances avant le code source) pour bénéficier du cache</td></tr>
+              <tr><td>Multi-stage build</td><td class="desc">Séparer build et runtime pour exclure les outils de compilation de l'image finale</td></tr>
+              <tr><td>Utilisateur non-root</td><td class="desc">Toujours créer et utiliser un utilisateur dédié avec <code>USER</code> pour la sécurité</td></tr>
+              <tr><td>.dockerignore</td><td class="desc">Exclure <code>node_modules</code>, <code>.git</code>, <code>.env</code>, logs du contexte de build</td></tr>
+              <tr><td>Tags explicites</td><td class="desc">Éviter <code>:latest</code> en production, utiliser des tags de version précis</td></tr>
+              <tr><td>Secrets</td><td class="desc">Ne jamais inclure de secrets dans l'image, utiliser les variables d'environnement ou Docker secrets</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Workflow de développement complet</div>
+          <div class="card-tags"><span class="tag tag-green">Exemple</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># === DÉVELOPPEMENT ===
+
+# 1. Démarrer l'environnement de dev (avec hot-reload)
+docker compose up -d
+
+# 2. Voir les logs en temps réel
+docker compose logs -f api
+
+# 3. Ouvrir un shell dans le conteneur
+docker compose exec api bash
+
+# 4. Relancer uniquement un service après modification
+docker compose restart api
+
+# === MISE EN PRODUCTION ===
+
+# 1. Build de l'image avec tag de version
+docker build -t monuser/mon-app:2.1.0 -t monuser/mon-app:latest .
+
+# 2. Tester l'image localement
+docker run --rm -p 3000:3000 monuser/mon-app:2.1.0
+
+# 3. Pousser vers le registry
+docker push monuser/mon-app:2.1.0
+docker push monuser/mon-app:latest
+
+# 4. Déployer sur le serveur
+docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+# 5. Vérifier le déploiement
+docker compose ps
+docker compose logs --tail 20 api
+
+# 6. Nettoyer les anciennes images
+docker image prune -f</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Résumé des commandes essentielles</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Commande</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>docker build -t app:1.0 .</code></td><td class="desc">Construire une image depuis le dossier courant</td></tr>
+              <tr><td><code>docker run -d -p 80:80 app:1.0</code></td><td class="desc">Lancer un conteneur en arrière-plan</td></tr>
+              <tr><td><code>docker ps</code></td><td class="desc">Lister les conteneurs en cours d'exécution</td></tr>
+              <tr><td><code>docker logs -f nom</code></td><td class="desc">Suivre les logs en temps réel</td></tr>
+              <tr><td><code>docker exec -it nom bash</code></td><td class="desc">Ouvrir un shell dans le conteneur</td></tr>
+              <tr><td><code>docker stop nom</code></td><td class="desc">Arrêter proprement un conteneur</td></tr>
+              <tr><td><code>docker rm nom</code></td><td class="desc">Supprimer un conteneur</td></tr>
+              <tr><td><code>docker compose up -d --build</code></td><td class="desc">Rebuild et démarrer tous les services</td></tr>
+              <tr><td><code>docker compose down -v</code></td><td class="desc">Arrêter et supprimer conteneurs + volumes</td></tr>
+              <tr><td><code>docker system prune -a</code></td><td class="desc">Nettoyage complet de Docker</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

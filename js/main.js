@@ -102,6 +102,16 @@ sidebarToggleBtn.addEventListener('click', () => {
   localStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0');
 });
 
+/* ===== NAV DROPDOWN ACTIVE STATE ===== */
+const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+document.querySelectorAll('.nav-dropdown a').forEach(link => {
+  if (link.getAttribute('href') === currentPage) {
+    link.closest('li').classList.add('active');
+    link.closest('.nav-group').querySelector('.nav-group-btn').classList.add('active');
+  }
+});
+
 /* ===== MOBILE DRAWER ===== */
 const LANGUAGES = [
   { name: 'HTML',                href: 'html.html',      badge: 'html' },
@@ -116,10 +126,10 @@ const LANGUAGES = [
   { name: 'PHP/Symfony',        href: 'php.html',       badge: 'php' },
   { name: 'Node/Express/Mongo', href: 'node.html',      badge: 'node' },
   { name: 'Modélisation BDD',  href: 'merise.html',    badge: 'merise' },
+  { name: 'Docker',            href: 'docker.html',    badge: 'docker' },
 ];
 
-const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-const hamburger   = document.getElementById('hamburger');
+const hamburger = document.getElementById('hamburger');
 
 // Drawer
 const drawer = document.createElement('div');
