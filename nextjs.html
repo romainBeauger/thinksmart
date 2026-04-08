@@ -67,6 +67,7 @@
       <li><a href="#metadata"><span class="icon">🏷️</span>Metadata &amp; SEO</a></li>
       <li><a href="#images"><span class="icon">🖼️</span>Image &amp; Font</a></li>
       <li><a href="#env"><span class="icon">🔐</span>Variables d'environnement</a></li>
+      <li><a href="#prisma"><span class="icon">🗄️</span>ORM Prisma</a></li>
       <li><a href="#deploy"><span class="icon">🚀</span>Déploiement</a></li>
     </ul>
   </aside>
@@ -813,6 +814,500 @@ PORT=3000 HOSTNAME=0.0.0.0 node .next/standalone/server.js</code></pre>
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- PRISMA ORM -->
+    <section class="section" id="prisma">
+      <div class="section-title">ORM Prisma</div>
+
+      <!-- Installation -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Installation &amp; initialisation</div>
+          <div class="card-tags"><span class="tag tag-blue">install</span><span class="tag tag-green">init</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Prisma est un ORM TypeScript moderne. Il se compose de trois outils : <strong>Prisma CLI</strong> (migrations &amp; génération), <strong>Prisma Client</strong> (requêtes type-safe) et <strong>Prisma Studio</strong> (GUI BDD).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># 1. Installer les dépendances
+npm install prisma --save-dev
+npm install @prisma/client
+
+# 2. Initialiser Prisma (crée prisma/schema.prisma + .env)
+npx prisma init
+
+# Avec un provider spécifique
+npx prisma init --datasource-provider postgresql
+npx prisma init --datasource-provider mysql
+npx prisma init --datasource-provider sqlite</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schema -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Schema Prisma (prisma/schema.prisma)</div>
+          <div class="card-tags"><span class="tag tag-purple">schema</span><span class="tag tag-blue">models</span><span class="tag tag-green">relations</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le fichier <code>schema.prisma</code> est la source de vérité : il définit la connexion BDD, le générateur client et tous les modèles de données.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">PRISMA</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-prisma">// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"   // "mysql" | "sqlite" | "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// --- Modèles ---
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]   // relation one-to-many
+  profile   Profile? // relation one-to-one
+}
+
+model Profile {
+  id     Int    @id @default(autoincrement())
+  bio    String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
+}
+
+model Post {
+  id        Int        @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean    @default(false)
+  author    User       @relation(fields: [authorId], references: [id])
+  authorId  Int
+  tags      Tag[]      @relation("PostToTag") // many-to-many
+  createdAt DateTime   @default(now())
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  posts Post[] @relation("PostToTag")
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Migrations -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Commandes de migration</div>
+          <div class="card-tags"><span class="tag tag-blue">migrate</span><span class="tag tag-green">db</span><span class="tag tag-purple">studio</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Prisma gère les migrations SQL automatiquement à partir du schema. Chaque migration est un fichier SQL versionné dans <code>prisma/migrations/</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Créer et appliquer une migration (dev uniquement)
+npx prisma migrate dev --name init
+npx prisma migrate dev --name add_profile_table
+
+# Appliquer les migrations en production (sans créer de nouvelle migration)
+npx prisma migrate deploy
+
+# Réinitialiser la BDD (efface TOUT et rejoue toutes les migrations) - dev uniquement
+npx prisma migrate reset
+
+# Vérifier l'état des migrations
+npx prisma migrate status
+
+# Synchroniser le schema sans migration (prototype rapide, écrase les données)
+npx prisma db push
+
+# Introspection : générer le schema depuis une BDD existante
+npx prisma db pull
+
+# Regénérer le Prisma Client après une modif du schema
+npx prisma generate
+
+# Ouvrir Prisma Studio (GUI pour explorer/éditer la BDD)
+npx prisma studio</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prisma Client singleton -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Prisma Client — singleton Next.js</div>
+          <div class="card-tags"><span class="tag tag-blue">client</span><span class="tag tag-green">singleton</span><span class="tag tag-purple">best practice</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">En développement, le Hot Module Replacement de Next.js crée plusieurs instances de PrismaClient. Le pattern singleton évite d'épuiser les connexions à la BDD.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// lib/prisma.ts
+import { PrismaClient } from "@prisma/client";
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+export const prisma =
+  globalForPrisma.prisma ?? new PrismaClient({ log: ["query"] });
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
+
+// Utilisation dans n'importe quel Server Component ou Server Action :
+import { prisma } from "@/lib/prisma";</code></pre>
+          </div>
+          <p class="card-desc" style="margin-top:0.75rem;">Ajouter <code>DATABASE_URL</code> dans <code>.env</code> :</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">ENV</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># PostgreSQL
+DATABASE_URL="postgresql://user:password@localhost:5432/mydb"
+
+# MySQL
+DATABASE_URL="mysql://user:password@localhost:3306/mydb"
+
+# SQLite (développement local simple)
+DATABASE_URL="file:./dev.db"</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRUD -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">CRUD — opérations de base</div>
+          <div class="card-tags"><span class="tag tag-blue">create</span><span class="tag tag-green">read</span><span class="tag tag-purple">update</span><span class="tag tag-blue">delete</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Toutes les méthodes Prisma retournent des Promises et sont entièrement typées en fonction du schema.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">import { prisma } from "@/lib/prisma";
+
+// --- CREATE ---
+const user = await prisma.user.create({
+  data: { email: "alice@example.com", name: "Alice" },
+});
+
+// Créer avec des relations imbriquées
+const userWithPost = await prisma.user.create({
+  data: {
+    email: "bob@example.com",
+    posts: {
+      create: { title: "Mon premier article" },
+    },
+  },
+});
+
+// Créer plusieurs enregistrements
+await prisma.user.createMany({
+  data: [
+    { email: "a@ex.com", name: "A" },
+    { email: "b@ex.com", name: "B" },
+  ],
+  skipDuplicates: true,
+});
+
+// --- READ ---
+// Récupérer un enregistrement par son id
+const post = await prisma.post.findUnique({ where: { id: 1 } });
+
+// Récupérer le premier résultat correspondant
+const user = await prisma.user.findFirst({
+  where: { email: { contains: "@example.com" } },
+});
+
+// Récupérer tous les enregistrements avec filtres
+const posts = await prisma.post.findMany({
+  where: { published: true },
+  orderBy: { createdAt: "desc" },
+  take: 10,   // LIMIT
+  skip: 0,    // OFFSET
+  select: { id: true, title: true, author: { select: { name: true } } },
+});
+
+// Inclure des relations (JOIN)
+const users = await prisma.user.findMany({
+  include: { posts: true, profile: true },
+});
+
+// Compter
+const count = await prisma.post.count({ where: { published: true } });
+
+// --- UPDATE ---
+const updated = await prisma.user.update({
+  where: { id: 1 },
+  data: { name: "Alice B." },
+});
+
+// Upsert : créer ou mettre à jour
+const upserted = await prisma.user.upsert({
+  where: { email: "alice@example.com" },
+  update: { name: "Alice Updated" },
+  create: { email: "alice@example.com", name: "Alice" },
+});
+
+// --- DELETE ---
+await prisma.post.delete({ where: { id: 1 } });
+
+await prisma.post.deleteMany({ where: { published: false } });</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtres avancés -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Filtres &amp; requêtes avancées</div>
+          <div class="card-tags"><span class="tag tag-blue">where</span><span class="tag tag-green">filter</span><span class="tag tag-purple">aggregate</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Prisma propose des opérateurs riches pour filtrer, trier, agréger et paginer les données.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// Opérateurs de comparaison
+const posts = await prisma.post.findMany({
+  where: {
+    AND: [
+      { published: true },
+      { createdAt: { gte: new Date("2024-01-01") } },
+    ],
+    OR: [
+      { title: { contains: "Next.js" } },
+      { title: { startsWith: "Prisma" } },
+    ],
+    NOT: { authorId: 5 },
+  },
+});
+
+// Filtres sur les relations (WHERE EXISTS / NOT EXISTS)
+const usersWithPosts = await prisma.user.findMany({
+  where: { posts: { some: { published: true } } },
+});
+
+const usersWithoutPosts = await prisma.user.findMany({
+  where: { posts: { none: {} } },
+});
+
+// Agrégations
+const stats = await prisma.post.aggregate({
+  _count: { id: true },
+  _avg:   { id: true },
+  _max:   { createdAt: true },
+  where:  { published: true },
+});
+
+// groupBy
+const grouped = await prisma.post.groupBy({
+  by: ["authorId"],
+  _count: { id: true },
+  orderBy: { _count: { id: "desc" } },
+});</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Transactions</div>
+          <div class="card-tags"><span class="tag tag-purple">transaction</span><span class="tag tag-blue">atomique</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les transactions garantissent que plusieurs opérations réussissent ou échouent ensemble. Prisma propose deux API : <strong>séquentielle</strong> (tableau) et <strong>interactive</strong> (callback).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// Transaction séquentielle (tableau de promesses)
+const [newUser, newPost] = await prisma.$transaction([
+  prisma.user.create({ data: { email: "carol@example.com" } }),
+  prisma.post.create({ data: { title: "Hello", authorId: 1 } }),
+]);
+
+// Transaction interactive (plus flexible, supporte la logique conditionnelle)
+const result = await prisma.$transaction(async (tx) => {
+  const user = await tx.user.findUnique({ where: { id: 1 } });
+  if (!user) throw new Error("Utilisateur introuvable");
+
+  const post = await tx.post.create({
+    data: { title: "Article transactionnel", authorId: user.id },
+  });
+
+  return { user, post };
+});</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Server Actions avec Prisma -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Prisma dans les Server Actions</div>
+          <div class="card-tags"><span class="tag tag-green">Server Actions</span><span class="tag tag-blue">forms</span><span class="tag tag-purple">revalidate</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les Server Actions de Next.js s'exécutent côté serveur et peuvent appeler Prisma directement — pas d'API intermédiaire nécessaire.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// app/posts/actions.ts
+"use server";
+
+import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+export async function createPost(formData: FormData) {
+  const title   = formData.get("title") as string;
+  const content = formData.get("content") as string;
+
+  await prisma.post.create({
+    data: { title, content, authorId: 1 },
+  });
+
+  revalidatePath("/posts"); // invalide le cache de la liste
+  redirect("/posts");
+}
+
+export async function deletePost(id: number) {
+  await prisma.post.delete({ where: { id } });
+  revalidatePath("/posts");
+}
+
+// app/posts/new/page.tsx
+import { createPost } from "../actions";
+
+export default function NewPostPage() {
+  return (
+    &lt;form action={createPost}&gt;
+      &lt;input name="title"   placeholder="Titre"   required /&gt;
+      &lt;textarea name="content" placeholder="Contenu" /&gt;
+      &lt;button type="submit"&gt;Publier&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Server Components -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Prisma dans les Server Components &amp; Route Handlers</div>
+          <div class="card-tags"><span class="tag tag-blue">Server Component</span><span class="tag tag-green">API Route</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Prisma peut être appelé directement dans les Server Components (pour le rendu) et dans les Route Handlers (pour les endpoints REST/JSON).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// app/posts/page.tsx — Server Component
+import { prisma } from "@/lib/prisma";
+
+export default async function PostsPage() {
+  const posts = await prisma.post.findMany({
+    where:   { published: true },
+    include: { author: { select: { name: true } } },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return (
+    &lt;ul&gt;
+      {posts.map((post) =&gt; (
+        &lt;li key={post.id}&gt;
+          &lt;h2&gt;{post.title}&lt;/h2&gt;
+          &lt;p&gt;Par {post.author.name}&lt;/p&gt;
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// app/api/posts/route.ts — Route Handler (REST API)
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  const posts = await prisma.post.findMany({ where: { published: true } });
+  return NextResponse.json(posts);
+}
+
+export async function POST(req: Request) {
+  const body  = await req.json();
+  const post  = await prisma.post.create({ data: body });
+  return NextResponse.json(post, { status: 201 });
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seed -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Seeding — peupler la base de données</div>
+          <div class="card-tags"><span class="tag tag-green">seed</span><span class="tag tag-blue">dev</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un script de seed permet d'insérer des données initiales ou de test dans la BDD.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">TSX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-tsx">// prisma/seed.ts
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+async function main() {
+  const alice = await prisma.user.upsert({
+    where:  { email: "alice@example.com" },
+    update: {},
+    create: {
+      email: "alice@example.com",
+      name:  "Alice",
+      posts: {
+        create: [
+          { title: "Hello Next.js", published: true },
+          { title: "Prisma is great", published: false },
+        ],
+      },
+    },
+  });
+  console.log("Seed OK :", alice);
+}
+
+main()
+  .catch(console.error)
+  .finally(() =&gt; prisma.$disconnect());</code></pre>
+          </div>
+          <p class="card-desc" style="margin-top:0.75rem;">Configurer le script dans <code>package.json</code> :</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">JSON</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-json">{
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  }
+}
+</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Lancer le seed
+npx prisma db seed
+
+# Le seed est aussi lancé automatiquement après :
+npx prisma migrate reset</code></pre>
+          </div>
+        </div>
+      </div>
+
     </section>
 
     <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
