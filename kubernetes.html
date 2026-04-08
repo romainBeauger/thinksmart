@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkSmart — Kubernetes</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon/favicon-16x16.png" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="top-nav">
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="logo">Think<span>Smart</span></div>
+  <ul class="nav-langs">
+    <li class="nav-group">
+      <button class="nav-group-btn">Front-end <span class="nav-group-arrow">&#9660;</span></button>
+      <ul class="nav-dropdown">
+        <li><a href="html.html"><span class="lang-badge html"></span>HTML</a></li>
+        <li><a href="css.html"><span class="lang-badge css"></span>CSS</a></li>
+        <li><a href="js.html"><span class="lang-badge js"></span>JavaScript</a></li>
+        <li><a href="bootstrap.html"><span class="lang-badge bs"></span>Bootstrap</a></li>
+        <li><a href="tailwind.html"><span class="lang-badge tw"></span>Tailwind</a></li>
+        <li><a href="react.html"><span class="lang-badge react"></span>React</a></li>
+        <li><a href="nextjs.html"><span class="lang-badge nextjs"></span>Next.js</a></li>
+        <li><a href="angular.html"><span class="lang-badge angular"></span>Angular</a></li>
+      </ul>
+    </li>
+    <li class="nav-group">
+      <button class="nav-group-btn">Back-end <span class="nav-group-arrow">&#9660;</span></button>
+      <ul class="nav-dropdown">
+        <li><a href="php.html"><span class="lang-badge php"></span>PHP/Symfony</a></li>
+        <li><a href="node.html"><span class="lang-badge node"></span>Node/Express/Mongo</a></li>
+        <li><a href="sql.html"><span class="lang-badge sql"></span>SQL</a></li>
+        <li><a href="merise.html"><span class="lang-badge merise"></span>Modélisation BDD</a></li>
+      </ul>
+    </li>
+    <li class="nav-group">
+      <button class="nav-group-btn">DevOps <span class="nav-group-arrow">&#9660;</span></button>
+      <ul class="nav-dropdown">
+        <li><a href="git.html"><span class="lang-badge git"></span>Git</a></li>
+        <li><a href="docker.html"><span class="lang-badge docker"></span>Docker</a></li>
+        <li><a href="kubernetes.html"><span class="lang-badge k8s"></span>Kubernetes</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<!-- ===== SEARCH BAR ===== -->
+<div class="search-bar">
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <label for="searchInput"></label>
+    <input type="search" id="searchInput" placeholder="Rechercher une commande, ressource, option…" autocomplete="off" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Kubernetes</div>
+    <ul class="sidebar-nav">
+      <li><a href="#concepts"><span class="icon">🧠</span>Concepts clés</a></li>
+      <li><a href="#installation"><span class="icon">⚙️</span>Installation</a></li>
+      <li><a href="#kubectl"><span class="icon">⌨️</span>kubectl — commandes</a></li>
+      <li><a href="#pods"><span class="icon">📦</span>Pods</a></li>
+      <li><a href="#deployments"><span class="icon">🚀</span>Deployments</a></li>
+      <li><a href="#services"><span class="icon">🌐</span>Services</a></li>
+      <li><a href="#config-secrets"><span class="icon">🔐</span>ConfigMaps &amp; Secrets</a></li>
+      <li><a href="#volumes"><span class="icon">💾</span>Volumes &amp; PVC</a></li>
+      <li><a href="#namespaces"><span class="icon">🗂️</span>Namespaces</a></li>
+      <li><a href="#ingress"><span class="icon">🔀</span>Ingress</a></li>
+      <li><a href="#docker"><span class="icon">🐳</span>Avec Docker</a></li>
+      <li><a href="#helm"><span class="icon">⛵</span>Helm</a></li>
+      <li><a href="#bonnes-pratiques"><span class="icon">✅</span>Bonnes pratiques</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <div class="page-header">
+      <h1>Kubernetes <span class="badge" style="background:rgba(50,108,229,0.15);color:#7aa2f7;">K8s</span></h1>
+      <p>Orchestration de conteneurs : installation, ressources, commandes kubectl, Helm et intégration Docker.</p>
+    </div>
+
+    <!-- ==================== CONCEPTS CLÉS ==================== -->
+    <section class="section" id="concepts">
+      <div class="section-title">Concepts clés</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Architecture d'un cluster Kubernetes</div>
+          <div class="card-tags"><span class="tag tag-blue">Théorie</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un cluster Kubernetes est composé d'un <strong>Control Plane</strong> (cerveau du cluster) et de <strong>Nodes</strong> (machines qui exécutent les workloads). Tout communique via l'<strong>API Server</strong>.</p>
+          <table class="attr-table">
+            <thead><tr><th>Composant</th><th>Rôle</th></tr></thead>
+            <tbody>
+              <tr><td><code>kube-apiserver</code></td><td class="desc">Point d'entrée unique du cluster. Expose l'API REST Kubernetes. Toutes les interactions (kubectl, dashboards) passent par lui.</td></tr>
+              <tr><td><code>etcd</code></td><td class="desc">Base de données clé-valeur distribuée. Stocke l'état complet du cluster (source de vérité).</td></tr>
+              <tr><td><code>kube-scheduler</code></td><td class="desc">Sélectionne le Node sur lequel chaque Pod sera exécuté en fonction des ressources disponibles et des contraintes.</td></tr>
+              <tr><td><code>kube-controller-manager</code></td><td class="desc">Boucle de contrôle qui s'assure que l'état réel du cluster correspond à l'état désiré (ex: relancer un Pod crashé).</td></tr>
+              <tr><td><code>kubelet</code></td><td class="desc">Agent qui tourne sur chaque Node. Il reçoit les instructions du Control Plane et gère les Pods localement.</td></tr>
+              <tr><td><code>kube-proxy</code></td><td class="desc">Gère les règles réseau sur chaque Node pour router le trafic vers les bons Pods.</td></tr>
+              <tr><td><code>Container Runtime</code></td><td class="desc">Moteur de conteneurs utilisé par kubelet (Docker, containerd, CRI-O).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Les objets Kubernetes essentiels</div>
+          <div class="card-tags"><span class="tag tag-purple">Ressources</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Kubernetes gère des <strong>objets</strong> déclarés en YAML. Chaque objet a un <code>apiVersion</code>, un <code>kind</code>, des <code>metadata</code> et un <code>spec</code>.</p>
+          <table class="attr-table">
+            <thead><tr><th>Objet</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>Pod</code></td><td class="desc">Unité de base : un ou plusieurs conteneurs partageant réseau et stockage. Éphémère par nature.</td></tr>
+              <tr><td><code>Deployment</code></td><td class="desc">Gère le cycle de vie d'un ensemble de Pods identiques (réplicas, rolling update, rollback).</td></tr>
+              <tr><td><code>ReplicaSet</code></td><td class="desc">Garantit qu'un nombre précis de Pods tourne en permanence. Géré automatiquement par un Deployment.</td></tr>
+              <tr><td><code>Service</code></td><td class="desc">Expose un ensemble de Pods via une IP stable et un DNS interne. Assure la découverte de services.</td></tr>
+              <tr><td><code>Ingress</code></td><td class="desc">Règles HTTP/HTTPS pour router le trafic externe vers les bons Services (reverse proxy L7).</td></tr>
+              <tr><td><code>ConfigMap</code></td><td class="desc">Stocke des données de configuration non sensibles (clé-valeur ou fichiers).</td></tr>
+              <tr><td><code>Secret</code></td><td class="desc">Stocke des données sensibles (mots de passe, tokens) encodées en base64.</td></tr>
+              <tr><td><code>PersistentVolume</code></td><td class="desc">Ressource de stockage provisionné dans le cluster (indépendant des Pods).</td></tr>
+              <tr><td><code>PersistentVolumeClaim</code></td><td class="desc">Demande de stockage faite par un Pod. Lié à un PersistentVolume.</td></tr>
+              <tr><td><code>Namespace</code></td><td class="desc">Partition virtuelle du cluster pour isoler des ressources (par équipe, env, app).</td></tr>
+              <tr><td><code>StatefulSet</code></td><td class="desc">Comme un Deployment mais pour les apps avec état (BDD) : identité stable, stockage persistant par Pod.</td></tr>
+              <tr><td><code>DaemonSet</code></td><td class="desc">Garantit qu'un Pod tourne sur chaque Node (ex: agent de logs, monitoring).</td></tr>
+              <tr><td><code>Job / CronJob</code></td><td class="desc">Exécution de tâches ponctuelles ou planifiées (migration BDD, rapports).</td></tr>
+              <tr><td><code>HorizontalPodAutoscaler</code></td><td class="desc">Ajuste automatiquement le nombre de réplicas en fonction de la charge CPU/mémoire.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== INSTALLATION ==================== -->
+    <section class="section" id="installation">
+      <div class="section-title">Installation</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">kubectl — le client CLI</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><code>kubectl</code> est l'outil en ligne de commande pour interagir avec un cluster Kubernetes. À installer sur toutes les machines depuis lesquelles on gère le cluster.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">WINDOWS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Via winget (Windows Package Manager)
+winget install Kubernetes.kubectl
+
+# Via chocolatey
+choco install kubernetes-cli
+
+# Via scoop
+scoop install kubectl
+
+# Vérifier l'installation
+kubectl version --client</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">MACOS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Via Homebrew
+brew install kubectl
+
+# Vérifier
+kubectl version --client</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">LINUX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Télécharger le binaire (remplacer amd64 par arm64 si besoin)
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+# Rendre exécutable et déplacer
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+
+# Via apt (Debian/Ubuntu)
+sudo apt-get update && sudo apt-get install -y kubectl
+
+# Vérifier
+kubectl version --client</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Minikube — cluster local (dev)</div>
+          <div class="card-tags"><span class="tag tag-green">Local</span><span class="tag tag-blue">Dev</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Minikube crée un cluster Kubernetes mono-nœud sur votre machine. Idéal pour apprendre et tester en local. Nécessite Docker, VirtualBox ou Hyper-V.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">WINDOWS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Via winget
+winget install Kubernetes.minikube
+
+# Via chocolatey
+choco install minikube
+
+# Démarrer avec le driver Docker (recommandé)
+minikube start --driver=docker
+
+# Démarrer avec Hyper-V (nécessite droits admin)
+minikube start --driver=hyperv</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">MACOS</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">brew install minikube
+minikube start --driver=docker</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">LINUX</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+minikube start --driver=docker</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Gestion du cluster minikube
+minikube start                     # Démarrer le cluster
+minikube stop                      # Arrêter le cluster
+minikube delete                    # Supprimer le cluster
+minikube status                    # État du cluster
+minikube dashboard                 # Ouvrir le dashboard web
+minikube ip                        # Afficher l'IP du cluster
+
+# Utiliser le registre Docker interne de minikube
+eval $(minikube docker-env)        # Linux/macOS — pointer Docker vers minikube
+minikube docker-env | Invoke-Expression  # Windows PowerShell
+
+# Addons
+minikube addons list               # Lister les addons disponibles
+minikube addons enable ingress     # Activer l'Ingress Controller
+minikube addons enable metrics-server  # Activer les métriques</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Kind — Kubernetes dans Docker</div>
+          <div class="card-tags"><span class="tag tag-green">Local</span><span class="tag tag-blue">CI</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc"><strong>Kind</strong> (Kubernetes IN Docker) fait tourner les nœuds Kubernetes dans des conteneurs Docker. Parfait pour les pipelines CI et les tests multi-nœuds.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Installation via Go
+go install sigs.k8s.io/kind@latest
+
+# macOS
+brew install kind
+
+# Windows (chocolatey)
+choco install kind
+
+# Créer un cluster
+kind create cluster
+kind create cluster --name mon-cluster
+
+# Créer un cluster multi-nœuds avec config
+kind create cluster --config kind-config.yaml
+
+# Lister / supprimer
+kind get clusters
+kind delete cluster --name mon-cluster</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># kind-config.yaml — cluster 1 control-plane + 2 workers
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Docker Desktop — K8s intégré (Windows &amp; macOS)</div>
+          <div class="card-tags"><span class="tag tag-blue">Windows</span><span class="tag tag-green">macOS</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Docker Desktop inclut un cluster Kubernetes intégré activable en un clic. La solution la plus simple sur Windows et macOS.</p>
+          <table class="attr-table">
+            <thead><tr><th>Étape</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>1. Ouvrir Docker Desktop</td><td class="desc">Paramètres → Kubernetes → cocher <em>"Enable Kubernetes"</em> → Apply &amp; Restart</td></tr>
+              <tr><td>2. Vérifier</td><td class="desc"><code>kubectl cluster-info</code> — doit afficher <code>docker-desktop</code></td></tr>
+              <tr><td>3. Changer de contexte</td><td class="desc"><code>kubectl config use-context docker-desktop</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Contextes kubectl (kubeconfig)</div>
+          <div class="card-tags"><span class="tag tag-purple">Config</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le fichier <code>~/.kube/config</code> stocke les informations de connexion à tous vos clusters. Un <strong>contexte</strong> associe un cluster, un utilisateur et un namespace.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Lister les contextes disponibles
+kubectl config get-contexts
+
+# Afficher le contexte actif
+kubectl config current-context
+
+# Changer de contexte
+kubectl config use-context minikube
+kubectl config use-context docker-desktop
+kubectl config use-context mon-cluster-prod
+
+# Fusionner deux kubeconfig
+KUBECONFIG=~/.kube/config:~/nouveau-cluster.yaml kubectl config view --flatten > ~/.kube/config
+
+# Définir un namespace par défaut pour le contexte actif
+kubectl config set-context --current --namespace=mon-namespace</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== KUBECTL ==================== -->
+    <section class="section" id="kubectl">
+      <div class="section-title">kubectl — commandes essentielles</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Obtenir des informations sur les ressources</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Informations générales
+kubectl cluster-info                       # Infos sur le cluster
+kubectl get nodes                          # Lister les nœuds
+kubectl get nodes -o wide                  # Avec IP et version
+
+# Lister les ressources
+kubectl get pods                           # Pods du namespace actif
+kubectl get pods -A                        # Pods de TOUS les namespaces
+kubectl get pods -n kube-system            # Pods d'un namespace spécifique
+kubectl get pods -o wide                   # Avec IP et nœud
+kubectl get pods --watch                   # Mise à jour en temps réel
+kubectl get deployments                    # Deployments
+kubectl get services                       # Services (svc)
+kubectl get ingress                        # Ingress
+kubectl get configmaps                     # ConfigMaps (cm)
+kubectl get secrets                        # Secrets
+kubectl get pvc                            # PersistentVolumeClaims
+kubectl get all                            # Toutes les ressources principales
+kubectl get all -n mon-namespace           # Dans un namespace
+
+# Détails d'une ressource (équivalent docker inspect)
+kubectl describe pod mon-pod
+kubectl describe deployment mon-deploy
+kubectl describe service mon-service
+kubectl describe node mon-node
+
+# Affichage en YAML ou JSON
+kubectl get pod mon-pod -o yaml
+kubectl get deployment mon-deploy -o json
+
+# Appliquer / supprimer des manifests YAML
+kubectl apply -f manifest.yaml             # Créer ou mettre à jour
+kubectl apply -f ./k8s/                    # Tous les fichiers d'un dossier
+kubectl apply -f https://example.com/app.yaml
+kubectl delete -f manifest.yaml            # Supprimer les ressources du manifest
+
+# Supprimer des ressources
+kubectl delete pod mon-pod
+kubectl delete deployment mon-deploy
+kubectl delete service mon-service
+kubectl delete pod mon-pod --grace-period=0 --force  # Forcer la suppression</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Logs, exec &amp; port-forward</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Logs d'un Pod
+kubectl logs mon-pod                       # Logs du container principal
+kubectl logs mon-pod -f                    # Suivre en temps réel
+kubectl logs mon-pod --previous            # Logs du container précédent (après crash)
+kubectl logs mon-pod -c mon-container      # Container spécifique (Pod multi-container)
+kubectl logs -l app=mon-app -f             # Logs de tous les Pods avec un label
+
+# Exécuter une commande dans un Pod
+kubectl exec mon-pod -- ls /app
+kubectl exec -it mon-pod -- bash           # Shell interactif
+kubectl exec -it mon-pod -c api -- sh      # Dans un container spécifique
+
+# Port-forward (accès local à un Pod/Service)
+kubectl port-forward pod/mon-pod 8080:80
+kubectl port-forward svc/mon-service 8080:80
+kubectl port-forward deployment/mon-deploy 8080:3000
+
+# Copier des fichiers
+kubectl cp mon-pod:/app/log.txt ./log.txt  # Pod → local
+kubectl cp ./config.json mon-pod:/app/     # Local → Pod
+
+# Métriques (nécessite metrics-server)
+kubectl top nodes
+kubectl top pods
+kubectl top pods -n mon-namespace</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Commandes impératives rapides</div>
+          <div class="card-tags"><span class="tag tag-green">Pratique</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">En plus de l'approche déclarative (fichiers YAML), kubectl propose des commandes impératives pour créer des ressources rapidement ou générer des templates.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Créer des ressources rapidement
+kubectl run mon-pod --image=nginx:alpine
+kubectl create deployment mon-deploy --image=nginx:alpine --replicas=3
+kubectl create service clusterip mon-svc --tcp=80:80
+kubectl create namespace mon-namespace
+kubectl create configmap ma-config --from-literal=ENV=production
+kubectl create secret generic mon-secret --from-literal=PASSWORD=s3cr3t
+
+# Générer un YAML sans appliquer (--dry-run=client -o yaml)
+kubectl create deployment mon-app --image=nginx --dry-run=client -o yaml > deployment.yaml
+kubectl run mon-pod --image=nginx --dry-run=client -o yaml > pod.yaml
+kubectl create service clusterip mon-svc --tcp=80:80 --dry-run=client -o yaml
+
+# Mettre à l'échelle
+kubectl scale deployment mon-deploy --replicas=5
+
+# Mettre à jour l'image d'un Deployment (rolling update)
+kubectl set image deployment/mon-deploy app=mon-image:v2
+
+# Rollback
+kubectl rollout status deployment/mon-deploy
+kubectl rollout history deployment/mon-deploy
+kubectl rollout undo deployment/mon-deploy
+kubectl rollout undo deployment/mon-deploy --to-revision=2
+
+# Éditer une ressource directement
+kubectl edit deployment mon-deploy
+
+# Labeler / annoter une ressource
+kubectl label pod mon-pod env=production
+kubectl annotate pod mon-pod description="Mon application"</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== PODS ==================== -->
+    <section class="section" id="pods">
+      <div class="section-title">Pods</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Manifest d'un Pod</div>
+          <div class="card-tags"><span class="tag tag-blue">YAML</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un Pod est l'unité d'exécution de base. En pratique, on ne crée pas de Pods directement — on utilise des Deployments. Utile pour les tests et la compréhension.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mon-pod
+  namespace: default
+  labels:
+    app: mon-app
+    env: production
+spec:
+  containers:
+    - name: api
+      image: nginx:alpine
+      ports:
+        - containerPort: 80
+      env:
+        - name: ENV
+          value: "production"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mon-secret
+              key: password
+      resources:
+        requests:           # Minimum garanti
+          cpu: "100m"       # 100 millicores = 0.1 CPU
+          memory: "128Mi"
+        limits:             # Maximum autorisé
+          cpu: "500m"
+          memory: "256Mi"
+      livenessProbe:        # Redémarrer si le container est bloqué
+        httpGet:
+          path: /health
+          port: 80
+        initialDelaySeconds: 10
+        periodSeconds: 5
+      readinessProbe:       # Accepter du trafic seulement si prêt
+        httpGet:
+          path: /ready
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 3
+  restartPolicy: Always     # Always | OnFailure | Never
+  initContainers:           # Conteneurs qui s'exécutent avant les containers principaux
+    - name: init-db
+      image: busybox
+      command: ["sh", "-c", "until nc -z db 5432; do sleep 2; done"]</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== DEPLOYMENTS ==================== -->
+    <section class="section" id="deployments">
+      <div class="section-title">Deployments</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Manifest d'un Deployment</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un Deployment gère un ensemble de Pods identiques (<strong>réplicas</strong>). Il assure les mises à jour progressives (<em>rolling update</em>), les rollbacks et la haute disponibilité.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mon-app
+  namespace: default
+  labels:
+    app: mon-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mon-app               # Doit correspondre aux labels du Pod template
+  strategy:
+    type: RollingUpdate          # Mise à jour progressive (défaut)
+    rollingUpdate:
+      maxUnavailable: 1          # Max Pods indisponibles pendant la MàJ
+      maxSurge: 1                # Max Pods supplémentaires pendant la MàJ
+  template:                      # Template des Pods gérés par ce Deployment
+    metadata:
+      labels:
+        app: mon-app
+        version: "1.0"
+    spec:
+      containers:
+        - name: api
+          image: mon-image:1.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: production
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Déployer
+kubectl apply -f deployment.yaml
+
+# Suivre le déploiement en temps réel
+kubectl rollout status deployment/mon-app
+
+# Mettre à jour l'image (rolling update automatique)
+kubectl set image deployment/mon-app api=mon-image:2.0
+
+# Rollback en cas de problème
+kubectl rollout undo deployment/mon-app
+kubectl rollout history deployment/mon-app        # Voir l'historique
+kubectl rollout undo deployment/mon-app --to-revision=1
+
+# Mise à l'échelle manuelle
+kubectl scale deployment mon-app --replicas=5
+
+# Autoscaling (HPA)
+kubectl autoscale deployment mon-app --cpu-percent=70 --min=2 --max=10</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">HorizontalPodAutoscaler (HPA)</div>
+          <div class="card-tags"><span class="tag tag-purple">Scaling</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">L'HPA ajuste automatiquement le nombre de réplicas en fonction de métriques (CPU, mémoire). Nécessite <code>metrics-server</code> installé dans le cluster.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml">apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mon-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mon-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== SERVICES ==================== -->
+    <section class="section" id="services">
+      <div class="section-title">Services</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Types de Services</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un Service expose un ensemble de Pods via une IP stable et un nom DNS interne, indépendamment de leur cycle de vie. Le <strong>selector</strong> relie le Service aux Pods cibles.</p>
+          <table class="attr-table">
+            <thead><tr><th>Type</th><th>Accessibilité</th><th>Usage</th></tr></thead>
+            <tbody>
+              <tr><td><code>ClusterIP</code></td><td class="desc">Interne au cluster uniquement</td><td class="desc">Communication entre services (défaut)</td></tr>
+              <tr><td><code>NodePort</code></td><td class="desc">Via l'IP du Node + un port (30000-32767)</td><td class="desc">Dev/test, accès externe simple</td></tr>
+              <tr><td><code>LoadBalancer</code></td><td class="desc">IP externe via un load balancer cloud</td><td class="desc">Production sur AWS/GCP/Azure</td></tr>
+              <tr><td><code>ExternalName</code></td><td class="desc">Alias DNS vers un service externe</td><td class="desc">Intégrer une BDD externe au cluster</td></tr>
+            </tbody>
+          </table>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># ClusterIP — interne (défaut)
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  type: ClusterIP
+  selector:
+    app: mon-app           # Sélectionne les Pods avec ce label
+  ports:
+    - port: 80             # Port du Service (dans le cluster)
+      targetPort: 3000     # Port du container
+
+---
+# NodePort — accès externe via IP:NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-nodeport
+spec:
+  type: NodePort
+  selector:
+    app: mon-app
+  ports:
+    - port: 80
+      targetPort: 3000
+      nodePort: 30080      # Port sur chaque Node (optionnel, auto si omis)
+
+---
+# LoadBalancer — IP externe (cloud)
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-lb
+spec:
+  type: LoadBalancer
+  selector:
+    app: mon-app
+  ports:
+    - port: 80
+      targetPort: 3000</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Accéder à un NodePort avec minikube
+minikube service api-nodeport --url
+
+# Exposer un Deployment rapidement (impératif)
+kubectl expose deployment mon-app --type=NodePort --port=80 --target-port=3000</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== CONFIGMAPS & SECRETS ==================== -->
+    <section class="section" id="config-secrets">
+      <div class="section-title">ConfigMaps &amp; Secrets</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">ConfigMap — configuration non sensible</div>
+          <div class="card-tags"><span class="tag tag-blue">Config</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un ConfigMap stocke des données de configuration découplées de l'image. Injecté dans les Pods via variables d'environnement ou fichiers montés.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  NODE_ENV: "production"
+  API_URL: "https://api.example.com"
+  config.json: |
+    {
+      "debug": false,
+      "logLevel": "warn"
+    }</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># Utiliser un ConfigMap dans un Pod
+spec:
+  containers:
+    - name: api
+      image: mon-image
+      # Injecter toutes les clés comme variables d'environnement
+      envFrom:
+        - configMapRef:
+            name: app-config
+      # Ou injecter une clé spécifique
+      env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: NODE_ENV
+      # Ou monter comme fichier
+      volumeMounts:
+        - name: config-vol
+          mountPath: /app/config
+  volumes:
+    - name: config-vol
+      configMap:
+        name: app-config</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Créer un ConfigMap en ligne de commande
+kubectl create configmap app-config \
+  --from-literal=NODE_ENV=production \
+  --from-literal=API_URL=https://api.example.com \
+  --from-file=config.json</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Secret — données sensibles</div>
+          <div class="card-tags"><span class="tag tag-purple">Sécurité</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les Secrets stockent des données encodées en base64. Pour une vraie sécurité en production, les coupler avec des solutions comme <strong>Vault</strong>, <strong>Sealed Secrets</strong> ou les secrets managers cloud.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Encoder en base64 (Linux/macOS)
+echo -n "monMotDePasse" | base64     # bW9uTW90RGVQYXNzZQ==
+
+# Créer un secret en ligne de commande (recommandé — pas de base64 manuel)
+kubectl create secret generic db-secret \
+  --from-literal=DB_PASSWORD=monMotDePasse \
+  --from-literal=DB_USER=admin
+
+# Secret TLS (certificat)
+kubectl create secret tls mon-tls \
+  --cert=tls.crt \
+  --key=tls.key</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># secret.yaml (valeurs en base64)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+data:
+  DB_PASSWORD: bW9uTW90RGVQYXNzZQ==   # echo -n "monMotDePasse" | base64
+  DB_USER: YWRtaW4=                    # echo -n "admin" | base64
+
+---
+# Utilisation dans un Pod
+spec:
+  containers:
+    - name: api
+      envFrom:
+        - secretRef:
+            name: db-secret
+      env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DB_PASSWORD</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== VOLUMES ==================== -->
+    <section class="section" id="volumes">
+      <div class="section-title">Volumes &amp; PersistentVolumeClaims</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">PersistentVolume &amp; PersistentVolumeClaim</div>
+          <div class="card-tags"><span class="tag tag-blue">Stockage</span><span class="tag tag-green">Persistance</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Un <strong>PersistentVolume (PV)</strong> est une ressource de stockage du cluster. Un <strong>PersistentVolumeClaim (PVC)</strong> est une demande de stockage par un Pod. Le cluster lie automatiquement un PVC à un PV compatible.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># PersistentVolume (provisionné par l'admin)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mon-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce      # RWO: un seul Node | RWX: plusieurs Nodes
+  persistentVolumeReclaimPolicy: Retain  # Retain | Delete | Recycle
+  hostPath:              # Stockage local (dev uniquement)
+    path: /data/mon-app
+
+---
+# PersistentVolumeClaim (demande par le Pod)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mon-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: standard   # Classe de stockage (cloud ou local)
+
+---
+# Utiliser le PVC dans un Deployment
+spec:
+  template:
+    spec:
+      containers:
+        - name: db
+          image: postgres:15
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mon-pvc</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">kubectl get pv                  # Lister les PersistentVolumes
+kubectl get pvc                 # Lister les PersistentVolumeClaims
+kubectl describe pvc mon-pvc    # Vérifier le binding
+kubectl get storageclass        # Classes de stockage disponibles</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== NAMESPACES ==================== -->
+    <section class="section" id="namespaces">
+      <div class="section-title">Namespaces</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Gérer les namespaces</div>
+          <div class="card-tags"><span class="tag tag-blue">Organisation</span><span class="tag tag-green">Isolation</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Les namespaces permettent d'isoler des ressources dans un même cluster (par équipe, environnement ou application). Les ressources de namespaces différents ne se voient pas par défaut.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Namespaces par défaut
+# default      — namespace principal
+# kube-system  — composants Kubernetes internes
+# kube-public  — données accessibles publiquement
+# kube-node-lease — heartbeats des nodes
+
+# Créer un namespace
+kubectl create namespace production
+kubectl create namespace staging
+
+# Travailler dans un namespace
+kubectl get pods -n production
+kubectl apply -f deployment.yaml -n production
+
+# Définir le namespace par défaut de la session
+kubectl config set-context --current --namespace=production
+
+# Revenir au namespace par défaut
+kubectl config set-context --current --namespace=default
+
+# Supprimer un namespace (ATTENTION : supprime tout ce qu'il contient)
+kubectl delete namespace staging</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># Déclarer le namespace dans le manifest
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mon-app
+  namespace: production    # &lt;-- spécifier le namespace
+spec:
+  # ...</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== INGRESS ==================== -->
+    <section class="section" id="ingress">
+      <div class="section-title">Ingress</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Ingress Controller &amp; règles HTTP</div>
+          <div class="card-tags"><span class="tag tag-blue">HTTP</span><span class="tag tag-purple">Routing</span><span class="tag tag-green">TLS</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">L'Ingress est un reverse proxy L7 qui route le trafic HTTP/HTTPS entrant vers les bons Services selon des règles (host, path). Nécessite un <strong>Ingress Controller</strong> (nginx, traefik…).</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Installer nginx-ingress-controller via Helm
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install ingress-nginx ingress-nginx/ingress-nginx
+
+# Avec minikube (addon intégré)
+minikube addons enable ingress</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mon-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  tls:                                   # HTTPS avec un Secret TLS
+    - hosts:
+        - monapp.example.com
+      secretName: mon-tls
+  rules:
+    - host: monapp.example.com           # Routage par host
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: api-service        # Service cible
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80
+    - host: admin.example.com            # Sous-domaine différent
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: admin-service
+                port:
+                  number: 80</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== AVEC DOCKER ==================== -->
+    <section class="section" id="docker">
+      <div class="section-title">Kubernetes avec Docker</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Workflow complet : Docker → Kubernetes</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span><span class="tag tag-blue">Docker</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Le flux typique : construire une image Docker, la pousser vers un registry, puis la déployer dans Kubernetes via un manifest YAML.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># 1. Construire l'image Docker
+docker build -t monuser/mon-app:1.0 .
+
+# 2. Pousser vers Docker Hub (ou autre registry)
+docker login
+docker push monuser/mon-app:1.0
+
+# 3. Déployer dans Kubernetes
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+# ---- Développement local avec minikube ----
+
+# Pointer Docker sur le daemon interne de minikube (évite de pousser sur un registry)
+eval $(minikube docker-env)          # Linux/macOS
+minikube docker-env | Invoke-Expression  # Windows PowerShell
+
+# Construire l'image directement dans minikube
+docker build -t mon-app:local .
+
+# Déployer avec imagePullPolicy: Never (utilise l'image locale)
+kubectl run mon-pod --image=mon-app:local --image-pull-policy=Never</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Stack complète : API + Base de données</div>
+          <div class="card-tags"><span class="tag tag-green">Exemple complet</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Exemple d'une application avec une API Node.js et une base PostgreSQL déployées dans Kubernetes.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># k8s/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+data:
+  POSTGRES_PASSWORD: bW9uTW90RGVQYXNzZQ==
+
+---
+# k8s/postgres-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: mydb
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: pg-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: pg-data
+          persistentVolumeClaim:
+            claimName: pg-pvc
+
+---
+# k8s/postgres-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres          # DNS interne : postgres.default.svc.cluster.local
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+
+---
+# k8s/api-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: busybox
+          command: ["sh", "-c", "until nc -z postgres 5432; do sleep 2; done"]
+      containers:
+        - name: api
+          image: monuser/mon-api:1.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://admin:$(POSTGRES_PASSWORD)@postgres:5432/mydb"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: POSTGRES_PASSWORD
+
+---
+# k8s/api-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  type: NodePort
+  selector:
+    app: api
+  ports:
+    - port: 80
+      targetPort: 3000
+      nodePort: 30000</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Déployer toute la stack
+kubectl apply -f k8s/
+
+# Vérifier
+kubectl get pods
+kubectl get services
+
+# Accéder à l'API avec minikube
+minikube service api-service --url</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Registry privé — imagePullSecrets</div>
+          <div class="card-tags"><span class="tag tag-purple">Registry</span><span class="tag tag-blue">Auth</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Pour utiliser des images d'un registry privé (Docker Hub privé, GitHub Container Registry, AWS ECR…), il faut créer un Secret de type <code>docker-registry</code>.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Créer le secret d'authentification registry
+kubectl create secret docker-registry regcred \
+  --docker-server=ghcr.io \
+  --docker-username=monuser \
+  --docker-password=MON_TOKEN \
+  --docker-email=moi@example.com</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># Utiliser le secret dans un Pod
+spec:
+  imagePullSecrets:
+    - name: regcred          # Référencer le secret créé
+  containers:
+    - name: api
+      image: ghcr.io/monuser/mon-app:1.0</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== HELM ==================== -->
+    <section class="section" id="helm">
+      <div class="section-title">Helm — gestionnaire de paquets K8s</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Installation &amp; concepts</div>
+          <div class="card-tags"><span class="tag tag-blue">Install</span><span class="tag tag-purple">Concepts</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Helm est le gestionnaire de paquets de Kubernetes. Un <strong>chart</strong> est un paquet d'templates YAML paramétrables. Un <strong>release</strong> est une instance de chart déployée dans le cluster.</p>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># Installation de Helm
+# Windows (chocolatey)
+choco install kubernetes-helm
+
+# Windows (winget)
+winget install Helm.Helm
+
+# macOS
+brew install helm
+
+# Linux (script officiel)
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# Vérifier
+helm version</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Commandes Helm essentielles</div>
+          <div class="card-tags"><span class="tag tag-orange">Essentiel</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash"># ===== REPOSITORIES =====
+helm repo add stable https://charts.helm.sh/stable
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update                              # Mettre à jour les repos
+helm repo list                                # Lister les repos
+helm search repo postgresql                   # Chercher un chart
+
+# ===== INSTALLER / METTRE À JOUR =====
+helm install mon-postgres bitnami/postgresql           # Installer
+helm install mon-postgres bitnami/postgresql \
+  --set auth.postgresPassword=s3cr3t \
+  --set primary.persistence.size=10Gi \
+  --namespace production --create-namespace
+
+helm upgrade mon-postgres bitnami/postgresql \         # Mettre à jour
+  --set image.tag=15.4.0
+
+helm upgrade --install mon-postgres bitnami/postgresql # Installer ou MàJ
+
+# Avec un fichier de valeurs
+helm install mon-postgres bitnami/postgresql -f values.yaml
+helm upgrade mon-postgres bitnami/postgresql -f values.yaml
+
+# ===== GÉRER LES RELEASES =====
+helm list                                     # Releases dans le namespace actif
+helm list -A                                  # Toutes les releases
+helm status mon-postgres                      # État d'une release
+helm history mon-postgres                     # Historique des révisions
+helm rollback mon-postgres 1                  # Rollback à la révision 1
+helm uninstall mon-postgres                   # Désinstaller
+
+# ===== INSPECTER UN CHART =====
+helm show values bitnami/postgresql           # Valeurs par défaut
+helm show chart bitnami/postgresql            # Infos du chart
+helm template mon-app ./mon-chart             # Prévisualiser le YAML généré
+helm lint ./mon-chart                         # Valider un chart
+
+# ===== CRÉER SON PROPRE CHART =====
+helm create mon-chart                         # Scaffold d'un chart
+helm package mon-chart                        # Empaqueter (.tgz)
+helm install mon-app ./mon-chart -f custom-values.yaml</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Structure d'un chart Helm</div>
+          <div class="card-tags"><span class="tag tag-green">Structure</span></div>
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">BASH</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-bash">mon-chart/
+├── Chart.yaml           # Métadonnées du chart (nom, version, description)
+├── values.yaml          # Valeurs par défaut (surchargeables à l'install)
+├── templates/           # Templates YAML avec syntaxe Go templating
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   ├── ingress.yaml
+│   ├── configmap.yaml
+│   ├── _helpers.tpl     # Fonctions/partials réutilisables
+│   └── NOTES.txt        # Message affiché après l'installation
+└── charts/              # Dépendances (sous-charts)</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header"><span class="lang-label">YAML</span><button class="copy-btn">&#128203; Copier</button></div>
+            <pre><code class="language-yaml"># values.yaml
+replicaCount: 2
+image:
+  repository: monuser/mon-app
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: false
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+---
+# templates/deployment.yaml — utilise les valeurs
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mon-chart.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== BONNES PRATIQUES ==================== -->
+    <section class="section" id="bonnes-pratiques">
+      <div class="section-title">Bonnes pratiques</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Règles essentielles en production</div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Pratique</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Toujours définir les ressources</td><td class="desc">Spécifier <code>requests</code> et <code>limits</code> CPU/mémoire sur chaque container. Sans ça, un Pod peut épuiser les ressources du Node.</td></tr>
+              <tr><td>Liveness &amp; Readiness probes</td><td class="desc">Configurer les deux probes sur chaque container. La liveness redémarre les containers bloqués, la readiness évite d'envoyer du trafic vers des Pods non prêts.</td></tr>
+              <tr><td>Ne jamais utiliser <code>:latest</code></td><td class="desc">Toujours tagger les images avec une version précise en production. <code>:latest</code> empêche de savoir quelle version est déployée et bloque le cache.</td></tr>
+              <tr><td>Utiliser des namespaces</td><td class="desc">Isoler les environnements (dev, staging, production) et les équipes dans des namespaces séparés.</td></tr>
+              <tr><td>Approche déclarative</td><td class="desc">Toujours travailler avec des fichiers YAML versionnés dans Git. Éviter les commandes impératives en production.</td></tr>
+              <tr><td>Secrets externalisés</td><td class="desc">Ne jamais commiter des Secrets en clair dans Git. Utiliser Sealed Secrets, Vault, AWS Secrets Manager ou SOPS.</td></tr>
+              <tr><td>Utilisateur non-root</td><td class="desc">Configurer <code>securityContext.runAsNonRoot: true</code> et <code>readOnlyRootFilesystem: true</code> dans les containers.</td></tr>
+              <tr><td>PodDisruptionBudget</td><td class="desc">Définir un PDB pour garantir un minimum de Pods disponibles lors des mises à jour ou maintenances de Nodes.</td></tr>
+              <tr><td>Multi-réplicas</td><td class="desc">Toujours avoir au moins 2 réplicas en production pour assurer la haute disponibilité.</td></tr>
+              <tr><td>Monitoring</td><td class="desc">Installer Prometheus + Grafana pour surveiller l'état du cluster et des workloads.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Cheat sheet — commandes kubectl indispensables</div>
+          <div class="card-tags"><span class="tag tag-orange">Référence</span></div>
+        </div>
+        <div class="card-body">
+          <table class="attr-table">
+            <thead><tr><th>Commande</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>kubectl get all -n ns</code></td><td class="desc">Toutes les ressources d'un namespace</td></tr>
+              <tr><td><code>kubectl apply -f ./k8s/</code></td><td class="desc">Appliquer tous les manifests d'un dossier</td></tr>
+              <tr><td><code>kubectl describe pod nom</code></td><td class="desc">Diagnostiquer un Pod (events, état)</td></tr>
+              <tr><td><code>kubectl logs -f pod/nom</code></td><td class="desc">Suivre les logs en temps réel</td></tr>
+              <tr><td><code>kubectl exec -it pod/nom -- bash</code></td><td class="desc">Shell dans un container</td></tr>
+              <tr><td><code>kubectl port-forward svc/nom 8080:80</code></td><td class="desc">Accès local à un Service</td></tr>
+              <tr><td><code>kubectl scale deploy/nom --replicas=5</code></td><td class="desc">Changer le nombre de réplicas</td></tr>
+              <tr><td><code>kubectl rollout undo deploy/nom</code></td><td class="desc">Rollback du dernier déploiement</td></tr>
+              <tr><td><code>kubectl top pods</code></td><td class="desc">Consommation CPU/mémoire des Pods</td></tr>
+              <tr><td><code>kubectl get events --sort-by=.lastTimestamp</code></td><td class="desc">Événements du cluster triés par date</td></tr>
+              <tr><td><code>kubectl config use-context nom</code></td><td class="desc">Changer de cluster</td></tr>
+              <tr><td><code>kubectl explain deployment.spec</code></td><td class="desc">Documentation inline d'une ressource</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <div id="noResults" class="no-results"><p>Aucun résultat pour votre recherche.</p></div>
+
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
