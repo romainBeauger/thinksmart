@@ -182,6 +182,7 @@ a:hover { color: var(--accent-hover); }
 .lang-badge.merise { background: #0891b2; }
 .lang-badge.docker { background: #2496ed; }
 .lang-badge.nextjs { background: #e5e7eb; }
+.lang-badge.k8s   { background: #326ce5; }
 
 /* ===== SEARCH BAR ===== */
 .search-bar {

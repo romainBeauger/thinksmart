@@ -128,6 +128,7 @@ const LANGUAGES = [
   { name: 'Node/Express/Mongo', href: 'node.html',      badge: 'node' },
   { name: 'Modélisation BDD',  href: 'merise.html',    badge: 'merise' },
   { name: 'Docker',            href: 'docker.html',    badge: 'docker' },
+  { name: 'Kubernetes',        href: 'kubernetes.html', badge: 'k8s' },
 ];
 
 const hamburger = document.getElementById('hamburger');
